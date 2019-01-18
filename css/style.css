@@ -11,6 +11,21 @@
   padding-top: 3%;
 }
 
+.col-coll{
+  text-align: center;
+  padding-top: 20%;
+  font-size: 5%;
+}
+
+.btn-danger{
+  background-color: #FF8A00;
+  border: none;
+}
+
+.col-coll p{
+  padding-top: 3%;
+}
+
 .col-title{
   padding-top: 3%;
   text-align: center;
@@ -36,13 +51,11 @@ nav {
   background-color: #FF8A00;
 }
 
-.nav-link{
-  color: #FFF;
-}
 
 ul li {
   float: right;
 }
+
 header{
   height: auto;
   font-size: 25px;

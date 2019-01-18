@@ -9,7 +9,7 @@
 </head>
 <body>
   <nav class="navbar navbar-dark navbar-expand-md">
-  <a class="navbar-brand" href="#"><img src="logo.png" alt="logo" width="50px" height="50px"></a>
+  <a class="navbar-brand" href="#"><img src="logo-header.png" alt="logo" width="50px" height="50px"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -17,10 +17,10 @@
   <div class="navbar-collapse collapse" id="collapsibleNavbar">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#">Aiuto?</a>
+                <a class="nav-link" href="#">Contattaci</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Contattaci</a>
+                <a class="nav-link" href="#">Aiuto?</a>
             </li>
         </ul>
     </div>
@@ -45,10 +45,62 @@
     </div>
     <div class="row">
       <div class="col-sm-6 col-btn">
-        <button type="button" class="btn btn-primary btn-lg">Accedi</button>
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#loginForm">Accedi</button>
       </div>
       <div class="col-sm-6 col-btn">
         <a href="">Registrati</a>
+      </div>
+    </div>
+
+    <div class="modal" id="loginForm">
+      <div class="modal-dialog">
+        <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Inserisci le credenziali</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action="/action_page.php">
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email">
+          </div>
+          <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" id="pwd">
+        </div>
+        <div class="form-group form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox"> Ricordami
+          </label>
+        </div>
+      </form>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary mr-auto">Accedi</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+    <div class="row">
+      <div class="col-sm-4 offset-sm-1 col-coll">
+        <a href="">
+          <img src="logo-risto.png" alt="collabora con noi" width="60%" >
+          <p class="lead">Clicca qui se sei titolare di un ristorante e desideri vendere con il nostro servizio</p>
+        </a>
+      </div>
+      <div class="col-sm-4 offset-sm-2 col-coll">
+        <a href="">
+          <img src="logo-fattorino.png" alt="collabora con noi" width="60%">
+          <p class="lead ">Clicca qui se  desideri lavorare come fattorino</p>
+        </a>
       </div>
     </div>
   </div>
