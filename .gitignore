@@ -1,0 +1,12 @@
+bin/
+
+.checkstyle
+
+.pmd
+
+.ruleset
+
+.settings
+*.log
+*.pdf
+*.DS_Store
