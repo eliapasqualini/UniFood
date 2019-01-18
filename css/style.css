@@ -1,0 +1,83 @@
+html, body{
+  height: 100%;
+}
+
+body{
+  display:flex;
+  flex-flow: column;
+}
+
+.jumbotron h1{
+  text-align: center;
+}
+
+.jumbotron p{
+  font-size: 150%;
+}
+
+header {
+    text-align: center;
+}
+
+form{
+  text-align: center;
+}
+
+.form-group{
+  text-align: left;
+}
+
+.jumbotron{
+  background-color: #ff9900;
+  border: 2px solid black;
+  margin-top: 2%;
+}
+
+.btn-primary{
+  margin-top: 3%;
+  border: 2px solid black;
+}
+.btn-default{
+  border: 2px solid black;
+  color: black;
+  background-color: white;
+}
+
+
+.btn-sm{
+  margin-top: 0%;
+  margin-bottom: 2%;
+}
+
+
+.desc{
+  text-align: center;
+}
+
+
+.btn:focus,.btn:active:focus,.btn.active:focus,
+.btn.focus,.btn:active.focus,.btn.active.focus {
+    outline: none;
+}
+
+.row-btn{
+  margin: 2%;
+  text-align: center;
+}
+
+img.header{
+  padding: 2%;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+
+}
+
+.btn:focus {
+  outline: none;
+}
+
+footer{
+  margin-top: auto;
+
+}
