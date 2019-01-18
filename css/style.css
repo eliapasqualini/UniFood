@@ -60,3 +60,20 @@ header{
   height: auto;
   font-size: 25px;
 }
+
+footer {
+left: 0;
+bottom: 0;
+width: 100%;
+background-color: #00B2FF;
+color: #FFFFFF;
+text-align: left;
+padding-top: 1%;
+margin-top: 1%;
+}
+
+@media screen and (min-width: 770px) {
+  footer {
+    text-align: center;
+  }
+}
