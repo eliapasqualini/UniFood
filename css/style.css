@@ -1,83 +1,54 @@
-html, body{
-  height: 100%;
+.col-image{
+  padding: 0;
 }
 
-body{
-  display:flex;
-  flex-flow: column;
+.container-image{
+  margin-top: 50px;
 }
 
-.jumbotron h1{
+.row-image{
+  min-height: 150px;
+}
+
+.col-btn{
   text-align: center;
+  padding-top: 3%;
 }
 
-.jumbotron p{
-  font-size: 150%;
-}
-
-header {
-    text-align: center;
-}
-
-form{
+.col-title{
+  padding-top: 3%;
   text-align: center;
+  color: #FF8A00;
+  font-size: 30px;
 }
 
-.form-group{
-  text-align: left;
+h3{
+  font-size: 60px;
 }
 
-.jumbotron{
-  background-color: #ff9900;
-  border: 2px solid black;
-  margin-top: 2%;
+.col-btn a{
+  font-size: 25px;
+  line-height: inherit;
 }
 
-.btn-primary{
-  margin-top: 3%;
-  border: 2px solid black;
-}
-.btn-default{
-  border: 2px solid black;
-  color: black;
-  background-color: white;
+nav {
+  background-color: #FF8A00;
+  max-height: 50px;
 }
 
-
-.btn-sm{
-  margin-top: 0%;
-  margin-bottom: 2%;
+nav a{
+  float: right;
+  padding: 10px;
+  font-size: 20px;
+  line-height: inherit;
+  color: #FFFFFF;
 }
 
-
-.desc{
-  text-align: center;
+nav a:first-child{
+  float:left;
 }
 
-
-.btn:focus,.btn:active:focus,.btn.active:focus,
-.btn.focus,.btn:active.focus,.btn.active.focus {
-    outline: none;
-}
-
-.row-btn{
-  margin: 2%;
-  text-align: center;
-}
-
-img.header{
-  padding: 2%;
-  width: 100%;
-  max-width: 600px;
+header{
   height: auto;
-
-}
-
-.btn:focus {
-  outline: none;
-}
-
-footer{
-  margin-top: auto;
-
+  font-size: 25px;
 }
