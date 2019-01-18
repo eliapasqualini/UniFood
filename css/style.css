@@ -2,10 +2,6 @@
   padding: 0;
 }
 
-.container-image{
-  margin-top: 50px;
-}
-
 .row-image{
   min-height: 150px;
 }
@@ -22,6 +18,11 @@
   font-size: 30px;
 }
 
+.collapse{
+  text-align: right;
+
+}
+
 h3{
   font-size: 60px;
 }
@@ -33,21 +34,15 @@ h3{
 
 nav {
   background-color: #FF8A00;
-  max-height: 50px;
 }
 
-nav a{
+.nav-link{
+  color: #FFF;
+}
+
+ul li {
   float: right;
-  padding: 10px;
-  font-size: 20px;
-  line-height: inherit;
-  color: #FFFFFF;
 }
-
-nav a:first-child{
-  float:left;
-}
-
 header{
   height: auto;
   font-size: 25px;
