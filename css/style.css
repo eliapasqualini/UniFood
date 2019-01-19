@@ -67,13 +67,15 @@ bottom: 0;
 width: 100%;
 background-color: #00B2FF;
 color: #FFFFFF;
-text-align: left;
+text-align: center;
 padding-top: 1%;
 margin-top: 1%;
+margin-bottom: 0;
+height: 80px;
 }
 
 @media screen and (min-width: 770px) {
   footer {
-    text-align: center;
+    padding: 30px;
   }
 }
