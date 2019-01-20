@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.css">
+  <link rel="stylesheet" type="text/css" href="css/aiuto.css">
+  <title>UniFood</title>
+</head>
+<body>
+
+  <header class="header clearfix">
+    <a href="index.html" class="header__logo">
+    <img src="logo-header.png" alt="logo" width="50px" height="50px">
+  </a>
+    <a href="" class="header__icon-bar">
+      <span></span>
+      <span></span>
+      <span></span>
+    </a>
+    <ul class="header__menu animate">
+      <li class="header__menu__item"><a href="aiuto.html">Aiuto?</a></li>
+      <li class="header__menu__item"><a href="contattaci.html">Contattaci</a></li>
+    </ul>
+  </header>
+
+  <h1 id="titolo">Ricevi il pranzo nel nuovo campus universitario</h1>
+  <h2 id="sottotitolo">In maniera facile, veloce e in pochi click</h2>
+
+<div class="row">
+  <div class="col-3" id="primo">
+    <div class="center aligned middle aligned column no-padding" id="numeri">1</div>
+    <img src="registrazione.png" alt="registrazione" width="90%" height="62%">
+    <p>Registrati sul sito ed effettua il login</p>
+  </div>
+  <div class="col-3" id="secondo">
+    <div class="center aligned middle aligned column no-padding" id="numeri">2</div>
+    <img src="scelta_cibo.jpg" alt="scelta del cibo" width="90%" height="62%">
+    <p>Scegli il ristorante e compila l'ordine</p>
+  </div>
+  <div class="col-3" id="terzo">
+    <div class="center aligned middle aligned column no-padding" id="numeri">3</div>
+    <img src="logo-fattorino.png" alt="fattorino" width="90%" height="62%">
+    <p>Paga e attendi il fattorino</p>
+  </div>
+  <div class="col-3" id="quarto">
+    <div class="center aligned middle aligned column no-padding" id="numeri">4</div>
+    <img src="aula.jpg" alt="aula" width="90%" height="62%">
+    <p>L'ordine arriverà nell'aula scelta!</p>
+  </div>
+  <div class="footer">
+    <input type="button" onClick="location.href='index.html'" class="btn btn-primary btn-lg" value="Indietro" id="indietro"/>
+  </div>
+</div>
+
+
+
+
+
+  <footer>
+    <div class="row">
+      <div class="col-md-2 offset-md-2">
+        <p>email:unifood@gmail.com</p>
+      </div>
+      <div class="col-md-6 offset-md-2">
+        <p>Developed by Elia Pasqualini & Marco Pazzaglia</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script>
+     $(document).ready(function(){
+
+        $(".header__icon-bar").click(function(e){
+
+          $(".header__menu").toggleClass('is-open');
+          e.preventDefault();
+
+        });
+     });
+  </script>
+
+</body>
+</html>

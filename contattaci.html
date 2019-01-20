@@ -25,55 +25,30 @@
     </ul>
   </header>
 
+
   <form>
-    <h1>Registrati</h1>
+    <h1>Inviaci una mail</h1>
     <div class="form-group">
       <label for="Nome">Nome:</label>
       <input type="text" class="form-control" id="Nome" aria-describedby="Nome" placeholder="Inserisci nome">
-    </div>
-    <div class="form-group">
-      <label for="Cognome">Cognome:</label>
-      <input type="text" class="form-control" id="Cognome" aria-describedby="cognome" placeholder="Inserisci cognome">
     </div>
     <div class="form-group">
       <label for="Email">Email:</label>
       <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Inserisci email">
     </div>
     <div class="form-group">
-      <label for="Password">Password</label>
-      <input type="password" class="form-control" id="Password" placeholder="Password">
+      <label for="text">Oggetto:</label>
+      <input type="text" class="form-control" id="Oggetto" aria-describedby="oggetto" placeholder="Inserisci oggetto">
     </div>
+    <label for="text">Testo:</label>
     <div class="form-group">
-      <label for="ConfirmPassword">Conferma password</label>
-      <input type="password" class="form-control" id="Password1" placeholder=" Ripetere la password">
+      <textarea name="testo" rows="8" cols="80"></textarea>
     </div>
-    <div class="form-check">
-      <label for="">Chi sei?</label><br/>
-      <input class="form-check-input" type="radio" name="Radios" id="exampleRadios1" value="option1" checked>
-      <label class="form-check-label" for="exampleRadios1">
-        Cliente
-      </label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-      <label class="form-check-label" for="exampleRadios2">
-        Ristoratore
-      </label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-      <label class="form-check-label" for="exampleRadios2">
-        Fattorino
-      </label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-      <label class="form-check-label" for="exampleRadios2">
-        Amministratore
-      </label>
-    </div class="footer">
-      <input type="button" onClick="location.href='index.html'" class="btn btn-primary btn-lg" value="Registrati" id="registrati"/>
+
+    <div class="footer">
+      <input type="button" onClick="location.href='index.html'" class="btn btn-primary btn-lg" value="Invia mail" id="invia email"/>
       <input type="button" onClick="location.href='index.html'" class="btn btn-primary btn-lg" value="Indietro" id="indietro"/>
+    </div>
   </form>
 
   <footer>
