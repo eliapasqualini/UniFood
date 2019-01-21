@@ -1,5 +1,5 @@
 .header{background: #FF8A00}
-.header__logo{color:#fff; float:left;padding:5px 10px;text-decoration: none;}
+.header__logo{color:#fff; float:left;padding:10px 10px;text-decoration: none;}
 .header__menu{float:right;margin:0; padding:0;}
 .header__menu__item{display: inline-block;}
 .header__menu__item a{color:#FFFFFF;display: block;padding:25px;text-decoration: none}
@@ -19,19 +19,12 @@ margin-bottom: 0;
 height: auto;
 }
 
-#indietro {
-  float: right;
+html,body{
+  height: 100%;
 }
-
-form {
-  margin-left: 2%;
-}
-
 
 @media screen and (min-width: 768px) {
-  footer {
-    padding: 40px 25px 30px;
-  }
+
 }
 
 @media (max-width: 767px){
