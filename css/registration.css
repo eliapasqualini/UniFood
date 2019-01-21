@@ -1,29 +1,36 @@
 .header{background: #FF8A00}
-.header__logo{color:#fff; float:left;padding:10px 10px 5px 10px;text-decoration: none;}
+.header__logo{color:#fff; float:left;padding:5px 10px;text-decoration: none;}
 .header__menu{float:right;margin:0; padding:0;}
 .header__menu__item{display: inline-block;}
 .header__menu__item a{color:#FFFFFF;display: block;padding:25px;text-decoration: none}
 .header__menu__item a:hover{background: #CD5F0A}
 .header__icon-bar{display: block;float: right;padding:30px;display: none;}
 .header__icon-bar span{display: block;height:5px; width: 30px;background: #fff; margin-bottom: 5px;}
-#indietro{
-  float: right;
-}
 
 footer {
 left: 0;
+bottom: 0;
 width: 100%;
 background-color: #00B2FF;
 color: #FFFFFF;
 text-align: center;
-margin-top: 10px;
 padding-top: 1%;
-height: 86px;
+margin-bottom: 0;
+height: auto;
 }
 
-@media screen and (min-width: 770px) {
+#indietro {
+  float: right;
+}
+
+form {
+  margin-left: 2%;
+}
+
+
+@media screen and (min-width: 768px) {
   footer {
-    padding: 30px;
+    padding: 40px 25px 30px;
   }
 }
 
@@ -37,9 +44,12 @@ height: 86px;
 	.is-open{height:150px; overflow: auto;}
 
   footer{
-    padding-bottom: 50px;
+    padding: 4%;
   }
+}
 
+textarea {
+  width: 100%;
 }
 
 .clearfix:after {
