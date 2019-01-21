@@ -1,70 +1,6 @@
-.col-image{
-  padding: 0;
-}
-
-.row-image{
-  min-height: 150px;
-}
-
-.col-btn{
-  text-align: center;
-  padding-top: 3%;
-}
-
-.col-coll{
-  text-align: center;
-  padding-top: 20%;
-  font-size: 5%;
-}
-
-.btn-danger{
-  background-color: #FF8A00;
-  border: none;
-}
-
-.col-coll p{
-  padding-top: 3%;
-}
-
-.col-title{
-  padding-top: 3%;
-  text-align: center;
-  color: #FF8A00;
-  font-size: 30px;
-}
-
-.collapse{
-  text-align: right;
-
-}
-
-h3{
-  font-size: 60px;
-}
-
-.col-btn a{
-  font-size: 25px;
-  line-height: inherit;
-}
-
-nav {
-  background-color: #FF8A00;
-}
-
-/*
-ul li {
-  float: right;
-}
-
-
-header{
-  height: auto;
-  font-size: 25px;
-}
---*/
-
+/*Header*/
 .header{background: #FF8A00}
-.header__logo{color:#fff; float:left;padding:5px 10px;text-decoration: none;}
+.header__logo{color:#fff; float:left;padding:10px 10px;text-decoration: none;}
 .header__menu{float:right;margin:0; padding:0;}
 .header__menu__item{display: inline-block;}
 .header__menu__item a{color:#FFFFFF;display: block;padding:25px;text-decoration: none}
@@ -72,23 +8,59 @@ header{
 .header__icon-bar{display: block;float: right;padding:30px;display: none;}
 .header__icon-bar span{display: block;height:5px; width: 30px;background: #fff; margin-bottom: 5px;}
 
+/*Image*/
+.col-image{
+  padding: 0;
+  overflow: hidden;
+}
+.row-image{ max-height: 375px;}
+
+/*Title and more*/
+.col-btn{
+  text-align: center;
+  padding-top: 3%;
+  margin-bottom: 10%;
+}
+.col-title{
+  padding-top: 3%;
+  text-align: center;
+  color: #FF8A00;
+  font-size: 30px;
+}
+h3{font-size: 75px;}
+.col-btn a{
+  font-size: 25px;
+  line-height: inherit;
+}
+
+/*Card*/
+.card{padding: 2%;}
+.jumbotron{margin-bottom: 0px;}
+.row-coll{
+  text-align: center;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  font-size: 16px;
+}
+
+/*Modal*/
+.btn-danger{
+  background-color: #FF8A00;
+  border: none;
+}
+
+/*Footer*/
 footer {
-left: 0;
-bottom: 0;
+margin-left: 0px;
+margin-bottom: 0px;
 width: 100%;
 background-color: #00B2FF;
 color: #FFFFFF;
 text-align: center;
 padding-top: 1%;
-margin-bottom: 0;
-height: 80px;
+height: 8%;
 }
 
-@media screen and (min-width: 770px) {
-  footer {
-    padding: 30px;
-  }
-}
 
 @media (max-width: 767px){
 
@@ -99,11 +71,17 @@ height: 80px;
 	.header__menu__item{display: block;}
 	.is-open{height:150px; overflow: auto;}
 
-  footer{
-    padding-bottom: 50px;
-  }
+  .col-btn{padding-top: 10%;}
+  .col-title{padding-top: 10%;}
 
 }
+
+@media (max-width: 600px){
+  .card{margin: 10%;}
+  .col-btn{padding-top: 10%;}
+  .col-title{padding-top: 10%;}
+}
+
 
 .clearfix:after {
 	visibility: hidden;
