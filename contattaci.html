@@ -10,10 +10,11 @@
 </head>
 <body>
 
+  <!--Header-->
   <header class="header clearfix">
     <a href="index.html" class="header__logo">
     <img src="logo-header.png" alt="logo" width="50px" height="50px">
-  </a>
+    </a>
     <a href="" class="header__icon-bar">
       <span></span>
       <span></span>
@@ -26,30 +27,33 @@
   </header>
 
 
-  <form>
-    <h1>Inviaci una mail</h1>
-    <div class="form-group">
-      <label for="Nome">Nome:</label>
-      <input type="text" class="form-control" id="Nome" aria-describedby="Nome" placeholder="Inserisci nome">
-    </div>
-    <div class="form-group">
-      <label for="Email">Email:</label>
-      <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Inserisci email">
-    </div>
-    <div class="form-group">
-      <label for="text">Oggetto:</label>
-      <input type="text" class="form-control" id="Oggetto" aria-describedby="oggetto" placeholder="Inserisci oggetto">
-    </div>
-    <label for="text">Testo:</label>
-    <div class="form-group">
-      <textarea name="testo" rows="8" cols="80"></textarea>
-    </div>
+  <div class="container">
+    <form>
+      <h1>Inviaci una mail</h1>
+      <div class="form-group">
+        <label for="Nome">Nome:</label>
+        <input type="text" class="form-control" id="Nome" aria-describedby="Nome" placeholder="Inserisci nome">
+      </div>
+      <div class="form-group">
+        <label for="Email">Email:</label>
+        <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Inserisci email">
+      </div>
+      <div class="form-group">
+        <label for="text">Oggetto:</label>
+        <input type="text" class="form-control" id="Oggetto" aria-describedby="oggetto" placeholder="Inserisci oggetto">
+      </div>
+      <label for="text">Testo:</label>
+      <div class="form-group">
+        <textarea name="testo" rows="8" cols="80"></textarea>
+      </div>
+    </form>
 
-    <div class="footer">
-      <input type="button" onClick="location.href='index.html'" class="btn btn-primary btn-lg" value="Invia mail" id="invia email"/>
-      <input type="button" onClick="location.href='index.html'" class="btn btn-primary btn-lg" value="Indietro" id="indietro"/>
+    <div class="row">
+      <div class="col-4 offset-4 col-btn">
+        <input type="button" onClick="location.href='index.html'" class="btn btn-primary btn-lg" value="Invia" />
+      </div>
     </div>
-  </form>
+  </div>
 
   <footer>
     <div class="row">

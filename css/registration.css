@@ -19,8 +19,10 @@ margin-bottom: 0;
 height: auto;
 }
 
-html,body{
-  height: 100%;
+.col-btn{
+  text-align: center;
+  margin-top: 2%;
+  margin-bottom: 8%;
 }
 
 @media screen and (min-width: 768px) {
@@ -40,6 +42,8 @@ html,body{
     padding: 4%;
   }
 }
+
+
 
 textarea {
   width: 100%;
