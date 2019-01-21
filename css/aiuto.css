@@ -72,6 +72,11 @@ p {
 .header__icon-bar{display: block;float: right;padding:30px;display: none;}
 .header__icon-bar span{display: block;height:5px; width: 30px;background: #fff; margin-bottom: 5px;}
 
+.animate{
+  -webkit-transition: all 0.3s ease-out;
+  -transition: all 0.3s ease-out;
+}
+
 footer {
 left: 0;
 bottom: 0;
