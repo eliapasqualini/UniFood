@@ -34,7 +34,11 @@
     }
     include("php/config.php");
     $conn =new mysqli($servername, $username, $password, $db);
-    $password = test_input($_POST["password"]);
+    if (!empty($_POST["email"])){
+      $password = test_input($_POST["password"]);
+    } else {
+      $password = "";
+    }
     //Check della connessione
     if ($conn->connect_errno) {
         echo "Failed to connect to MySQL: (" . $conn->connect_errno . ") " . $conn->connect_error;
@@ -44,7 +48,6 @@
         $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 
         $count = mysqli_num_rows($result);
-        echo $count;
         if ($count == 1 && !empty($_POST["email"]) && $emailErr == "" && $passwordErr == ""){
           $query_sql="SELECT password FROM account WHERE email = '$email'";
           $result = $conn->query($query_sql);
