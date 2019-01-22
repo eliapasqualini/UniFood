@@ -10,6 +10,10 @@
 </head>
 
   <body>
+  <?php
+
+
+     ?>
     <!--Header-->
     <header class="header clearfix">
       <a href="index.html" class="header__logo">
@@ -62,14 +66,14 @@
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-              <form method="post" action="login.php">
+              <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                 <div class="form-group">
                   <label for="email">Email:</label>
-                  <input type="email" class="form-control">
+                  <input type="email" name="email" class="form-control">
                 </div>
                 <div class="form-group">
                   <label for="pwd">Password:</label>
-                  <input type="password" class="form-control">
+                  <input type="password" name="password"class="form-control">
                 </div>
                 <div class="form-group form-check">
                   <label class="form-check-label">
@@ -79,8 +83,8 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary mr-auto">Accedi</button>
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
+                <button type="submit" class="btn btn-primary mr-auto">Accedi</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
             </div>
           </div>
         </div>
