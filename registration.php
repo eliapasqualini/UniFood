@@ -12,7 +12,7 @@
 
 <?php
 // define variables and set to empty values
-$nameErr = $emailErr = $surnameErr = $password1Err = $password2Err = "";
+$nameErr = $emailErr = $surnameErr = $password1Err = $password2Err = $dbErr = "";
 $name = $email = $surname = $password1 = $password2 = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -69,6 +69,27 @@ function test_input($data) {
   $data = htmlspecialchars($data);
   return $data;
 }
+
+include("php/config.php");
+$conn =new mysqli($servername, $username, $password, $db);
+//Check della connessione
+if ($conn->connect_errno) {
+    echo "Failed to connect to MySQL: (" . $conn->connect_errno . ") " . $conn->connect_error;
+} else {
+    $sql = "SELECT email FROM account WHERE email = '$email'";
+    $result = $conn->query($sql);
+    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+
+    $count = mysqli_num_rows($result);
+    if ($count == 0 && !empty($_POST["email"]) && $nameErr == "" && $surnameErr == "" && $emailErr == "" && $password1Err == "" && $password2Err == ""){
+      $query_sql="INSERT INTO `account` (`Nome`, `Cognome`, `Email`,`Password`, `tipo`) VALUES ('$name', '$surname', '$email', '$password1', 'cliente')";
+      $result = $conn->query($query_sql);
+    } else if ($count == 1){
+      $dbErr = "Esiste già un account con questa email!";
+  }
+  //Chiusura connessione con db
+  $conn->close();
+}
 ?>
 
 <!--Header-->
@@ -97,7 +118,7 @@ function test_input($data) {
     <span class="error"> <?php echo $nameErr;?></span>
   </div>
   <div class="form-group">
-    <label for="Nome">Nome:</label>
+    <label for="Nome">Cognome:</label>
     <input type="text" class="form-control" name="surname" value="<?php echo $surname;?>" placeholder="Inserisci nome">
     <span class="error"> <?php echo $surnameErr;?></span>
   </div>
@@ -118,10 +139,12 @@ function test_input($data) {
 </div>
 <div class="row">
   <div class="col-4 offset-4 col-btn">
-      <input type="submit" name="submit" class="btn btn-primary btn-lg" value="Registrati">
+    <input type="submit" name="submit" class="btn btn-primary btn-lg" value="Registrati"><br/>
+    <span class="error"> <?php echo $dbErr;?></span>
   </div>
 </form>
 </div>
+
 
 <!--Footer-->
 <footer>

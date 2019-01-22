@@ -29,6 +29,9 @@ body {
 textarea {
   width: 100%;
 }
+.error {
+  color: #FF0000;
+}
 
 /*Footer*/
 footer {
