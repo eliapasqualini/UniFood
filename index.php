@@ -11,12 +11,87 @@
 
   <body>
   <?php
+    $email = $password = $verifica ="";
+    $emailErr = $passwordErr = $dbErr = "";
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      if (empty($_POST["email"])) {
+        $emailErr = "L'email è richiesta";
+      } else {
+        $email = test_input($_POST["email"]);
+        // check if e-mail address is well-formed
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+          $emailErr = "Formato email invalido";
+        }
+      }
+      if (empty($_POST["password"])) {
+        $passwordErr = "La password è obbligatoria";
+      } else {
+        $password = test_input($_POST["password"]);
+        // check if name only contains letters and whitespace
+      }
+
+    }
+    include("php/config.php");
+    $conn =new mysqli($servername, $username, $password, $db);
+    $password = test_input($_POST["password"]);
+    //Check della connessione
+    if ($conn->connect_errno) {
+        echo "Failed to connect to MySQL: (" . $conn->connect_errno . ") " . $conn->connect_error;
+    } else {
+        $sql = "SELECT email FROM account WHERE email = '$email'";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+
+        $count = mysqli_num_rows($result);
+        echo $count;
+        if ($count == 1 && !empty($_POST["email"]) && $emailErr == "" && $passwordErr == ""){
+          $query_sql="SELECT password FROM account WHERE email = '$email'";
+          $result = $conn->query($query_sql);
+          $row = $result->fetch_assoc();
+          foreach ($row as $pwd) {
+            $verifica = $pwd;
+          }
+          if(strcmp($password,$verifica) == 0){
+            echo "sono dentro";
+            $query_sql="SELECT tipo FROM account WHERE email = '$email'";
+            $result = $conn->query($query_sql);
+            $row = $result->fetch_assoc();
+            foreach ($row as $tipo) {
+              $next = $tipo;
+              echo $tipo;
+            } if ($next == "ristoratore"){
+              header("location: ristorante.php");
+            } else if($next == "fattorino"){
+              header("location: fattorino.php");
+            } else if($next == "amministratore"){
+              header("location: amministratore.php");
+            } else {
+              header("location: clienti.php");
+            }
+          } else {
+            $dbErr = "password errata";
+          }
+        } else if ($count == 0 && !empty($_POST["email"])){
+          $dbErr = "L'indirizzo email non corrisponde a nessun account!";
+      }
+      //Chiusura connessione con db
+      $conn->close();
+    }
 
 
-     ?>
+
+
+    function test_input($data) {
+      $data = trim($data);
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+    }
+  ?>
     <!--Header-->
     <header class="header clearfix">
-      <a href="index.html" class="header__logo">
+      <a href="index.php" class="header__logo">
       <img src="image/logo-header.png" alt="logo" width="50px" height="50px">
       </a>
       <a href="" class="header__icon-bar">
@@ -69,22 +144,23 @@
               <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                 <div class="form-group">
                   <label for="email">Email:</label>
-                  <input type="email" name="email" class="form-control">
+                  <input type="email" name="email" class="form-control" required>
                 </div>
                 <div class="form-group">
                   <label for="pwd">Password:</label>
-                  <input type="password" name="password"class="form-control">
+                  <input type="password" name="password" class="form-control" required>
                 </div>
                 <div class="form-group form-check">
                   <label class="form-check-label">
                   <input class="form-check-input" type="checkbox"> Ricordami
-                  </label>
+                </label><br/>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary mr-auto">Accedi</button>
+                      <span class="error mr-auto"><?php echo $dbErr;?></span>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
                 </div>
               </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary mr-auto">Accedi</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
             </div>
           </div>
         </div>
