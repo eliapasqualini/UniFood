@@ -1,3 +1,7 @@
+<?php
+// Start the session
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,12 +69,17 @@
               echo $tipo;
             } if ($next == "ristoratore"){
               header("location: ristorante.php");
+              $_SESSION["email"] = $email;
             } else if($next == "fattorino"){
               header("location: fattorino.php");
+              $_SESSION["email"] = $email;
+              $_SESSION["favanimal"] = "cat";
             } else if($next == "amministratore"){
               header("location: amministratore.php");
+              $_SESSION["email"] = $email;
             } else {
               header("location: clienti.php");
+              $_SESSION["email"] = $email;
             }
           } else {
             $dbErr = "password errata";

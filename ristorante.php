@@ -1,4 +1,5 @@
 <?php
+session_start();
 //Dichiarazione variabili per server
 $servername="localhost";
 $username ="root";
@@ -19,6 +20,10 @@ $conn =new mysqli($servername, $username, $password, $database);
 </head>
 
   <body>
+    <?php
+    include("php/config.php");
+    $conn =new mysqli($servername, $username, $password, $db);
+    ?>
     <!--Header-->
     <header class="header clearfix">
       <a href="index.html" class="header__logo">
