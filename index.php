@@ -167,9 +167,9 @@ session_start();
                   <input class="form-check-input" type="checkbox"> Ricordami
                 </label><br/>
                 </div>
+                <span class="error"><?php echo $dbErr;?></span>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary mr-auto">Accedi</button>
-                      <span class="error mr-auto"><?php echo $dbErr;?></span>
+                    <button type="submit" class="btn btn-primary mr-auto submit">Accedi</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
                 </div>
               </form>
@@ -223,5 +223,14 @@ session_start();
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/navbar.js" type="text/javascript"></script>
+  <script>
+    $(document).ready(function(){
+
+
+
+      $('#loginForm').modal('show'); 
+
+    });
+  </script>
 </body>
 </html>

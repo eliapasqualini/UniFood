@@ -45,6 +45,10 @@ h3{font-size: 75px;}
   line-height: inherit;
 }
 
+.modalbody .error{
+  color: #FF0000;
+}
+
 /*Card*/
 .card{padding: 2%;}
 .jumbotron{margin-bottom: 0px;}
@@ -98,7 +102,6 @@ footer {
   .col-title{padding-top: 10%;}
   .col-footer{padding-top: 10px;}
 }
-
 
 .clearfix:after {
 	visibility: hidden;
