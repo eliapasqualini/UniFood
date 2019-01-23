@@ -60,7 +60,6 @@ session_start();
             $verifica = $pwd;
           }
           if(strcmp($password,$verifica) == 0){
-            echo "sono dentro";
             $query_sql="SELECT tipo FROM account WHERE email = '$email'";
             $result = $conn->query($query_sql);
             $row = $result->fetch_assoc();
