@@ -8,7 +8,7 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.css">
-  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <link rel="stylesheet" type="text/css" href="css/ristorante.css">
   <title>UniFood</title>
 </head>
 
@@ -19,7 +19,7 @@ session_start();
     ?>
     <!--Header-->
     <header class="header clearfix">
-      <a href="index.html" class="header__logo">
+      <a href="index.php" class="header__logo">
       <img src="image/logo-header.png" alt="logo" width="50px" height="50px">
       </a>
       <a href="" class="header__icon-bar">
@@ -29,7 +29,7 @@ session_start();
       </a>
       <ul class="header__menu animate">
         <li class="header__menu__item"><a href="aiuto.html">Aiuto?</a></li>
-        <li class="header__menu__item"><a href="contattaci.html">Contattaci</a></li>
+        <li class="header__menu__item"><a href="contattaci.php">Contattaci</a></li>
       </ul>
     </header>
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.css">
-  <link rel="stylesheet" type="text/css" href="css/registration.css">
+  <link rel="stylesheet" type="text/css" href="css/contattaci.css">
   <title>UniFood</title>
 </head>
 <body>
@@ -70,7 +70,7 @@ if (empty($_POST["text"])) {
 
   <!--Header-->
   <header class="header clearfix">
-    <a href="index.html" class="header__logo">
+    <a href="index.php" class="header__logo">
     <img src="image/logo-header.png" alt="logo" width="50px" height="50px">
     </a>
     <a href="" class="header__icon-bar">

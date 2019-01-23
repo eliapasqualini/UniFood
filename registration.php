@@ -94,7 +94,7 @@ if ($conn->connect_errno) {
 
 <!--Header-->
 <header class="header clearfix">
-  <a href="index.html" class="header__logo">
+  <a href="index.php" class="header__logo">
   <img src="image/logo-header.png" alt="logo" width="50px" height="50px">
   </a>
   <a href="" class="header__icon-bar">
@@ -104,7 +104,7 @@ if ($conn->connect_errno) {
   </a>
   <ul class="header__menu animate">
     <li class="header__menu__item"><a href="aiuto.html">Aiuto?</a></li>
-    <li class="header__menu__item"><a href="contattaci.html">Contattaci</a></li>
+    <li class="header__menu__item"><a href="contattaci.php">Contattaci</a></li>
   </ul>
 </header>
 

@@ -26,9 +26,7 @@ body {
   margin-top: 2%;
   margin-bottom: 8%;
 }
-textarea {
-  width: 100%;
-}
+
 .error {
   color: #FF0000;
 }
@@ -62,9 +60,6 @@ footer {
 @media (max-width: 576px) {
   .col-footer{padding-top: 10px;}
 }
-
-
-
 
 .clearfix:after {
 	visibility: hidden;
