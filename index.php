@@ -226,9 +226,13 @@ session_start();
   <script>
     $(document).ready(function(){
 
-
-
-      $('#loginForm').modal('show'); 
+      <?php
+      if($dbErr == "password errata" || $dbErr == "L'indirizzo email non corrisponde a nessun account!"){
+      ?>
+        $('#loginForm').modal('show');
+      <?php
+      }
+      ?>
 
     });
   </script>
