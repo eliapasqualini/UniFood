@@ -1,12 +1,5 @@
 <?php
 session_start();
-//Dichiarazione variabili per server
-$servername="localhost";
-$username ="root";
-$password ="";
-$database = "prova";
-
-$conn =new mysqli($servername, $username, $password, $database);
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,7 +8,7 @@ $conn =new mysqli($servername, $username, $password, $database);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.css">
-  <link rel="stylesheet" type="text/css" href="index.css">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
   <title>UniFood</title>
 </head>
 
@@ -60,7 +53,7 @@ $conn =new mysqli($servername, $username, $password, $database);
     		<?php
     		}
     		else{
-    			$query_sql="SELECT idPiatto, nome, prezzo, categoria FROM menu WHERE idRistorante = 1";
+    			$query_sql="SELECT idPiatto, nome, prezzo, categoria FROM menù WHERE idRistorante = 1";
     			$result = $conn->query($query_sql);
     			if($result !== false){
     			?>
@@ -94,7 +87,7 @@ $conn =new mysqli($servername, $username, $password, $database);
     		}
     		else{
     		?>
-    			<p>Errore nell'interrogazione</p>
+    			<p>Menù ancora vuoto, che aspetti?</p>
     		<?php
     		}
         ?>
