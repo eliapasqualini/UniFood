@@ -66,13 +66,12 @@ session_start();
             foreach ($row as $tipo) {
               $next = $tipo;
               echo $tipo;
-            } if ($next == "ristoratore"){
+            } if ($next == "ristorante"){
               header("location: ristorante.php");
               $_SESSION["email"] = $email;
             } else if($next == "fattorino"){
               header("location: fattorino.php");
               $_SESSION["email"] = $email;
-              $_SESSION["favanimal"] = "cat";
             } else if($next == "amministratore"){
               header("location: amministratore.php");
               $_SESSION["email"] = $email;
@@ -160,11 +159,6 @@ session_start();
                 <div class="form-group">
                   <label for="pwd">Password:</label>
                   <input type="password" name="password" class="form-control" required>
-                </div>
-                <div class="form-group form-check">
-                  <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox"> Ricordami
-                </label><br/>
                 </div>
                 <span class="error"><?php echo $dbErr;?></span>
                 <div class="modal-footer">

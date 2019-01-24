@@ -19,7 +19,7 @@ session_start();
     ?>
     <!--Header-->
     <header class="header clearfix">
-      <a href="index.php" class="header__logo">
+      <a href="#" class="header__logo">
       <img src="image/logo-header.png" alt="logo" width="50px" height="50px">
       </a>
       <a href="" class="header__icon-bar">
@@ -28,31 +28,41 @@ session_start();
         <span></span>
       </a>
       <ul class="header__menu animate">
-        <li class="header__menu__item"><a href="aiuto.html">Aiuto?</a></li>
-        <li class="header__menu__item"><a href="contattaci.php">Contattaci</a></li>
+        <li class="header__menu__item"><a href="logout.php">Logout</a></li>
       </ul>
     </header>
 
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
+          <?php
+      		if ($conn->connect_errno) {
+      		?>
+      			<p class="error">Connessione fallita: <?php echo $conn->connect_errno; ?> <?php echo $conn->connect_error; ?></p>
+      		<?php
+      		}
+      		else{
+            $query_sql="SELECT idAccount FROM `account` WHERE email = '" . $_SESSION['email'] . "'";
+            $result = $conn->query($query_sql);
+            $row = $result->fetch_assoc();
+            $query_sql="SELECT * FROM `ristorante` WHERE idAccount = '" . $row['idAccount'] . "'";
+            $result = $conn->query($query_sql);
+            $row = $result->fetch_assoc();
+
+          ?>
           <!--bisogna ottenerlo con la query-->
-          <h1>Benvenuto,nome ristorante</h1>
+          <h1>Benvenuto,<?php echo $row["nome"] ?></h1>
         </div>
         <div class="col-sm-12">
           <p>Aiutaci a tenere aggiornato il tuo menù</p>
         </div>
       </div>
 
+
       <div class="table-responsive">
 
     	  <?php
-    		if ($conn->connect_errno) {
-    		?>
-    			<p class="error">Connessione fallita: <?php echo $conn->connect_errno; ?> <?php echo $conn->connect_error; ?></p>
-    		<?php
-    		}
-    		else{
+
     			$query_sql="SELECT idPiatto, nome, prezzo, categoria FROM menù WHERE idRistorante = 1";
     			$result = $conn->query($query_sql);
     			if($result !== false){
