@@ -32,7 +32,7 @@ session_start();
   $dispErr = "";
   if ($conn->connect_errno) {
   } else{
-    ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
     $query_sql="SELECT * FROM `account` WHERE email = '".$_SESSION["email"]."'";
     $result = $conn->query($query_sql);
     $row = $result->fetch_assoc();
@@ -73,9 +73,11 @@ session_start();
       if ($stato == 0){
       $sql = "UPDATE `account` SET `disponibilita`= '1' WHERE idAccount = '".$id."'";
       $result = $conn->query($sql);
+      $stato = 1;
       } else {
         $sql = "UPDATE `account` SET `disponibilita`= '0' WHERE idAccount = '".$id."'";
         $result = $conn->query($sql);
+        $stato = 0;
       }
     }
   ?>
@@ -265,7 +267,7 @@ session_start();
         <div class="modal-body">
           <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <div class="form-group">
-              <label><?php if ($stato == 0){ ?> Risulti<?php } else { ?>Non  risulti<?php } ?> disponibile a consegnare, vuoi cambiare il tuo stato?</label>
+              <label><?php if ($stato == 1){ ?> Risulti<?php } else if ($stato == 0){ ?>Risulti non<?php } ?> disponibile a consegnare, vuoi cambiare il tuo stato?</label>
             </div>
             <div class="modal-footer">
                 <button type="submit" name="change" class="btn btn-primary mr-auto submit">cambia</button>

@@ -56,13 +56,16 @@ session_start();
           $fsurnameErr = "Sono ammessi solo lettere o spazi";
         }
       }
-
+      if(!empty($_POST["femail"])){
         $femail = test_input($_POST["femail"]);
-        // check if e-mail address is well-formed
+      }
+      if(!empty($_POST["fpassword1"])){
         $fpassword1 = test_input($_POST["fpassword1"]);
-        // check if name only contains letters and whitespace
+      }
+      if(!empty($_POST["fpassword2"])){
         $fpassword2 = test_input($_POST["fpassword2"]);
-        // check if name only contains letters and whitespace
+      }
+
         if ($fpassword1 != $fpassword2){
           $fpasswordErr = "Le due password devono essere uguali";
       }
