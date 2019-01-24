@@ -17,6 +17,8 @@ session_start();
   <?php
     $email = $password = $verifica ="";
     $emailErr = $passwordErr = $dbErr = "";
+    $femail = $fpassword1 = $fname = $fsurname = $fpassword2 = "";
+    $femailErr = $fpasswordErr = $fdbErr = $fsurnameErr = $fnameErr ="";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if (empty($_POST["email"])) {
@@ -33,6 +35,36 @@ session_start();
       } else {
         $password = test_input($_POST["password"]);
         // check if name only contains letters and whitespace
+      }
+
+      if (empty($_POST["fname"])) {
+        $fnameErr = "Il nome è obbligatorio";
+      } else {
+        $fname = test_input($_POST["fname"]);
+        // check if name only contains letters and whitespace
+        if (!preg_match("/^[a-zA-Z ]*$/",$fname)) {
+          $fnameErr = "Sono ammessi solo lettere o spazi";
+        }
+      }
+
+      if (empty($_POST["fsurname"])) {
+        $fsurnameErr = "Il cognome è obbligatorio";
+      } else {
+        $fsurname = test_input($_POST["fsurname"]);
+        // check if name only contains letters and whitespace
+        if (!preg_match("/^[a-zA-Z ]*$/",$fsurname)) {
+          $fsurnameErr = "Sono ammessi solo lettere o spazi";
+        }
+      }
+
+        $femail = test_input($_POST["femail"]);
+        // check if e-mail address is well-formed
+        $fpassword1 = test_input($_POST["fpassword1"]);
+        // check if name only contains letters and whitespace
+        $fpassword2 = test_input($_POST["fpassword2"]);
+        // check if name only contains letters and whitespace
+        if ($fpassword1 != $fpassword2){
+          $fpasswordErr = "Le due password devono essere uguali";
       }
 
     }
@@ -85,6 +117,27 @@ session_start();
         } else if ($count == 0 && !empty($_POST["email"])){
           $dbErr = "L'indirizzo email non corrisponde a nessun account!";
       }
+    if (!empty($_POST["fpassword1"])){
+      $sql = "SELECT email FROM account WHERE email = '$femail'";
+      $result = $conn->query($sql);
+      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+
+      $count = mysqli_num_rows($result);
+      $disponibilita = $_POST["disponibilita"];
+      if ($disponibilita == "si"){
+        $dis = 1;
+      } else {
+        $dis = 0;
+      }
+      if ($count == 0 && !empty($_POST["femail"]) && $fnameErr == "" && $fsurnameErr == "" && $femailErr == "" && $fpasswordErr == ""){
+        $query_sql="INSERT INTO `account` (`Nome`, `Cognome`, `Email`,`Password`, `tipo`, `disponibilita`) VALUES ('$fname', '$fsurname', '$femail', '$fpassword1', 'fattorino', '$dis')";
+        $result = $conn->query($query_sql);
+        header("location: fattorino.php");
+        $_SESSION["email"] = $femail;
+      } else if ($count == 1){
+        $fdbErr = "Esiste già un account con questa email!";
+      }
+    }
       //Chiusura connessione con db
       $conn->close();
     }
@@ -191,13 +244,65 @@ session_start();
               <div class="card-body">
                 <h5 class="card-title">Lavora con noi</h5>
                 <p class="card-text">Se possiedi un qualunque mezzo di trasporto comincia a guadagnare con noi</p>
-                <a href="#" class="btn btn-primary">Clicca qui</a>
+                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#fattorinoForm">Clicca qui</a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Modal-->
+    <div class="modal" id="fattorinoForm">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Inserisci le credenziali</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+              <h1>Registrati</h1>
+              <div class="form-group">
+                <label for="Nome">Nome:</label>
+                <input type="text" class="form-control" name="fname" value="<?php echo $fname;?>" placeholder="Inserisci nome" required>
+                <span class="error"> <?php echo $fnameErr;?> </span>
+              </div>
+              <div class="form-group">
+                <label for="Nome">Cognome:</label>
+                <input type="text" class="form-control" name="fsurname" value="<?php echo $fsurname;?>" placeholder="Inserisci cognome"required>
+                <span class="error"> <?php echo $fsurnameErr;?></span>
+              </div>
+              <div class="form-group">
+                <label for="Email">Email:</label>
+                <input type="email" class="form-control" name="femail" value="<?php echo $femail;?>" placeholder="Inserisci email" required>
+                <span class="error"> <?php echo $femailErr;?></span>
+            </div>
+            <div class="form-group">
+              <label for="Password">Password</label>
+              <input type="password" name="fpassword1" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+              <label for="ConfirmPassword">Conferma password</label>
+              <input type="password" class="form-control" name="fpassword2" placeholder=" Ripetere la password" required>
+              <span class="error"> <?php echo $fpasswordErr;?></span>
+            </div>
+            <div class="form-group">
+              <label for="disponibilità">Disponibilità immediata a consegnare?</label><br/>
+              <input type="radio" name="disponibilita" value="si"checked> Si<br>
+              <input type="radio" name="disponibilita" value="no"> No<br>
+            </div>
+            <div class="row">
+              <div class="col-4 offset-4 col-btn">
+                <input type="submit" name="submit" class="btn btn-primary btn-lg" value="Registrati"><br/>
+                <span class="error"> <?php echo $fdbErr;?></span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
     <!--Footer-->
     <footer>
@@ -223,6 +328,14 @@ session_start();
       if($dbErr == "password errata" || $dbErr == "L'indirizzo email non corrisponde a nessun account!"){
       ?>
         $('#loginForm').modal('show');
+      <?php
+      }
+      ?>
+
+      <?php
+      if($fdbErr != "" || $fnameErr != "" || $fsurnameErr != "" || $femailErr != ""){
+      ?>
+        $('#fattorinoForm').modal('show');
       <?php
       }
       ?>
