@@ -69,15 +69,14 @@ session_start();
       header("location: index.php");
     }
 
-    if(isset($_POST['attivo'])){
+    if(isset($_POST['change'])){
+      if ($stato == 0){
       $sql = "UPDATE `account` SET `disponibilita`= '1' WHERE idAccount = '".$id."'";
       $result = $conn->query($sql);
-    }
-
-    if(isset($_POST['disattivo'])){
-      echo $id;
-      $sql = "UPDATE `account` SET `disponibilita`= '0' WHERE idAccount = '".$id."'";
-      $result = $conn->query($sql);
+      } else {
+        $sql = "UPDATE `account` SET `disponibilita`= '0' WHERE idAccount = '".$id."'";
+        $result = $conn->query($sql);
+      }
     }
   ?>
   <!--header-->
@@ -106,10 +105,9 @@ session_start();
       <div class="col-lg-3 col-md-12 col-sm-12 col-help" id="disponibilità">
         <h2>Cambia disponibilità</h2>
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-          <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+          <form method="post" action="fattorino.php">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-              <button type="submit" name="attivo" class="btn btn-primary btn-lg submit">Attivo</button>
-              <button type="submit" name="disattivo" class="btn btn-primary btn-lg submit">Non attivo</button>
+              <button type="submit" class="btn btn-primary btn-lg submit" data-toggle="modal" data-target="#changeForm">Cambia</button>
             </div>
           </form>
         </div>
@@ -255,6 +253,30 @@ session_start();
       </div>
     </div>
   </div>
+
+  <!-- Modal-->
+  <div class="modal" id="changeForm">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Cambia disponibilità</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+            <div class="form-group">
+              <label><?php if ($stato == 0){ ?> Risulti<?php } else { ?>Non  risulti<?php } ?> disponibile a consegnare, vuoi cambiare il tuo stato?</label>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" name="change" class="btn btn-primary mr-auto submit">cambia</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <?php
 
