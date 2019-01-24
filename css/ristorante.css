@@ -20,6 +20,12 @@ body {
   -transition: all 0.3s ease-out;
 }
 
+.jumbotron{margin-bottom: 0px;}
+
+h3{font-size: 20px;}
+p {padding-top: 1%;}
+h5{padding-top: 1%; font-size: 10px; padding-bottom: 1%}
+
 
 /*Footer*/
 footer {

@@ -15,6 +15,7 @@ session_start();
   <body>
     <?php
     include("php/config.php");
+    $idRistorante = $idPiatto = "";
     $conn =new mysqli($servername, $username, $password, $db);
     ?>
     <!--Header-->
@@ -48,13 +49,72 @@ session_start();
             $query_sql="SELECT * FROM `ristorante` WHERE idAccount = '" . $row['idAccount'] . "'";
             $result = $conn->query($query_sql);
             $row = $result->fetch_assoc();
+            $idRistorante = $row["idRistorante"];
 
           ?>
           <!--bisogna ottenerlo con la query-->
-          <h1>Benvenuto,<?php echo $row["nome"] ?></h1>
+          <h1>Benvenuto, <?php echo $row["nome"] ?></h1>
         </div>
         <div class="col-sm-12">
-          <p>Aiutaci a tenere aggiornato il tuo menù</p>
+          <h3>Questi sono gli ordini riservati a te</h3>
+          <div class="table-responsive">
+
+        	  <?php
+
+        			$query_sql="SELECT idOrdine, idPiatto, quantita, stato FROM ordine WHERE idRistorante = $idRistorante";
+        			$result = $conn->query($query_sql);
+        			if($result !== false){
+                if ($result->num_rows > 0) {
+        			?>
+        			<table class="table table-hover table-bordered">
+        			  <thead class="thead-dark">
+        				<tr>
+        				  <th scope="col">N. ordine</th>
+        				  <th scope="col">Piatto</th>
+        				  <th scope="col">Quantità</th>
+                  <th scope="col">Categoria</th>
+                  <th scope="col">Stato</th>
+        				</tr>
+        			  </thead>
+        			  <tbody>
+        			<?php
+        				while($row = $result->fetch_assoc()) {
+                  $query_sql="SELECT nome, categoria FROM menu WHERE idRistorante = $idRistorante AND idPiatto = '" . $row['idPiatto'] . "'";
+                  $result2 = $conn->query($query_sql);
+                  $row2 = mysqli_fetch_assoc($result2);
+                  ?>
+      						<tr>
+      							<td><?php echo $row["idOrdine"]; ?></td>
+      							<td><?php echo $row2["nome"]; ?></td>
+      							<td><?php echo $row["quantita"]; ?></td>
+                    <td><?php echo $row2["categoria"]; ?></td>
+                    <td><?php echo $row["stato"]; ?></td>
+      						</tr>
+      						<?php
+        				  }
+        				} else{
+            		?>
+            			<h5>Nessun ordine, rimani aggiornato</h5>
+            		<?php
+            		}
+                ?>
+
+        			  </tbody>
+        			</table>
+        		<?php
+        		}
+        		else{
+        		?>
+        			<h5>Nessun ordine, rimani aggiornato</h5>
+        		<?php
+        		}
+            ?>
+
+          </div>
+
+        </div>
+        <div class="col-sm-12">
+          <h3>Aiutaci a tenere aggiornato il tuo menù</h3>
         </div>
       </div>
 
@@ -63,9 +123,10 @@ session_start();
 
     	  <?php
 
-    			$query_sql="SELECT idPiatto, nome, prezzo, categoria FROM menù WHERE idRistorante = 1";
+    			$query_sql="SELECT idPiatto, nome, prezzo, categoria FROM menu WHERE idRistorante = 1";
     			$result = $conn->query($query_sql);
     			if($result !== false){
+            if ($result->num_rows > 0) {
     			?>
     			<table class="table table-hover table-bordered">
     			  <thead class="thead-dark">
@@ -78,7 +139,7 @@ session_start();
     			  </thead>
     			  <tbody>
     			<?php
-    				if ($result->num_rows > 0) {
+
     					while($row = $result->fetch_assoc()) {
     						?>
     						<tr>
@@ -89,31 +150,36 @@ session_start();
     						</tr>
     						<?php
     					}
-    				}
-    			?>
+    				}else{
+        		?>
+        			<h5>Menù ancora vuoto, che aspetti?</h5>
+            <?php
+          	}
+            ?>
     			  </tbody>
     			</table>
     		<?php
     		}
     		else{
     		?>
-    			<p>Menù ancora vuoto, che aspetti?</p>
+    			<h5>Menù ancora vuoto, che aspetti?</h5>
     		<?php
     		}
         ?>
 
       </div>
     </div>
+
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
         <div class="row">
           <div class="col-sm-12">
-            <h4>Modifica il tuo menù con pochi click</h4>
+            <h3>Modifica il tuo menù con pochi click</h3>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <h6>Inserisci l'id del piatto che intendi eliminare</h6>
+            <p>Inserisci l'id del piatto che intendi eliminare</p>
           </div>
         </div>
         <div class="row">
@@ -135,7 +201,7 @@ session_start();
 
             <div class="row">
               <div class="col-sm-12">
-                <h6>Aggiungi un nuovo piatto</h6>
+                <h5>Aggiungi un nuovo piatto</h5>
               </div>
               <div class="col-sm-12">
                 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#foodForm">Aggiungi</button>
@@ -178,11 +244,7 @@ session_start();
               </div>
             </div>
           </div>
-
-          </div>
         </div>
-      </div>
-    </div>
 
 
       <?php
@@ -190,7 +252,6 @@ session_start();
         $conn->close();
       }
       ?>
-      </div>
 
 
     <!--Footer-->
