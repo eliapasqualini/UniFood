@@ -250,20 +250,24 @@ session_start();
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                   </div>
                   <div class="modal-body">
-                    <form method="post" action="login.php">
+                    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                       <div class="form-group">
-                        <label for="email"></label>
-                        <input type="email" class="form-control">
+                        <label for="nome">Nome</label>
+                        <input type="text" class="form-control" name="nome">
                       </div>
                       <div class="form-group">
-                        <label for="pwd">Password:</label>
-                        <input type="password" class="form-control">
+                        <label for="prezzo">Prezzo</label>
+                        <input type="number" class="form-control" name="prezzo">
                       </div>
-                      <div class="form-group form-check">
-                        <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox"> Ricordami
-                        </label>
+                      <div class="form-group">
+                        <label for="categoria">Categoria</label>
+                        <input type="text" class="form-control" name="categoria">
                       </div>
+                      <div class="form-group add_ingredienti">
+                        <label for="ingrediente">Ingredienti</label>
+                        <input type="text" class="form-control" name="ingredienti[]">
+                      </div>
+                      <button onclick="addButton()" class="form-control">+</button>
                     </form>
                   </div>
                   <div class="modal-footer">
@@ -301,5 +305,30 @@ session_start();
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/navbar.js" type="text/javascript"></script>
+  <script>
+  $(document).ready(function(){
+
+
+    $(addbutton).click(function(){
+      $(this).hide();
+    });
+
+    function addButton() {
+      var maxcount = 10;
+      var addbutton =$(.'add_button');
+      var wrapper =$(.'add_ingredienti');
+      var campoHTML ='<input type="text" class="form-control" name="ingredienti[]" value="ingredienti">';
+      var x = 1;
+
+      if(x < maxcount){
+        x++;
+        $(addButton).append(campoHTML);
+      }
+
+
+  }
+
+
+  </script>
 </body>
 </html>
