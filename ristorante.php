@@ -52,7 +52,6 @@ session_start();
             $idRistorante = $row["idRistorante"];
 
           ?>
-          <!--bisogna ottenerlo con la query-->
           <h1>Benvenuto, <?php echo $row["nome"] ?></h1>
         </div>
         <div class="col-sm-12">
@@ -170,6 +169,7 @@ session_start();
       </div>
     </div>
 
+
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
         <div class="row">
@@ -192,8 +192,38 @@ session_start();
               </div>
           </div>
                 <div class="col-sm-12">
-                  <input type="submit" name="submit" class="btn btn-primary btn-lg" value="Elimina"><br/>
-                  <span class="error"></span>
+                  <input type="submit" name="delete" class="btn btn-primary btn-lg" value="Elimina"><br/>
+                  <?php
+                    if(isset($_POST['delete'])){
+                      if(isset($_POST['idPiatto'])){
+                        $query_sql ="SELECT idPiatto from menu WHERE idPiatto = '" . $_POST['idPiatto'] . "' AND idRistorante = $idRistorante";
+                        $result = $conn->query($query_sql);
+                        if($result !== false){
+                          if ($result->num_rows > 0) {
+                            echo "delete";
+
+                            $sql = "DELETE FROM ingrediente WHERE idPiatto = '" . $_POST['idPiatto'] . "' AND idRistorante = $idRistorante";
+                            $result = $conn->query($sql);
+                            $sql = "DELETE FROM ordine WHERE idPiatto = '" . $_POST['idPiatto'] . "' AND idRistorante = $idRistorante";
+                            $result = $conn->query($sql);
+                            $sql = "DELETE FROM menu WHERE idPiatto = '" . $_POST['idPiatto'] . "' AND idRistorante = $idRistorante";
+                            $result = $conn->query($sql);
+                            header("location: ristorante.php");
+                          }
+                          else{
+                    ?>
+                      <span class="error">L'id corrispondente non esiste nel menù</span>
+                    <?php
+                  }
+                }
+                else{
+                  ?>
+                    <span class="error">L'id corrispondente non esiste nel menù</span>
+                  <?php
+                }
+              }
+            }
+                  ?>
                 </div>
               </form>
             </div>
@@ -201,7 +231,7 @@ session_start();
 
             <div class="row">
               <div class="col-sm-12">
-                <h5>Aggiungi un nuovo piatto</h5>
+                <p>Aggiungi un nuovo piatto</p>
               </div>
               <div class="col-sm-12">
                 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#foodForm">Aggiungi</button>
