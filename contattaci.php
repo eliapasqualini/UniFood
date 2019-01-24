@@ -45,7 +45,9 @@ if (empty($_POST["text"])) {
   $mail_destinatario = "mar.pazz14@gmail.com";
 
   // definisco il subject ed il body della mail
-  $mail_oggetto = test_input($_POST["oggetto"]);
+  if (!empty($_POST["oggetto"])){
+    $mail_oggetto = test_input($_POST["oggetto"]);
+  }
 
   // aggiusto un po' le intestazioni della mail
   // E' in questa sezione che deve essere definito il mittente (From)
@@ -54,11 +56,13 @@ if (empty($_POST["text"])) {
   $mail_headers .= "Reply-To: " .  $email . "\r\n";
   $mail_headers .= "X-Mailer: PHP/" . phpversion();
 
+//invio email
+/*
   if (mail($mail_destinatario, $mail_oggetto, $mail_corpo, $mail_headers)){
     echo "Messaggio inviato con successo a " . $mail_destinatario;
   } else {
     echo "Errore. Nessun messaggio inviato.";
-  }
+  }*/
 
   function test_input($data) {
     $data = trim($data);
