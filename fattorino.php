@@ -28,8 +28,11 @@ session_start();
 
   $dbErr1 = "";
   $dbErr2 = "";
+
+  $dispErr = "";
   if ($conn->connect_errno) {
   } else{
+    ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     $query_sql="SELECT * FROM `account` WHERE email = '".$_SESSION["email"]."'";
     $result = $conn->query($query_sql);
     $row = $result->fetch_assoc();
@@ -59,9 +62,22 @@ session_start();
       }
     }
     if(isset($_POST['delete'])){
+      $sql = "DELETE FROM consegna WHERE idAccount = '".$id."'";
+      $result = $conn->query($sql);
       $sql = "DELETE FROM account WHERE idAccount = '".$id."'";
       $result = $conn->query($sql);
       header("location: index.php");
+    }
+
+    if(isset($_POST['attivo'])){
+      $sql = "UPDATE `account` SET `disponibilita`= '1' WHERE idAccount = '".$id."'";
+      $result = $conn->query($sql);
+    }
+
+    if(isset($_POST['disattivo'])){
+      echo $id;
+      $sql = "UPDATE `account` SET `disponibilita`= '0' WHERE idAccount = '".$id."'";
+      $result = $conn->query($sql);
     }
   ?>
   <!--header-->
@@ -90,12 +106,12 @@ session_start();
       <div class="col-lg-3 col-md-12 col-sm-12 col-help" id="disponibilità">
         <h2>Cambia disponibilità</h2>
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-          <label class="btn btn-secondary <?php if (stato == 1){ ?>active <?php } ?>">
-            <input type="radio" name="options" id="option1" autocomplete="off"> ON
-          </label>
-          <label class="btn btn-secondary <?php if(stato == 0) { ?>active <?php } ?>">
-            <input type="radio" name="options" id="option2" autocomplete="off"> OFF
-          </label>
+          <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <button type="submit" name="attivo" class="btn btn-primary btn-lg submit">Attivo</button>
+              <button type="submit" name="disattivo" class="btn btn-primary btn-lg submit">Non attivo</button>
+            </div>
+          </form>
         </div>
       </div>
       <div class="col-lg-7 col-md-12 col-sm-12 col-help" id="tabella">
