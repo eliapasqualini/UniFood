@@ -8,7 +8,7 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.css">
-  <link rel="stylesheet" type="text/css" href="css/fattorino.css">
+  <link rel="stylesheet" type="text/css" href="css/amministratore.css">
   <title>UniFood</title>
 </head>
 <body>
@@ -129,6 +129,7 @@ session_start();
             </tbody>
           </table>
         </div>
+
         <div class="table-responsive">
           <h3>Piatti in attesa di essere confermati:</h3>
           <?php
@@ -167,6 +168,46 @@ session_start();
             </tbody>
           </table>
         </div>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+          <div class="form-group">
+            <label for="Nome">idPiatto:</label>
+            <input type="text" class="form-control" name="idPiatto" placeholder="Codice del piatto">
+            <input type="submit" name="addPiatto" class="btn btn-primary btn-lg" value="Conferma">
+            <input type="submit" name="deletePiatto" class="btn btn-primary btn-lg" value="Rifiuta"><br/>
+            <?php
+              if(isset($_POST['deletePiatto'])){
+                if(isset($_POST['idPiatto'])){
+                  $query_sql ="SELECT idPiatto from adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
+                  $result = $conn->query($query_sql);
+                  if($result !== false){
+                    if ($result->num_rows > 0) {
+                      $sql = "DELETE FROM adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
+                      $result = $conn->query($sql);
+                      $sql = "DELETE FROM adminingrediente WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
+                      $result = $conn->query($sql);
+                      header("location: ristorante.php");
+                    }
+                    else{
+                ?>
+                  <span class="error">L'id corrispondente non esiste nel menù</span>
+                  <?php
+                    }
+                  }
+                  else{
+                ?>
+                    <span class="error">L'id corrispondente non esiste nel menù</span>
+                <?php
+                  }
+                }
+                else{
+              ?>
+                  <span class="error">Inserisci un id</span>
+              <?php
+                }
+              }
+            ?>
+          </div>
+        </form>
         <div class="table-responsive">
           <h3>Ingredienti in attesa di essere confermati:</h3>
           <?php
@@ -178,26 +219,20 @@ session_start();
           <table class="table table-hover table-bordered">
             <thead class="thead-dark">
             <tr>
-              <th scope="col">N. piatto</th>
-              <th scope="col">N. ristorante</th>
+              <th scope="col">N. ingrediente</th>
               <th scope="col">Nome</th>
-              <th scope="col">Prezzo</th>
-              <th scope="col">Categoria</th>
             </tr>
             </thead>
             <tbody>
         						<tr>
-        							<td><?php echo $row["idPiatto"]; ?></td>
-        							<td><?php echo $row["idRistorante"]; ?></td>
-                      <td><?php echo $row["nome"]; ?></td>
-                      <td><?php echo $row["prezzo"]; ?></td>
-        							<td><?php echo $row["categoria"]; ?></td>
+        							<td><?php echo $row["idIngrediente"]; ?></td>
+        							<td><?php echo $row["nome"]; ?></td>
         						</tr>
         						<?php
                   }
             } else {
                     ?>
-                    <p>Nessun nuovo piatto da aggiungere.</p>
+                    <p>Nessun nuovo ingrediente da aggiungere.</p>
                     <?php
               }
 
@@ -205,6 +240,44 @@ session_start();
             </tbody>
           </table>
         </div>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+          <div class="form-group">
+            <label for="Nome">idIngrediente:</label>
+            <input type="text" class="form-control" name="idIngrediente" placeholder="Codice del piatto">
+            <input type="submit" name="addIngrediente" class="btn btn-primary btn-lg" value="Conferma">
+            <input type="submit" name="deleteIngrediente" class="btn btn-primary btn-lg" value="Rifiuta"><br/>
+            <?php
+              if(isset($_POST['deleteIngrediente'])){
+                if(isset($_POST['idIngrediente'])){
+                  $query_sql ="SELECT idIngrediente from adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
+                  $result = $conn->query($query_sql);
+                  if($result !== false){
+                    if ($result->num_rows > 0) {
+                      $sql = "DELETE FROM adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
+                      $result = $conn->query($sql);
+                      header("location: ristorante.php");
+                    }
+                    else{
+                ?>
+                  <span class="error">L'id corrispondente non esiste tra gli ingredienti</span>
+                  <?php
+                    }
+                  }
+                  else{
+                ?>
+                    <span class="error">L'id corrispondente non esiste tra gli ingredienti</span>
+                <?php
+                  }
+                }
+                else{
+              ?>
+                  <span class="error">Inserisci un id</span>
+              <?php
+                }
+              }
+            ?>
+          </div>
+        </form>
       </div>
       <div class="col-lg-3 col-sm-12 col-btn">
         <h3>Modifica account:</h3>
@@ -215,7 +288,7 @@ session_start();
       </div>
     </div>
   </div>
-
+</div>
 
 
   <!-- Modal-->

@@ -50,6 +50,11 @@ h1 {
   margin-bottom: 5%;
 }
 
+.btn-lg{
+  margin-bottom: 5%;
+  margin-top: 2%;
+}
+
 .col-btn{text-align: center;}
 .col-table{text-align: center;}
 .col-disp{text-align: center;}
