@@ -37,24 +37,18 @@ session_start();
         // check if name only contains letters and whitespace
       }
 
-      if (empty($_POST["fname"])) {
-        $fnameErr = "Il nome è obbligatorio";
-      } else {
-        $fname = test_input($_POST["fname"]);
+if (!empty($_POST["fname"])){
         // check if name only contains letters and whitespace
         if (!preg_match("/^[a-zA-Z ]*$/",$fname)) {
           $fnameErr = "Sono ammessi solo lettere o spazi";
-        }
+        } else {
+          $fname = test_input($_POST["fname"]);
       }
-
-      if (empty($_POST["fsurname"])) {
-        $fsurnameErr = "Il cognome è obbligatorio";
-      } else {
-        $fsurname = test_input($_POST["fsurname"]);
         // check if name only contains letters and whitespace
         if (!preg_match("/^[a-zA-Z ]*$/",$fsurname)) {
           $fsurnameErr = "Sono ammessi solo lettere o spazi";
-        }
+        } else {
+          $fsurname = test_input($_POST["fsurname"]);
       }
       if(!empty($_POST["femail"])){
         $femail = test_input($_POST["femail"]);
@@ -69,6 +63,7 @@ session_start();
         if ($fpassword1 != $fpassword2){
           $fpasswordErr = "Le due password devono essere uguali";
       }
+    }
 
     }
     include("php/config.php");
@@ -237,7 +232,7 @@ session_start();
               <div class="card-body">
                 <h5 class="card-title text-center">Vendi con noi</h5>
                 <p class="card-text text-center">Possiedi un ristorante e desideri entrare a far parte del nostro servizio?</p>
-                <a href="#" class="btn btn-primary">Clicca qui</a>
+                <a href="registrRist.php" class="btn btn-primary">Clicca qui</a>
               </div>
             </div>
           </div>

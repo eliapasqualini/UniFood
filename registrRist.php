@@ -127,7 +127,7 @@ if ($conn->connect_errno) {
   <div class="container">
 
   <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
-    <h1>Registrati</h1>
+    <h1>Registra il tuo ristorante</h1>
     <div class="form-group">
       <label for="Nome">Nome:</label>
       <input type="text" class="form-control" name="name" value="<?php echo $name;?>" placeholder="Inserisci nome">
