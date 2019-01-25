@@ -93,7 +93,7 @@ session_start();
         				  }
         				} else{
             		?>
-            			<h5>Nessun ordine, rimani aggiornato</h5>
+            			<p>Nessun ordine, rimani aggiornato</p>
             		<?php
             		}
                 ?>
@@ -104,7 +104,7 @@ session_start();
         		}
         		else{
         		?>
-        			<h5>Nessun ordine, rimani aggiornato</h5>
+        			<p>Nessun ordine, rimani aggiornato</p>
         		<?php
         		}
             ?>
@@ -151,7 +151,7 @@ session_start();
     					}
     				}else{
         		?>
-        			<h5>Menù ancora vuoto, che aspetti?</h5>
+        			<p>Menù ancora vuoto, che aspetti?</p>
             <?php
           	}
             ?>
@@ -161,7 +161,7 @@ session_start();
     		}
     		else{
     		?>
-    			<h5>Menù ancora vuoto, che aspetti?</h5>
+    			<p>Menù ancora vuoto, che aspetti?</p>
     		<?php
     		}
         ?>
@@ -221,6 +221,11 @@ session_start();
                     <span class="error">L'id corrispondente non esiste nel menù</span>
                   <?php
                 }
+              }
+              else{
+                ?>
+                  <span class="error">Inserisci un id</span>
+                <?php
               }
             }
                   ?>
