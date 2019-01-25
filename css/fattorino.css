@@ -19,6 +19,8 @@ body {
   -webkit-transition: all 0.3s ease-out;
   -transition: all 0.3s ease-out;
 }
+
+/*Header*/
 footer {
   position: absolute;
   left: 0;
@@ -34,37 +36,35 @@ footer {
   padding-top: 35px;
 }
 
+/*Title*/
 h1 {
   color:#CD5F0A;
   font-size: 250%;
 }
-
 .container{
   margin-left: 5%;
   margin-right: 5%;
 }
 
+.btn-md{
+  margin-bottom: 5%;
+}
+
+.col-btn{text-align: center;}
+.col-table{text-align: center;}
+.col-disp{text-align: center;}
+
+
+
 #disponibilità {
-  padding-right: 2%;
   border-right: solid grey;
+  padding-left: 1%;
 }
 
 #tabella{
   border-right: solid grey;
-  padding-left: 5%;
-  padding-right: 5%;
-}
-.btn-secondary{
-  margin-top: 30%;
 }
 
-button {
-  margin: 10%;
-}
-
-#disp {
-  width: auto;
-}
 
 @media (max-width: 767px){
   .header{z-index: 100;width:100%}
@@ -80,24 +80,17 @@ button {
   .col-footer{padding-top: 10px;}
 }
 
-@media (max-width: 1023px){
-  #tabella {
-    border-right: none;
-    padding: 10% 0%;
-  }
+
+@media (max-width: 992px){
 
   #disponibilità {
     border-right: none;
-    padding: 5% 0%;
   }
-  button {
-    margin-right: 4%;
-    margin-left: 0%;
+
+  #tabella{
+    border-right: none;
   }
 }
-
-
-
 
 .clearfix:after {
 	visibility: hidden;

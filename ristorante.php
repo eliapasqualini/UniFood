@@ -324,7 +324,7 @@ session_start();
         x++;
         $(addButton).append(campoHTML);
       }
-
+      $('#foodForm').modal('show');
 
   }
 
