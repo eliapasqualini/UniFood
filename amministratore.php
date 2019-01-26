@@ -81,8 +81,6 @@ session_start();
       }
     }
     if(isset($_POST['delete'])){
-      $sql = "DELETE FROM consegna WHERE idAccount = '".$id."'";
-      $result = $conn->query($sql);
       $sql = "DELETE FROM account WHERE idAccount = '".$id."'";
       $result = $conn->query($sql);
       header("location: index.php");
@@ -138,13 +136,16 @@ session_start();
             <?php
               if(isset($_POST['deleteRistorante'])){
                 if(isset($_POST['idRistorante'])){
-                  $query_sql ="SELECT idRistorante from adminristorante WHERE idRistorante = '" . $_POST['idRistorante'] . "'";
+                  $query_sql ="SELECT * from adminristorante WHERE idRistorante = '" . $_POST['idRistorante'] . "'";
                   $result = $conn->query($query_sql);
+                  $row = $result->fetch_assoc();
                   if($result !== false){
                     if ($result->num_rows > 0) {
                       $sql = "DELETE FROM adminristorante WHERE idRistorante = '" . $_POST['idRistorante'] . "'";
                       $result = $conn->query($sql);
-                      header("location: amministratore.php");
+                      $sql = "DELETE FROM account WHERE idAccount = '" .$row["idAccount"]. "'";
+                      $result = $conn->query($sql);
+                    //  header("location: ristorante.php");
                     }
                     else{
                 ?>
@@ -171,11 +172,12 @@ session_start();
                   if($result !== false){
                     if ($result->num_rows > 0) {
                       $row = $result->fetch_assoc();
-                      $sql = "INSERT INTO ristorante VALUES ( '" . $row['idRistorante'] . "' , '" . $row['nome'] . "', '" . $row['logo'] . "', '" . $row['idAccount'] . "')";
+                      $logo = addslashes($row['logo']);
+                      $sql = "INSERT INTO ristorante (`idRistorante`,`nome`,`logo`,`idAccount`) VALUES ('" . $_POST['idRistorante'] . "', '" . $row['nome'] . "', '" . $logo . "', '" . $row['idAccount'] . "')";
                       $result = $conn->query($sql);
                       $sql = "DELETE FROM adminristorante WHERE idRistorante = '" . $_POST['idRistorante'] . "'";
                       $result = $conn->query($sql);
-                      header("location: amministratore.php");
+                    //  header("location: ristorante.php");
                     }
                     else{
                 ?>
@@ -254,7 +256,7 @@ session_start();
                       $result = $conn->query($sql);
                       $sql = "DELETE FROM adminingrediente WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
                       $result = $conn->query($sql);
-                      header("location: amministratore.php");
+                      //header("location: ristorante.php");
                     }
                     else{
                 ?>
@@ -285,7 +287,7 @@ session_start();
                       $result = $conn->query($sql);
                       $sql = "DELETE FROM adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
                       $result = $conn->query($sql);
-                      header("location: amministratore.php");
+                      //header("location: ristorante.php");
                     }
                     else{
                 ?>
@@ -355,7 +357,7 @@ session_start();
                     if ($result->num_rows > 0) {
                       $sql = "DELETE FROM adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
                       $result = $conn->query($sql);
-                      header("location: amministratore.php");
+                      //header("location: ristorante.php");
                     }
                     else{
                 ?>
@@ -391,7 +393,7 @@ session_start();
                           $result = $conn->query($sql);
                           $sql = "DELETE FROM adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
                           $result = $conn->query($sql);
-                          header("location: amministratore.php");
+                          //header("location: ristorante.php");
                         }
                         else{
                           ?>
