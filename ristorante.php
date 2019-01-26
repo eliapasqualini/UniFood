@@ -208,6 +208,12 @@ session_start();
                             $result = $conn->query($sql);
                             $sql = "DELETE FROM menu WHERE idPiatto = '" . $_POST['idPiatto'] . "' AND idRistorante = $idRistorante";
                             $result = $conn->query($sql);
+                            $sql = "DELETE FROM adminingrediente WHERE idPiatto = '" . $_POST['idPiatto'] . "' AND idRistorante = $idRistorante";
+                            $result = $conn->query($sql);
+                            $sql = "DELETE FROM adminmenu WHERE idRistorante = $idRistorante";
+                            $result = $conn->query($sql);
+                            $sql = "DELETE FROM adminristorante WHERE idRistorante = $idRistorante";
+                            $result = $conn->query($sql);
                             header("location: ristorante.php");
                           }
                           else{
