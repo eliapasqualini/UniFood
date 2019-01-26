@@ -37,7 +37,7 @@ session_start();
         // check if name only contains letters and whitespace
       }
 
-if (!empty($_POST["fname"])){
+      if (!empty($_POST["fname"])){
         // check if name only contains letters and whitespace
         if (!preg_match("/^[a-zA-Z ]*$/",$fname)) {
           $fnameErr = "Sono ammessi solo lettere o spazi";
@@ -83,22 +83,28 @@ if (!empty($_POST["fname"])){
 
         $count = mysqli_num_rows($result);
         if ($count == 1 && !empty($_POST["email"]) && $emailErr == "" && $passwordErr == ""){
-          $query_sql="SELECT password FROM account WHERE email = '$email'";
+          $query_sql="SELECT * FROM account WHERE email = '$email'";
           $result = $conn->query($query_sql);
           $row = $result->fetch_assoc();
-          foreach ($row as $pwd) {
-            $verifica = $pwd;
-          }
+          $verifica = $row["password"];
+          $id = $row["idAccount"];
           if(strcmp($password,$verifica) == 0){
             $query_sql="SELECT tipo FROM account WHERE email = '$email'";
             $result = $conn->query($query_sql);
             $row = $result->fetch_assoc();
+            $count = mysqli_num_rows($result);
             foreach ($row as $tipo) {
               $next = $tipo;
-              echo $tipo;
             } if ($next == "ristorante"){
-              header("location: ristorante.php");
-              $_SESSION["email"] = $email;
+              $query_sql="SELECT * FROM ristorante WHERE idAccount = '$id'";
+              $result = $conn->query($query_sql);
+              $count = mysqli_num_rows($result);
+              if ($count != 0){
+                header("location: ristorante.php");
+                $_SESSION["email"] = $email;
+              } else {
+                $dbErr = "La tua richiesta non è ancora stata approvata";
+              }
             } else if($next == "fattorino"){
               header("location: fattorino.php");
               $_SESSION["email"] = $email;
@@ -323,7 +329,7 @@ if (!empty($_POST["fname"])){
     $(document).ready(function(){
 
       <?php
-      if($dbErr == "password errata" || $dbErr == "L'indirizzo email non corrisponde a nessun account!"){
+      if($dbErr != ""){
       ?>
         $('#loginForm').modal('show');
       <?php

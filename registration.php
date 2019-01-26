@@ -78,7 +78,6 @@ if ($conn->connect_errno) {
 } else {
     $sql = "SELECT email FROM account WHERE email = '$email'";
     $result = $conn->query($sql);
-    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 
     $count = mysqli_num_rows($result);
     if ($count == 0 && !empty($_POST["email"]) && $nameErr == "" && $surnameErr == "" && $emailErr == "" && $password1Err == "" && $password2Err == ""){
