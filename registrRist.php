@@ -63,8 +63,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   if (!empty($_FILES["fileToUpload"]["name"])){
-    $file = basename($_FILES["fileToUpload"]["name"]);
-    $imageFileType = strtolower(pathinfo($file,PATHINFO_EXTENSION));
+    $file = addslashes(file_get_contents($_FILES['fileToUpload']['tmp_name']));
+    $fileFormat = $_FILES['fileToUpload']['name'];
+    $imageFileType = strtolower(pathinfo($fileFormat,PATHINFO_EXTENSION));
     if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ){
       $fileErr = "Sono ammessi solo file JPG, JPEG, PNG & GIF";
     }
