@@ -16,6 +16,7 @@ session_start();
     <?php
     include("php/config.php");
     $idRistorante = $idPiatto = "";
+    $nameErr = $prezzoErr = $categoriaErr = "";
     $conn =new mysqli($servername, $username, $password, $db);
     ?>
     <!--Header-->
@@ -50,6 +51,31 @@ session_start();
             $result = $conn->query($query_sql);
             $row = $result->fetch_assoc();
             $idRistorante = $row["idRistorante"];
+
+            if(isset($_POST['piatto'])){
+              if(isset($_POST['nome'])){
+                if(isset($_POST['prezzo'])){
+                  if(isset($_POST['categoria'])){
+                    //inserisco il piatto
+                    $sql = "INSERT INTO adminmenu (`idRistorante`,`nome`,`prezzo`,`categoria`) VALUES ('" . $idRistorante . "', '" . $_POST['nome'] . "', '" . $_POST['prezzo'] . "', '" . $_POST['categoria'] . "')";
+                    for ($i = 0; $i < count($_POST['ingredienti']); $i++)
+                    {
+                        //inserisco gli ingredienti
+                        echo $_POST['ingredienti'][$i];
+                    }
+                }
+                else{
+                  $categoriaErr = "Inserisci una categoria";
+                }
+              }
+              else{
+                $prezzoErr = "Inserisci un prezzo";
+              }
+            }
+            else{
+              $nameErr = "Inserisci un nome";
+            }
+          }
 
           ?>
           <h1>Benvenuto, <?php echo $row["nome"] ?></h1>
@@ -265,26 +291,31 @@ session_start();
                       <div class="form-group">
                         <label for="nome">Nome</label>
                         <input type="text" class="form-control" name="nome">
+                        <span class="error"><?php echo $nameErr;?></span>
                       </div>
                       <div class="form-group">
                         <label for="prezzo">Prezzo</label>
                         <input type="number" class="form-control" name="prezzo">
+                        <span class="error"><?php echo $prezzoErr;?></span>
                       </div>
                       <div class="form-group">
                         <label for="categoria">Categoria</label>
                         <input type="text" class="form-control" name="categoria">
+                        <span class="error"><?php echo $categoriaErr;?></span>
                       </div>
                       <div class="form-group add_ingredienti">
-                        <label for="ingrediente">Ingredienti</label>
-                        <input type="text" class="form-control" name="ingredienti[]">
+                        <div id="dynamicInput">
+                          <label for="ingredienti[]">Ingredienti</label>
+                          <input class="form-control" name="ingredienti[]" type='text'>
+                        </div>
+                        <input class="form-control" type="button" value="Add" onclick="addInput('dynamicInput');" />
                       </div>
-                      <button onclick="addButton()" class="form-control">+</button>
-                    </form>
                   </div>
                   <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary mr-auto">Accedi</button>
+                    <button type="submit" name="piatto" class="btn btn-primary mr-auto">Aggiungi</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
                   </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -293,6 +324,10 @@ session_start();
 
 
       <?php
+
+
+
+
         //Chiusura connessione con db
         $conn->close();
       }
@@ -317,29 +352,14 @@ session_start();
   <script src="js/bootstrap.min.js"></script>
   <script src="js/navbar.js" type="text/javascript"></script>
   <script>
-  $(document).ready(function(){
 
+    function addInput(divName){
+        var newDiv=document.createElement('div');
+        newDiv.innerHTML="<input class='form-control' name='ingredienti[]'' type='text'>";
 
-    $(addbutton).click(function(){
-      $(this).hide();
-    });
-
-    function addButton() {
-      var maxcount = 10;
-      var addbutton =$(.'add_button');
-      var wrapper =$(.'add_ingredienti');
-      var campoHTML ='<input type="text" class="form-control" name="ingredienti[]" value="ingredienti">';
-      var x = 1;
-
-      if(x < maxcount){
-        x++;
-        $(addButton).append(campoHTML);
-      }
-      $('#foodForm').modal('show');
-
-  }
-
-
+        newDiv.innerHTML=newDiv.innerHTML+"</input>";
+        document.getElementById(divName).appendChild(newDiv);
+    }
   </script>
 </body>
 </html>
