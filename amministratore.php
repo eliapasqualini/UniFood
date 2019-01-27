@@ -47,7 +47,7 @@ session_start();
         <?php
         }
         else{
-
+ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
           $query_sql="SELECT * FROM `account` WHERE email = '" . $_SESSION['email'] . "'";
           $result = $conn->query($query_sql);
           $row = $result->fetch_assoc();
@@ -285,8 +285,8 @@ session_start();
                       $row = $result->fetch_assoc();
                       $sql = "INSERT INTO menu VALUES ( '" . $row['idPiatto'] . "', '" . $row['idRistorante'] . "', '" . $row['nome'] . "', '" . $row['prezzo'] . "', '" . $row['categoria'] . "' )";
                       $result = $conn->query($sql);
-                      $sql = "DELETE FROM adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
-                      $result = $conn->query($sql);
+                      /*$sql = "DELETE FROM adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
+                      $result = $conn->query($sql);*/
                       //header("location: ristorante.php");
                     }
                     else{
@@ -328,7 +328,7 @@ session_start();
             <tbody>
         						<tr>
         							<td><?php echo $row["idIngrediente"]; ?></td>
-        							<td><?php echo $row["nome"]; ?></td>
+        							<td><?php echo $row["nomeIngrediente"]; ?></td>
         						</tr>
         						<?php
                   }
@@ -351,8 +351,9 @@ session_start();
             <?php
               if(isset($_POST['deleteIngrediente'])){
                 if(isset($_POST['idIngrediente'])){
-                  $query_sql ="SELECT idIngrediente from adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
+                  $query_sql ="SELECT * from adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
                   $result = $conn->query($query_sql);
+                  $row = $result->fetch_assoc();
                   if($result !== false){
                     if ($result->num_rows > 0) {
                       $sql = "DELETE FROM adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
@@ -385,14 +386,21 @@ session_start();
                   if($result !== false){
                     if ($result->num_rows > 0) {
                       $row = $result->fetch_assoc();
-                      $query_sql ="SELECT * from menu WHERE idPiatto = '" . $row['idPiatto'] . "'";
+                      $query_sql ="SELECT * from adminmenu WHERE idPiatto = '" . $row['idPiatto'] . "'";
                       $result = $conn->query($query_sql);
                       if($result !== false){
                         if ($result->num_rows > 0) {
-                          $sql = "INSERT INTO ingrediente VALUES ( '" . $row['idIngrediente'] . "', '" . $row['idPiatto'] . "', '" . $row['idRistorante'] . "', '" . $row['nomeIngrediente'] . "' )";
+                          $sql = "INSERT INTO ingrediente VALUES ( '" . $row['idIngrediente'] . "', '" . $row['idPiatto'] . "', '" . $row['nomeIngrediente'] . "', '" . $row['idRistorante'] . "')";
                           $result = $conn->query($sql);
                           $sql = "DELETE FROM adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
                           $result = $conn->query($sql);
+                          $query_sql ="SELECT * from adminingrediente WHERE idPiatto = '" . $row['idPiatto'] . "'";
+                          $result = $conn->query($query_sql);
+                          if ($result->num_rows > 0){
+                          } else {
+                            $sql = "DELETE FROM adminmenu WHERE idPiatto = '" . $row['idPiatto'] . "'";
+                            $result = $conn->query($sql);
+                          }
                           //header("location: ristorante.php");
                         }
                         else{

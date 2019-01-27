@@ -51,6 +51,7 @@ session_start();
             $result = $conn->query($query_sql);
             $row = $result->fetch_assoc();
             $idRistorante = $row["idRistorante"];
+            $nomeRist = $row["nome"];
 
             if(isset($_POST['piatto'])){
               if(!empty($_POST['nome'])){
@@ -62,7 +63,7 @@ session_start();
                     $sql = "SELECT idPiatto FROM `adminmenu` WHERE nome= '" . $_POST['nome'] . "' AND idRistorante = '" . $idRistorante . "'";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0){
-                      $row = $result->fetch_assoc()
+                      $row = $result->fetch_assoc();
                       for ($i = 0; $i < count($_POST['ingredienti']); $i++)
                       {
                         //inserisco gli ingredienti
@@ -71,7 +72,7 @@ session_start();
                         $result = $conn->query($sql);
                       }
                     }
-                    else{
+                  }  else{
                       $categoriaErr = "Inserisci una categoria";
                     }
                   }
@@ -85,7 +86,7 @@ session_start();
               }
 
           ?>
-          <h1>Benvenuto, <?php echo $row["nome"] ?></h1>
+          <h1>Benvenuto, <?php echo $nomeRist ?></h1>
         </div>
         <div class="col-sm-12">
           <h3>Questi sono gli ordini riservati a te</h3>
