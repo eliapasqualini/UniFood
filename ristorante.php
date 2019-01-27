@@ -53,29 +53,36 @@ session_start();
             $idRistorante = $row["idRistorante"];
 
             if(isset($_POST['piatto'])){
-              if(isset($_POST['nome'])){
-                if(isset($_POST['prezzo'])){
-                  if(isset($_POST['categoria'])){
+              if(!empty($_POST['nome'])){
+                if(!empty($_POST['prezzo'])){
+                  if(!empty($_POST['categoria'])){
                     //inserisco il piatto
                     $sql = "INSERT INTO adminmenu (`idRistorante`,`nome`,`prezzo`,`categoria`) VALUES ('" . $idRistorante . "', '" . $_POST['nome'] . "', '" . $_POST['prezzo'] . "', '" . $_POST['categoria'] . "')";
-                    for ($i = 0; $i < count($_POST['ingredienti']); $i++)
-                    {
+                    $result = $conn->query($sql);
+                    $sql = "SELECT idPiatto FROM `adminmenu` WHERE nome= '" . $_POST['nome'] . "' AND idRistorante = '" . $idRistorante . "'";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0){
+                      $row = $result->fetch_assoc()
+                      for ($i = 0; $i < count($_POST['ingredienti']); $i++)
+                      {
                         //inserisco gli ingredienti
-                        echo $_POST['ingredienti'][$i];
+
+                        $sql = "INSERT INTO adminingrediente (`idPiatto`,`idRistorante`,`nomeIngrediente`) VALUES ('" . $row['idPiatto'] . "','" . $idRistorante . "', '" . $_POST['ingredienti'][$i] . "')";
+                        $result = $conn->query($sql);
+                      }
                     }
+                    else{
+                      $categoriaErr = "Inserisci una categoria";
+                    }
+                  }
+                  else{
+                    $prezzoErr = "Inserisci un prezzo";
+                  }
                 }
                 else{
-                  $categoriaErr = "Inserisci una categoria";
+                  $nameErr = "Inserisci un nome";
                 }
               }
-              else{
-                $prezzoErr = "Inserisci un prezzo";
-              }
-            }
-            else{
-              $nameErr = "Inserisci un nome";
-            }
-          }
 
           ?>
           <h1>Benvenuto, <?php echo $row["nome"] ?></h1>
