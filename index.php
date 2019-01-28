@@ -112,7 +112,7 @@ session_start();
               header("location: amministratore.php");
               $_SESSION["email"] = $email;
             } else {
-              header("location: clienti.php");
+              header("location: cliente.php");
               $_SESSION["email"] = $email;
             }
           } else {
