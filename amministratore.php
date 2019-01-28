@@ -386,7 +386,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
                   if($result !== false){
                     if ($result->num_rows > 0) {
                       $row = $result->fetch_assoc();
-                      $query_sql ="SELECT * from adminmenu WHERE idPiatto = '" . $row['idPiatto'] . "'";
+                      $query_sql ="SELECT * from menu WHERE idPiatto = '" . $row['idPiatto'] . "'";
                       $result = $conn->query($query_sql);
                       if($result !== false){
                         if ($result->num_rows > 0) {
