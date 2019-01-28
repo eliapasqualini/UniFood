@@ -37,8 +37,8 @@ session_start();
     <div class="dropdown-content">
       <a href="logout.php">Logout</a>
       <a href="" data-toggle="modal" data-target="#emailForm">Modifica email</a>
-      <a href="#" data-toggle="modal" data-target="#passwordForm">Modifica password</a>
-      <a href="#" data-toggle="modal" data-target="#deleteForm">Elimina Account</a>
+      <a href="" data-toggle="modal" data-target="#passwordForm">Modifica password</a>
+      <a href="" data-toggle="modal" data-target="#deleteForm">Elimina Account</a>
     </div>
   </div>
         </li>
