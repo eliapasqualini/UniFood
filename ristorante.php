@@ -86,7 +86,7 @@ session_start();
               }
 
           ?>
-          <h1>Benvenuto, <?php echo $nomeRist ?> <?php echo $idRistorante ?></h1>
+          <h1>Benvenuto, <?php echo $nomeRist ?></h1>
         </div>
         <div class="col-sm-12">
           <h3>Questi sono gli ordini riservati a te</h3>
@@ -307,9 +307,17 @@ session_start();
                         <span class="error"><?php echo $prezzoErr;?></span>
                       </div>
                       <div class="form-group">
-                        <label for="categoria">Categoria</label>
-                        <input type="text" class="form-control" name="categoria">
-                        <span class="error"><?php echo $categoriaErr;?></span>
+                        <label for="categoria">Categoria:</label>
+                        <select name="categoria">
+                          <?php
+                            $sql = "SELECT * FROM categoria";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()){
+                            echo "<option value='".$row[categoria]."'>".$row['categoria']."</option>";
+                            }
+                           ?>
+
+                        </select>
                       </div>
                       <div class="form-group add_ingredienti">
                         <div id="dynamicInput">
