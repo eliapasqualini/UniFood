@@ -80,7 +80,7 @@ session_start();
                 $sql = "SELECT * FROM categoria";
                 $result = $conn->query($sql);
                 while ($row = $result->fetch_assoc()){
-                echo "<option value='".$row[categoria]."'>".$row['categoria']."</option>";
+                echo "<option value='".$row['categoria']."'>".$row['categoria']."</option>";
                 }
                 ?>
             </select>
@@ -91,7 +91,8 @@ session_start();
 
 
       <div id="categoryHint">
-<!--        <ul class="list-unstyled">
+        <b>Restaurant info will be listed here...</b>
+<!--       <ul class="list-unstyled">
           <li class="media my-4">
             <img src="image/food.png" class="mr-5 image-risto" width="200px" height="auto" alt="ristorante">
             <div class="media-body">
@@ -243,7 +244,7 @@ session_start();
             document.getElementById("categoryHint").innerHTML=this.responseText;
           }
         }
-        xmlhttp.open("GET","getRisto.php?q="+str,true);
+        xmlhttp.open("GET","php/getRisto.php?q="+str,true);
         xmlhttp.send();
       }
     </script>
