@@ -74,11 +74,15 @@ session_start();
         <div class="col-md-6">
           <div class="form-group">
             <label for="sort" class="control-label"> Filtra per categorie:</label>
-            <select name="categorie" onchange="showRisto(this.value)">
-            <option value="1">Peter Griffin</option>
-            <option value="2">Lois Griffin</option>
-            <option value="3">Joseph Swanson</option>
-            <option value="4">Glenn Quagmire</option>
+            <select name="categoria" onchange="showRisto(this.value)">
+              <option value="tutte">Seleziona categoria</option>
+              <?php
+                $sql = "SELECT * FROM categoria";
+                $result = $conn->query($sql);
+                while ($row = $result->fetch_assoc()){
+                echo "<option value='".$row[categoria]."'>".$row['categoria']."</option>";
+                }
+                ?>
             </select>
           </div>
         </div>
@@ -87,17 +91,16 @@ session_start();
 
 
       <div id="categoryHint">
-        <ul class="list-unstyled">
+<!--        <ul class="list-unstyled">
           <li class="media my-4">
+            <img src="image/food.png" class="mr-5 image-risto" width="200px" height="auto" alt="ristorante">
+            <div class="media-body">
+              <a href="ordine.php">
+                <h3 class="mt-5 mb-1">Nome ristorante</h3>
+              </a>
+              <p>Categoria : pizza, bevande ecc.</p>
+            </div>
 
-            <img src="image/food.png" class="mr-5 image-risto" width="200px" height="auto" alt="ristorante">
-            <div class="media-body">
-              <a href="ordine.php">
-                <h3 class="mt-5 mb-1">Nome ristorante</h3>
-              </a>
-              <p>Categoria : pizza, bevande ecc.</p>
-            </div>
-
           </li>
           <li class="media my-4">
             <img src="image/food.png" class="mr-5 image-risto" width="200px" height="auto" alt="ristorante">
@@ -117,16 +120,8 @@ session_start();
               <p>Categoria : pizza, bevande ecc.</p>
             </div>
           </li>
-        </ul>
+        </ul>-->
       </div>
-
-
-
-    </div>
-
-
-
-
 
 
     <footer>
@@ -248,7 +243,7 @@ session_start();
             document.getElementById("categoryHint").innerHTML=this.responseText;
           }
         }
-        xmlhttp.open("GET","getristo.php?q="+str,true);
+        xmlhttp.open("GET","getRisto.php?q="+str,true);
         xmlhttp.send();
       }
     </script>
