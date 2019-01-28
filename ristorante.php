@@ -86,7 +86,7 @@ session_start();
               }
 
           ?>
-          <h1>Benvenuto, <?php echo $nomeRist ?></h1>
+          <h1>Benvenuto, <?php echo $nomeRist ?> <?php echo $idRistorante ?></h1>
         </div>
         <div class="col-sm-12">
           <h3>Questi sono gli ordini riservati a te</h3>
@@ -156,7 +156,7 @@ session_start();
 
     	  <?php
 
-    			$query_sql="SELECT idPiatto, nome, prezzo, categoria FROM menu WHERE idRistorante = 1";
+    			$query_sql="SELECT idPiatto, nome, prezzo, categoria FROM menu WHERE idRistorante = $idRistorante";
     			$result = $conn->query($query_sql);
     			if($result !== false){
             if ($result->num_rows > 0) {
