@@ -31,20 +31,102 @@ session_start();
       <ul class="header__menu animate">
         <li class="header__menu__item">
           <div class="dropdown">
-    <button class="dropbtn">Account
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="logout.php">Logout</a>
-      <a href="" data-toggle="modal" data-target="#emailForm">Modifica email</a>
-      <a href="" data-toggle="modal" data-target="#passwordForm">Modifica password</a>
-      <a href="" data-toggle="modal" data-target="#deleteForm">Elimina Account</a>
-    </div>
-  </div>
+            <button class="dropbtn">Account
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="logout.php">Logout</a>
+              <a href="" data-toggle="modal" data-target="#emailForm">Modifica email</a>
+              <a href="" data-toggle="modal" data-target="#passwordForm">Modifica password</a>
+              <a href="" data-toggle="modal" data-target="#deleteForm">Elimina Account</a>
+            </div>
+          </div>
         </li>
         <li class="header__menu__item"><a href="logout.php"><i class="fas fa-cart-arrow-down"></i></a></li>
       </ul>
     </header>
+
+    <div class ="container">
+      <!--TITLE-->
+      <div class="row">
+        <div class="col-sm-12">
+          <?php
+      		if ($conn->connect_errno) {
+      		?>
+      			<p class="error">Connessione fallita: <?php echo $conn->connect_errno; ?> <?php echo $conn->connect_error; ?></p>
+      		<?php
+      		}
+      		else{
+            $query_sql="SELECT * FROM `account` WHERE email = '" . $_SESSION['email'] . "'";
+            $result = $conn->query($query_sql);
+            $row = $result->fetch_assoc();
+          ?>
+          <h1>Benvenuto, <?php echo $row['nome']; ?>  <?php echo $row['cognome']; ?></h1>
+          <p>Comincia a compilare il tuo ordine!</p>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <p>Scegli il ristorante che fa per te!</p>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="sort" class="control-label"> Filtra per categorie:</label>
+            <select name="categorie" onchange="showRisto(this.value)">
+            <option value="1">Peter Griffin</option>
+            <option value="2">Lois Griffin</option>
+            <option value="3">Joseph Swanson</option>
+            <option value="4">Glenn Quagmire</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div id="categoryHint">
+        <ul class="list-unstyled">
+          <li class="media my-4">
+
+            <img src="image/food.png" class="mr-5 image-risto" width="200px" height="auto" alt="ristorante">
+            <div class="media-body">
+              <a href="ordine.php">
+                <h3 class="mt-5 mb-1">Nome ristorante</h3>
+              </a>
+              <p>Categoria : pizza, bevande ecc.</p>
+            </div>
+
+          </li>
+          <li class="media my-4">
+            <img src="image/food.png" class="mr-5 image-risto" width="200px" height="auto" alt="ristorante">
+            <div class="media-body">
+              <a href="ordine.php">
+                <h3 class="mt-5 mb-1">Nome ristorante</h3>
+              </a>
+              <p>Categoria : pizza, bevande ecc.</p>
+            </div>
+          </li>
+          <li class="media my-4">
+            <img src="image/food.png" class="mr-5 image-risto" width="200px" height="auto" alt="ristorante">
+            <div class="media-body">
+              <a href="ordine.php">
+                <h3 class="mt-5 mb-1">Nome ristorante</h3>
+              </a>
+              <p>Categoria : pizza, bevande ecc.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+
+
+    </div>
+
+
+
+
 
 
     <footer>
@@ -141,10 +223,34 @@ session_start();
       </div>
     </div>
 
-
+    <?php
+      //Chiusura connessione con db
+      $conn->close();
+    }
+    ?>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/navbar.js" type="text/javascript"></script>
+    <script>
+      function showRisto(str) {
+        if (str=="") {
+          return;
+        }
+        if (window.XMLHttpRequest) {
+          // code for IE7+, Firefox, Chrome, Opera, Safari
+          xmlhttp=new XMLHttpRequest();
+        } else { // code for IE6, IE5
+          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function() {
+          if (this.readyState==4 && this.status==200) {
+            document.getElementById("categoryHint").innerHTML=this.responseText;
+          }
+        }
+        xmlhttp.open("GET","getristo.php?q="+str,true);
+        xmlhttp.send();
+      }
+    </script>
   </body>
 </html>
