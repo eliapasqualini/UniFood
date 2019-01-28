@@ -207,7 +207,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
           $sql = "SELECT * FROM `adminmenu`";
           $result = $conn->query($sql);
           if ($result->num_rows > 0){
-            while($row = $result->fetch_assoc()) {
+
               ?>
           <table class="table table-hover table-bordered">
             <thead class="thead-dark">
@@ -220,6 +220,9 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
             </tr>
             </thead>
             <tbody>
+              <?php
+               while($row = $result->fetch_assoc()) {
+               ?>
         						<tr>
         							<td><?php echo $row["idPiatto"]; ?></td>
         							<td><?php echo $row["idRistorante"]; ?></td>
@@ -316,7 +319,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
           $sql = "SELECT * FROM `adminingrediente`";
           $result = $conn->query($sql);
           if ($result->num_rows > 0){
-            while($row = $result->fetch_assoc()) {
+            
               ?>
           <table class="table table-hover table-bordered">
             <thead class="thead-dark">
@@ -326,6 +329,9 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
             </tr>
             </thead>
             <tbody>
+              <?php
+               while($row = $result->fetch_assoc()) {
+               ?>
         						<tr>
         							<td><?php echo $row["idIngrediente"]; ?></td>
         							<td><?php echo $row["nomeIngrediente"]; ?></td>
