@@ -24,7 +24,7 @@ if ($conn->connect_errno) {
         $query_sql="SELECT *  FROM ristorante WHERE idRistorante = '" . $row['idRistorante'] . "'";
         $result1 = $conn->query($query_sql);
         $row2 = $result1->fetch_assoc();
-        echo "<li class='media my-4'>";
+        echo "<li class='media my-2'>";
         if ($row2['logo'] == null){
           echo "<img src='image/food.png' class='mr-5 image-risto' width='200px' height='auto' alt='ristorante'>";
         }
@@ -32,8 +32,8 @@ if ($conn->connect_errno) {
           echo '<img width="200px" height="auto" class="mr-5 image-risto" alt="ristorante"src="data:image/jpeg;base64,'.base64_encode( $row2['logo'] ).'"/>';
         }
         echo "<div class='media-body'>";
-        echo "<a href='ordine.php'>";
-        echo "<h3 class='mt-5 mb-1'> '" . $row2['nome'] . "' </h3>";
+        echo "<a href='ordine.php?ristoranteID=".$row['idRistorante'].";'>";
+        echo "<h3 class='mt-2 mb-1'> '" . $row2['nome'] . "' </h3>";
         echo "</a>";
 
         $sql = "SELECT DISTINCT categoria FROM menu WHERE idRistorante = '".$row['idRistorante']."'";
@@ -41,8 +41,10 @@ if ($conn->connect_errno) {
         echo "<p> Categorie: <br>";
           while ($righe = $ris->fetch_assoc()){
             echo  $righe['categoria'];
+            echo "  ";
           }
           echo "</p>";
+          echo "</div>";
           echo "</li>";
         }
       }

@@ -112,11 +112,10 @@ session_start();
         $result = $conn->query($sql);
         echo "<ul class='list-unstyled'>";
         if ($result->num_rows > 0) {
-          $row = $result->fetch_assoc();
-          foreach ($row as $rist){
-            $query_sql="SELECT *  FROM ristorante WHERE idRistorante = '" . $rist . "'";
-            $result = $conn->query($query_sql);
-            $row2 = $result->fetch_assoc();
+          while ($row = $result->fetch_array()){
+            $query_sql="SELECT *  FROM ristorante WHERE idRistorante = '" . $row['idRistorante'] . "'";
+            $result1 = $conn->query($query_sql);
+            $row2 = $result1->fetch_assoc();
             echo "<li class='media my-4'>";
             if ($row2['logo'] == null){
               echo "<img src='image/food.png' class='mr-5 image-risto' width='200px' height='auto' alt='ristorante'>";
@@ -125,16 +124,16 @@ session_start();
               echo '<img width="200px" height="auto" class="mr-5 image-risto" alt="ristorante"src="data:image/jpeg;base64,'.base64_encode( $row2['logo'] ).'"/>';
             }
             echo "<div class='media-body'>";
-            echo "<a href='ordine.php'>";
-            echo "<h3 class='mt-5 mb-1'> '" . $row2['nome'] . "' </h3>";
+            echo "<a href='ordine.php?ristoranteID=".$row['idRistorante'].";'>";
+            echo "<h3 class='mt-2 mb-1'> '" . $row2['nome'] . "' </h3>";
             echo "</a>";
 
-            $sql = "SELECT DISTINCT categoria FROM menu WHERE idRistorante = '".$rist."'";
+            $sql = "SELECT DISTINCT categoria FROM menu WHERE idRistorante = '".$row['idRistorante']."'";
             $ris = $conn->query($sql);
             echo "<p> Categorie: <br>";
               while ($righe = $ris->fetch_assoc()){
                 echo  $righe['categoria'];
-
+                echo "  ";
               }
               echo "</p>";
               echo "</div>";
@@ -341,9 +340,6 @@ session_start();
     </script>
     <script>
       function showRisto(str) {
-        if (str=="") {
-          return;
-        }
         if (window.XMLHttpRequest) {
           // code for IE7+, Firefox, Chrome, Opera, Safari
           xmlhttp=new XMLHttpRequest();
