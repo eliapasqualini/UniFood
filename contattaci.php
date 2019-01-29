@@ -10,9 +10,20 @@
 </head>
 <body>
   <?php
+
+  use PHPMailer\PHPMailer\PHPMailer;
+  use PHPMailer\PHPMailer\Exception;
+
+  require 'PHPMailer/src/Exception.php';
+  require 'PHPMailer/src/PHPMailer.php';
+  require 'PHPMailer/src/SMTP.php';
+
+  $mail = new PHPMailer(true);
+
   // definisco mittente e destinatario della mail$nameErr = $emailErr = $surnameErr = $password1Err = $password2Err = $dbErr = "";
 $nome = $email = $oggetto = $text = "";
 $nomeErr = $emailErr = $textErr = "";
+$mail_oggetto = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (empty($_POST["nome"])) {
@@ -53,16 +64,43 @@ if (empty($_POST["text"])) {
   // E' in questa sezione che deve essere definito il mittente (From)
   // ed altri eventuali valori come Cc, Bcc, ReplyTo e X-Mailer
   $mail_headers = "From: " .  $nome . " <" .  $email . ">\r\n";
-  $mail_headers .= "Reply-To: " .  $email . "\r\n";
+  $mail_headers .= "Reply-To: " .  $mail_destinatario . "\r\n";
   $mail_headers .= "X-Mailer: PHP/" . phpversion();
 
 //invio email
 /*
-  if (mail($mail_destinatario, $mail_oggetto, $mail_corpo, $mail_headers)){
-    echo "Messaggio inviato con successo a " . $mail_destinatario;
-  } else {
-    echo "Errore. Nessun messaggio inviato.";
+  if ($nomeErr == "" && $emailErr == "" && $textErr == ""){
+    if (mail($mail_destinatario, $mail_oggetto, $mail_corpo, $mail_headers)){
+      echo "Messaggio inviato con successo a " . $mail_destinatario;
+    } else {
+      echo "Errore. Nessun messaggio inviato.";
+    }
   }*/
+  if (isset($_POST['submit'])){
+  try {
+    $mail->SMTPDebug = 2;
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'tua email';
+    $mail->Password = 'tua password';
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
+
+    $mail->setFrom($email);
+    $mail->addAddress('tua mail');
+
+    $mail->isHTML(true);
+    $mail->Subject = $oggetto;
+    $mail->Body = $mail_corpo;
+
+    $mail->send();
+
+  } catch (Exception $e) {
+    echo "Il messaggio non può essere inviato:", $mail->ErrorInfo;
+  }
+}
+
 
   function test_input($data) {
     $data = trim($data);

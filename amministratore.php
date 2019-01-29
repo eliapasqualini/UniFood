@@ -19,6 +19,7 @@ session_start();
 
   $dbErr1 = "";
   $dbErr2 = "";
+  $dbErr3 = "";
   ?>
 
   <!--header-->
@@ -65,6 +66,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
       if (strcmp($email1,$email2) == 0){
         $sql = "UPDATE `account` SET `email`= '".$email1."' WHERE `idAccount` = '".$id."'";
         $result = $conn->query($sql);
+        $_SESSION["email"] = $email1;
       } else {
         $dbErr1 = "I due indirizzi email non corrispondono!";
       }
@@ -85,6 +87,158 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
       $result = $conn->query($sql);
       header("location: index.php");
     }
+    if(isset($_POST['deleteRistorante'])){
+      if(isset($_POST['idRistorante'])){
+        $query_sql ="SELECT * from adminristorante WHERE idRistorante = '" . $_POST['idRistorante'] . "'";
+        $result = $conn->query($query_sql);
+        $row = $result->fetch_assoc();
+        if($result !== false){
+          if ($result->num_rows > 0) {
+            $sql = "DELETE FROM adminristorante WHERE idRistorante = '" . $_POST['idRistorante'] . "'";
+            $result = $conn->query($sql);
+            $sql = "DELETE FROM account WHERE idAccount = '" .$row["idAccount"]. "'";
+            $result = $conn->query($sql);
+           header("location: amministratore.php");
+          }
+          else{
+            $dbErr1 = "L'id corrispondente non esiste tra i ristoranti";
+          }
+        } else {
+          $dbErr1 = "L'id corrispondente non esiste tra i ristoranti";
+        }
+      } else {
+        $dbErr1 = "Inserisci un id";
+      }
+    }
+
+    if(isset($_POST['addRistorante'])){
+      if(isset($_POST['idRistorante'])){
+        $query_sql ="SELECT * from adminristorante WHERE idRistorante = '" . $_POST['idRistorante'] . "'";
+        $result = $conn->query($query_sql);
+        if($result !== false){
+          if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $logo = addslashes($row['logo']);
+            $sql = "INSERT INTO ristorante (`idRistorante`,`nome`,`logo`,`idAccount`) VALUES ('" . $_POST['idRistorante'] . "', '" . $row['nome'] . "', '" . $logo . "', '" . $row['idAccount'] . "')";
+            $result = $conn->query($sql);
+            $sql = "DELETE FROM adminristorante WHERE idRistorante = '" . $_POST['idRistorante'] . "'";
+            $result = $conn->query($sql);
+            header("location: amministratore.php");
+          }
+          else{
+            $dbErr1 = "L'id corrispondente non esiste tra i ristoranti";
+          }
+        } else{
+          $dbErr1 = "L'id corrispondente non esiste tra i ristoranti";
+        }
+      } else{
+        $dbErr1 = "Inserisci un id";
+      }
+    }
+
+    if(isset($_POST['deletePiatto'])){
+      if(isset($_POST['idPiatto'])){
+        $query_sql ="SELECT idPiatto from adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
+        $result = $conn->query($query_sql);
+        if($result !== false){
+          if ($result->num_rows > 0) {
+            $sql = "DELETE FROM adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
+            $result = $conn->query($sql);
+            $sql = "DELETE FROM adminingrediente WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
+            $result = $conn->query($sql);
+            header("location: amministratore.php");
+          }
+          else{
+            $dbErr2 = "L'id corrispondente non esiste nel menù";
+          }
+        }
+        else{
+          $dbErr2 = "L'id corrispondente non esiste nel menù";
+        }
+      }  else{
+        $dbErr2 = "Inserisci un id";
+      }
+    }
+
+    if(isset($_POST['addPiatto'])){
+      if(isset($_POST['idPiatto'])){
+        $query_sql ="SELECT * from adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
+        $result = $conn->query($query_sql);
+        if($result !== false){
+          if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $sql = "INSERT INTO menu VALUES ( '" . $row['idPiatto'] . "', '" . $row['idRistorante'] . "', '" . $row['nome'] . "', '" . $row['prezzo'] . "', '" . $row['categoria'] . "' )";
+            $result = $conn->query($sql);
+            $sql = "DELETE FROM adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
+            $result = $conn->query($sql);
+            header("location: amministratore.php");
+          }
+          else{
+            $dbErr2 = "L'id corrispondente non esiste nel menù";
+          }
+        } else {
+            $dbErr2 = "L'id corrispondente non esiste nel menù";
+        }
+      } else {
+            $dbErr2 = "Inserisci un id";
+      }
+    }
+
+      if(isset($_POST['deleteIngrediente'])){
+        if(isset($_POST['idIngrediente'])){
+          $query_sql ="SELECT * from adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
+          $result = $conn->query($query_sql);
+          $row = $result->fetch_assoc();
+          if($result !== false){
+            if ($result->num_rows > 0) {
+              $sql = "DELETE FROM adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
+              $result = $conn->query($sql);
+              header("location: amministratore.php");
+            }
+            else{
+              $dbErr3 = "L'id corrispondente non esiste tra gli ingredienti";
+            }
+          } else {
+            $dbErr3 = "L'id corrispondente non esiste tra gli ingredienti";
+          }
+        } else {
+          $dbErr3 = "Inserisci un id";
+        }
+      }
+
+        if(isset($_POST['addIngrediente'])){
+          if(isset($_POST['idIngrediente'])){
+            $query_sql ="SELECT * from adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
+            $result = $conn->query($query_sql);
+            if($result !== false){
+              if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $query_sql ="SELECT * from menu WHERE idPiatto = '" . $row['idPiatto'] . "'";
+                $result = $conn->query($query_sql);
+                if($result !== false){
+                  if ($result->num_rows > 0) {
+                    $sql = "INSERT INTO ingrediente VALUES ( '" . $row['idIngrediente'] . "', '" . $row['idPiatto'] . "', '" . $row['nomeIngrediente'] . "', '" . $row['idRistorante'] . "')";
+                    $result = $conn->query($sql);
+                    $sql = "DELETE FROM adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
+                    $result = $conn->query($sql);
+                    header("location: amministratore.php");
+                  }
+                  else{
+                    $dbErr3 = "Non esiste ancora questo piatto nel menu";
+                  }
+                } else {
+                    $dbErr3 = "Non esiste ancora questo piatto nel menu";
+                }
+              } else {
+                $dbErr3 = "L'id corrispondente non esiste tra gli ingredienti";
+              }
+            } else {
+              $dbErr3 = "L'id corrispondente non esiste tra gli ingredienti";
+            }
+          } else {
+            $dbErr3 = "Inserisci un id";
+          }
+        }
   ?>
 
 
@@ -133,71 +287,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
             <input type="text" class="form-control" name="idRistorante" placeholder="Codice del ristorante">
             <input type="submit" name="addRistorante" class="btn btn-primary btn-lg" value="Conferma">
             <input type="submit" name="deleteRistorante" class="btn btn-primary btn-lg" value="Rifiuta"><br/>
-            <?php
-              if(isset($_POST['deleteRistorante'])){
-                if(isset($_POST['idRistorante'])){
-                  $query_sql ="SELECT * from adminristorante WHERE idRistorante = '" . $_POST['idRistorante'] . "'";
-                  $result = $conn->query($query_sql);
-                  $row = $result->fetch_assoc();
-                  if($result !== false){
-                    if ($result->num_rows > 0) {
-                      $sql = "DELETE FROM adminristorante WHERE idRistorante = '" . $_POST['idRistorante'] . "'";
-                      $result = $conn->query($sql);
-                      $sql = "DELETE FROM account WHERE idAccount = '" .$row["idAccount"]. "'";
-                      $result = $conn->query($sql);
-                    //  header("location: ristorante.php");
-                    }
-                    else{
-                ?>
-                  <span class="error">L'id corrispondente non esiste tra i ristoranti</span>
-                  <?php
-                    }
-                  }
-                  else{
-                ?>
-                    <span class="error">L'id corrispondente non esiste tra i ristoranti</span>
-                <?php
-                  }
-                }
-                else{
-              ?>
-                  <span class="error">Inserisci un id</span>
-              <?php
-                }
-              }
-              if(isset($_POST['addRistorante'])){
-                if(isset($_POST['idRistorante'])){
-                  $query_sql ="SELECT * from adminristorante WHERE idRistorante = '" . $_POST['idRistorante'] . "'";
-                  $result = $conn->query($query_sql);
-                  if($result !== false){
-                    if ($result->num_rows > 0) {
-                      $row = $result->fetch_assoc();
-                      $logo = addslashes($row['logo']);
-                      $sql = "INSERT INTO ristorante (`idRistorante`,`nome`,`logo`,`idAccount`) VALUES ('" . $_POST['idRistorante'] . "', '" . $row['nome'] . "', '" . $logo . "', '" . $row['idAccount'] . "')";
-                      $result = $conn->query($sql);
-                      $sql = "DELETE FROM adminristorante WHERE idRistorante = '" . $_POST['idRistorante'] . "'";
-                      $result = $conn->query($sql);
-                    //  header("location: ristorante.php");
-                    }
-                    else{
-                ?>
-                  <span class="error">L'id corrispondente non esiste tra i ristoranti</span>
-                  <?php
-                    }
-                  }
-                  else{
-                ?>
-                    <span class="error">L'id corrispondente non esiste tra i ristoranti</span>
-                <?php
-                  }
-                }
-                else{
-              ?>
-                  <span class="error">Inserisci un id</span>
-              <?php
-                }
-              }
-            ?>
+            <span class="error"><?php echo $dbErr1; ?></span>
           </div>
         </form>
 
@@ -248,69 +338,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
             <input type="text" class="form-control" name="idPiatto" placeholder="Codice del piatto">
             <input type="submit" name="addPiatto" class="btn btn-primary btn-lg" value="Conferma">
             <input type="submit" name="deletePiatto" class="btn btn-primary btn-lg" value="Rifiuta"><br/>
-            <?php
-              if(isset($_POST['deletePiatto'])){
-                if(isset($_POST['idPiatto'])){
-                  $query_sql ="SELECT idPiatto from adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
-                  $result = $conn->query($query_sql);
-                  if($result !== false){
-                    if ($result->num_rows > 0) {
-                      $sql = "DELETE FROM adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
-                      $result = $conn->query($sql);
-                      $sql = "DELETE FROM adminingrediente WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
-                      $result = $conn->query($sql);
-                      //header("location: ristorante.php");
-                    }
-                    else{
-                ?>
-                  <span class="error">L'id corrispondente non esiste nel menù</span>
-                  <?php
-                    }
-                  }
-                  else{
-                ?>
-                    <span class="error">L'id corrispondente non esiste nel menù</span>
-                <?php
-                  }
-                }
-                else{
-              ?>
-                  <span class="error">Inserisci un id</span>
-              <?php
-                }
-              }
-              if(isset($_POST['addPiatto'])){
-                if(isset($_POST['idPiatto'])){
-                  $query_sql ="SELECT * from adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
-                  $result = $conn->query($query_sql);
-                  if($result !== false){
-                    if ($result->num_rows > 0) {
-                      $row = $result->fetch_assoc();
-                      $sql = "INSERT INTO menu VALUES ( '" . $row['idPiatto'] . "', '" . $row['idRistorante'] . "', '" . $row['nome'] . "', '" . $row['prezzo'] . "', '" . $row['categoria'] . "' )";
-                      $result = $conn->query($sql);
-                      $sql = "DELETE FROM adminmenu WHERE idPiatto = '" . $_POST['idPiatto'] . "'";
-                      $result = $conn->query($sql);
-                      //header("location: ristorante.php");
-                    }
-                    else{
-                ?>
-                  <span class="error">L'id corrispondente non esiste nel menù</span>
-                  <?php
-                    }
-                  }
-                  else{
-                ?>
-                    <span class="error">L'id corrispondente non esiste nel menù</span>
-                <?php
-                  }
-                }
-                else{
-              ?>
-                  <span class="error">Inserisci un id</span>
-              <?php
-                }
-              }
-            ?>
+            <span class="error"><?php echo $dbErr2 ?></span>
           </div>
         </form>
         <div class="table-responsive">
@@ -319,7 +347,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
           $sql = "SELECT * FROM `adminingrediente`";
           $result = $conn->query($sql);
           if ($result->num_rows > 0){
-            
+
               ?>
           <table class="table table-hover table-bordered">
             <thead class="thead-dark">
@@ -354,85 +382,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
             <input type="text" class="form-control" name="idIngrediente" placeholder="Codice del piatto">
             <input type="submit" name="addIngrediente" class="btn btn-primary btn-lg" value="Conferma">
             <input type="submit" name="deleteIngrediente" class="btn btn-primary btn-lg" value="Rifiuta"><br/>
-            <?php
-              if(isset($_POST['deleteIngrediente'])){
-                if(isset($_POST['idIngrediente'])){
-                  $query_sql ="SELECT * from adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
-                  $result = $conn->query($query_sql);
-                  $row = $result->fetch_assoc();
-                  if($result !== false){
-                    if ($result->num_rows > 0) {
-                      $sql = "DELETE FROM adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
-                      $result = $conn->query($sql);
-                      //header("location: ristorante.php");
-                    }
-                    else{
-                ?>
-                  <span class="error">L'id corrispondente non esiste tra gli ingredienti</span>
-                  <?php
-                    }
-                  }
-                  else{
-                ?>
-                    <span class="error">L'id corrispondente non esiste tra gli ingredienti</span>
-                <?php
-                  }
-                }
-                else{
-              ?>
-                  <span class="error">Inserisci un id</span>
-              <?php
-                }
-              }
-
-              if(isset($_POST['addIngrediente'])){
-                if(isset($_POST['idIngrediente'])){
-                  $query_sql ="SELECT * from adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
-                  $result = $conn->query($query_sql);
-                  if($result !== false){
-                    if ($result->num_rows > 0) {
-                      $row = $result->fetch_assoc();
-                      $query_sql ="SELECT * from menu WHERE idPiatto = '" . $row['idPiatto'] . "'";
-                      $result = $conn->query($query_sql);
-                      if($result !== false){
-                        if ($result->num_rows > 0) {
-                          $sql = "INSERT INTO ingrediente VALUES ( '" . $row['idIngrediente'] . "', '" . $row['idPiatto'] . "', '" . $row['nomeIngrediente'] . "', '" . $row['idRistorante'] . "')";
-                          $result = $conn->query($sql);
-                          $sql = "DELETE FROM adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
-                          $result = $conn->query($sql);
-                          //header("location: ristorante.php");
-                        }
-                        else{
-                          ?>
-                            <span class="error">Non esiste ancora questo piatto nel menu</span>
-                          <?php
-                        }
-                      }
-                      else{
-                        ?>
-                          <span class="error">Non esiste ancora questo piatto nel menu</span>
-                        <?php
-                      }
-                    }
-                    else{
-                ?>
-                  <span class="error">L'id corrispondente non esiste tra gli ingredienti</span>
-                  <?php
-                    }
-                  }
-                  else{
-                ?>
-                    <span class="error">L'id corrispondente non esiste tra gli ingredienti</span>
-                <?php
-                  }
-                }
-                else{
-              ?>
-                  <span class="error">Inserisci un id</span>
-              <?php
-                }
-              }
-            ?>
+            <span class="error"><?php echo $dbErr3; ?></span>
           </div>
         </form>
       </div>

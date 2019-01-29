@@ -44,8 +44,16 @@ session_start();
       $email1 = test_input($_POST["email1"]);
       $email2 = test_input($_POST["email2"]);
       if (strcmp($email1,$email2) == 0){
-        $sql = "UPDATE `account` SET `email`= '".$email1."' WHERE `idAccount` = '".$id."'";
+        $sql = "SELECT email FROM account WHERE email = '$email1'";
         $result = $conn->query($sql);
+
+        $count = mysqli_num_rows($result);
+        if ($count == 0){
+          $sql = "UPDATE `account` SET `email`= '".$email1."' WHERE `idAccount` = '".$id."'";
+          $result = $conn->query($sql);
+        } else {
+          $dbErr1 = "L'email inserita è già presente";
+        }
       } else {
         $dbErr1 = "I due indirizzi email non corrispondono!";
       }

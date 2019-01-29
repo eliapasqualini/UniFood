@@ -17,6 +17,14 @@ session_start();
     <?php
     include("php/config.php");
     $conn =new mysqli($servername, $username, $password, $db);
+    $dbErr1 = $dbErr2 = "";
+
+    function test_input($data) {
+      $data = trim($data);
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+    }
     ?>
     <!--Header-->
     <header class="header clearfix">
@@ -60,6 +68,14 @@ session_start();
             $query_sql="SELECT * FROM `account` WHERE email = '" . $_SESSION['email'] . "'";
             $result = $conn->query($query_sql);
             $row = $result->fetch_assoc();
+            $id = $row["idAccount"];
+            if(isset($_POST['delete'])){
+              $sql = "DELETE FROM ordine WHERE idAccount = '".$id."'";
+              $result = $conn->query($sql);
+              $sql = "DELETE FROM account WHERE idAccount = '".$id."'";
+              $result = $conn->query($sql);
+              header("location: index.php");
+            }
           ?>
           <h1>Benvenuto, <?php echo $row['nome']; ?>  <?php echo $row['cognome']; ?></h1>
           <p>Comincia a compilare il tuo ordine!</p>
@@ -171,6 +187,28 @@ session_start();
       </div>
     </footer>
 
+    <?php
+      if (!empty($_POST["email1"]) && !empty($_POST["email2"])){
+          $email1 = test_input($_POST["email1"]);
+          $email2 = test_input($_POST["email2"]);
+          if (strcmp($email1,$email2) == 0){
+            $sql = "SELECT email FROM account WHERE email = '$email1'";
+            $result = $conn->query($sql);
+
+            $count = mysqli_num_rows($result);
+            if ($count == 0){
+              $sql = "UPDATE `account` SET `email`= '".$email1."' WHERE `idAccount` = '".$id."'";
+              $result = $conn->query($sql);
+              $_SESSION["email"] = $email1;
+            } else {
+              $dbErr1 = "L'email inserita è già presente";
+            }
+          } else {
+            $dbErr1 = "I due indirizzi email non corrispondono!";
+          }
+        }
+     ?>
+
     <!-- Modal-->
     <div class="modal" id="emailForm">
       <div class="modal-dialog">
@@ -200,6 +238,20 @@ session_start();
       </div>
     </div>
 
+    <?php
+    if (!empty($_POST["password1"]) && !empty($_POST["password2"])){
+      $password1 = test_input($_POST["password1"]);
+      $password2 = test_input($_POST["password2"]);
+      if (strcmp($password1,$password2) == 0){
+        $sql = "UPDATE `account` SET `password`= '".$password1."' WHERE `idAccount` = '".$id."'";
+        $result = $conn->query($sql);
+      } else {
+        $dbErr2 = "Le due password non corrispondono!";
+      }
+    }
+     ?>
+
+
     <!-- Modal-->
     <div class="modal" id="passwordForm">
       <div class="modal-dialog">
@@ -228,6 +280,7 @@ session_start();
         </div>
       </div>
     </div>
+
 
     <!-- Modal-->
     <div class="modal" id="deleteForm">
@@ -261,6 +314,29 @@ session_start();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/navbar.js" type="text/javascript"></script>
+    <script>
+      $(document).ready(function(){
+
+        <?php
+        if($dbErr1 != ""){
+        ?>
+          $('#emailForm').modal('show');
+        <?php
+      } else {
+        $email1 = "";
+        $email2 = "";
+      }
+        if($dbErr2 != ""){
+        ?>
+          $('#passwordForm').modal('show');
+        <?php
+      } else {
+        $password1 = "";
+        $password2 = "";
+      }
+        ?>
+      });
+    </script>
     <script>
       function showRisto(str) {
         if (str=="") {

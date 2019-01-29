@@ -83,6 +83,7 @@ if ($conn->connect_errno) {
     if ($count == 0 && !empty($_POST["email"]) && $nameErr == "" && $surnameErr == "" && $emailErr == "" && $password1Err == "" && $password2Err == ""){
       $query_sql="INSERT INTO `account` (`Nome`, `Cognome`, `Email`,`Password`, `tipo`) VALUES ('$name', '$surname', '$email', '$password1', 'cliente')";
       $result = $conn->query($query_sql);
+      header("location: index.php");
     } else if ($count == 1){
       $dbErr = "Esiste già un account con questa email!";
   }
@@ -118,7 +119,7 @@ if ($conn->connect_errno) {
   </div>
   <div class="form-group">
     <label for="Nome">Cognome:</label>
-    <input type="text" class="form-control" name="surname" value="<?php echo $surname;?>" placeholder="Inserisci nome">
+    <input type="text" class="form-control" name="surname" value="<?php echo $surname;?>" placeholder="Inserisci cognome">
     <span class="error"> <?php echo $surnameErr;?></span>
   </div>
   <div class="form-group">
