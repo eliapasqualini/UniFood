@@ -10,11 +10,17 @@ if ($conn->connect_errno) {
   echo "Connessione fallita";
 } else {
     $q = $_GET['q'];
-    $sql="SELECT DISTINCT idRistorante FROM menu WHERE categoria = '".$q."'";
-    $result = $conn->query($sql);
+    if($q == "tutte"){
+      $sql="SELECT DISTINCT idRistorante FROM menu";
+      $result = $conn->query($sql);
+    }
+    else{
+      $sql="SELECT DISTINCT idRistorante FROM menu WHERE categoria = '".$q."'";
+      $result = $conn->query($sql);
+    }
     echo "<ul class='list-unstyled'>";
     if ($result->num_rows > 0) {
-      while ($row = $result->fetch_assoc()){
+      while ($row = $result->fetch_array()){
         $query_sql="SELECT *  FROM ristorante WHERE idRistorante = '" . $row['idRistorante'] . "'";
         $result = $conn->query($query_sql);
         $row2 = $result->fetch_assoc();
