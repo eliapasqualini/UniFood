@@ -22,8 +22,8 @@ if ($conn->connect_errno) {
     if ($result->num_rows > 0) {
       while ($row = $result->fetch_array()){
         $query_sql="SELECT *  FROM ristorante WHERE idRistorante = '" . $row['idRistorante'] . "'";
-        $result = $conn->query($query_sql);
-        $row2 = $result->fetch_assoc();
+        $result1 = $conn->query($query_sql);
+        $row2 = $result1->fetch_assoc();
         echo "<li class='media my-4'>";
         if ($row2['logo'] == null){
           echo "<img src='image/food.png' class='mr-5 image-risto' width='200px' height='auto' alt='ristorante'>";
