@@ -25,6 +25,24 @@ session_start();
       $data = htmlspecialchars($data);
       return $data;
     }
+
+    if ($conn->connect_errno) {
+    ?>
+      <p class="error">Connessione fallita: <?php echo $conn->connect_errno; ?> <?php echo $conn->connect_error; ?></p>
+    <?php
+    }
+    else{
+      $query_sql="SELECT * FROM `account` WHERE email = '" . $_SESSION['email'] . "'";
+      $result = $conn->query($query_sql);
+      $row = $result->fetch_assoc();
+      $id = $row["idAccount"];
+      if(isset($_POST['delete'])){
+        $sql = "DELETE FROM ordine WHERE idAccount = '".$id."'";
+        $result = $conn->query($sql);
+        $sql = "DELETE FROM account WHERE idAccount = '".$id."'";
+        $result = $conn->query($sql);
+        header("location: index.php");
+      }
     ?>
     <!--Header-->
     <header class="header clearfix">
@@ -39,7 +57,7 @@ session_start();
       <ul class="header__menu animate">
         <li class="header__menu__item">
           <div class="dropdown">
-            <button class="dropbtn">Account
+            <button class="dropbtn"><?php echo $row['nome']; ?>  <?php echo $row['cognome']; ?>
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-content">
@@ -58,25 +76,7 @@ session_start();
       <!--TITLE-->
       <div class="row">
         <div class="col-sm-12">
-          <?php
-      		if ($conn->connect_errno) {
-      		?>
-      			<p class="error">Connessione fallita: <?php echo $conn->connect_errno; ?> <?php echo $conn->connect_error; ?></p>
-      		<?php
-      		}
-      		else{
-            $query_sql="SELECT * FROM `account` WHERE email = '" . $_SESSION['email'] . "'";
-            $result = $conn->query($query_sql);
-            $row = $result->fetch_assoc();
-            $id = $row["idAccount"];
-            if(isset($_POST['delete'])){
-              $sql = "DELETE FROM ordine WHERE idAccount = '".$id."'";
-              $result = $conn->query($sql);
-              $sql = "DELETE FROM account WHERE idAccount = '".$id."'";
-              $result = $conn->query($sql);
-              header("location: index.php");
-            }
-          ?>
+
           <h1>Benvenuto, <?php echo $row['nome']; ?>  <?php echo $row['cognome']; ?></h1>
           <p>Comincia a compilare il tuo ordine!</p>
         </div>

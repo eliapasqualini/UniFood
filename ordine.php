@@ -36,7 +36,7 @@ session_start();
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-content">
-              <a href="logout.php">Logout</a>
+              <a href="logout.php"><?php ?></a>
               <a href="" data-toggle="modal" data-target="#emailForm">Modifica email</a>
               <a href="" data-toggle="modal" data-target="#passwordForm">Modifica password</a>
               <a href="" data-toggle="modal" data-target="#deleteForm">Elimina Account</a>
