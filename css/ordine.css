@@ -58,6 +58,9 @@ body {
 }
 
 
+.titlee{margin-top: 15%;}
+
+
 
 .param {
     margin-bottom: 7px;
@@ -92,8 +95,12 @@ body {
   display: block;
 }
 
+.image-risto{
+  margin-top: 4%;
+  border-radius: 10%;
+}
 
-
+.card{margin-bottom: 5%;}
 
 
 
@@ -126,6 +133,7 @@ footer {
   .param-inline dd {display: inline-block;}
   .shopping-cart-wrap .price {margin-right: 1px; font-size: 14px;}
   .card{margin-bottom: 5%;}
+  .titlee{margin-top: 12%}
 
 }
 
@@ -135,6 +143,8 @@ footer {
     padding: .25rem;
   }
   .col-footer{padding-top: 10px;}
+  .image-risto{width: 80%;}
+  .titlee{margin-top: 10%}
 
 }
 
