@@ -50,7 +50,7 @@ h3{font-size: 75px;}
 }
 
 /*Card*/
-.card{padding: 2%;}
+.card{padding: 2%; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);}
 .jumbotron{margin-bottom: 0px;}
 .row-coll{
   text-align: center;
