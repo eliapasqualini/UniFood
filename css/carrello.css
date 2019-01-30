@@ -59,6 +59,7 @@ body {
 
 #totale {
   text-align: right;
+  font-size: 20px;
 }
 
 #luogo {
@@ -69,6 +70,21 @@ body {
 
 #paga {
   margin: 5% 0%;
+}
+#right{
+  margin: 0% 4%;
+}
+
+#time{
+  margin-top: 3%;
+}
+
+#sum {
+  color: red;
+}
+
+input {
+  margin-bottom: 2%;
 }
 
 /*Footer*/
@@ -99,12 +115,19 @@ footer {
   .image-risto{width: 100px;}
 
 
+  #luogo {
+    border-bottom: none;
+    margin-bottom: 5%;
+    padding-bottom: 0%;
+  }
+
+  #right{
+    margin: 5% 0%;
+  }
+
 
 }
 
-@media (max-width: 576px){
-
-}
 
 .clearfix:after {
 	visibility: hidden;

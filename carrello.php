@@ -10,6 +10,7 @@ session_start();
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.css">
   <link rel="stylesheet" type="text/css" href="css/carrello.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>UniFood</title>
 </head>
   <body>
@@ -73,9 +74,9 @@ session_start();
               </tbody>
             </table>
           </div>
-          <p id="totale">Totale: 1€</p>
+          <p id="totale">Totale (1 articolo): <span id="sum">1€</span></p>
         </div>
-        <div class="col-sm-12 col-lg-4">
+        <div class="col-sm-12 col-lg-3" id="right">
           <div name="luogo" id="luogo">
             <p>In che aula vuoi ricevere il tuo ordine?</p>
             <select name="aula">
@@ -89,7 +90,7 @@ session_start();
               <option value="1.8">1.8</option>
               <option value="1.9">1.9</option>
             </select>
-            <p>A che ora?</p>
+            <p id="time">A che ora?</p>
             <select name="ora">
               <option value="12:00">12:00</option>
               <option value="12:30">12:30</option>
@@ -100,11 +101,26 @@ session_start();
               <option value="15:00">15:00</option>
             </select>
           </div>
-          <div name="pagamento">
-            <p>Carta di credito o debito:</p>
-            <img src="image/MasterCard_Logo.png" alt="mastercard" width="40px" height="25px">
-            <img src="image/Visa_logo.png" alt="visa" width="40px" height="25px">
-            <img src="image/cartasi_Logo.jpg" alt="cartasi" width="40px" height="25px">
+          <div class="carta">
+            <button type="insert" class="btn btn-primary"name="inserisciCarta" data-toggle="modal" data-target="#cardForm">Inserisci la carta di credito</button>
+          </div>
+          <button type="submit"class="btn btn-primary" name="paga" id="paga">Ordina e paga</button>
+        </div>
+      </div>
+    </div>
+
+    <!--modal -->
+    <div class="modal" id="cardForm">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Inserisci la tua carta</h4>
+          </div>
+          <div class="modal-body">
+            <p>Tipi di carta accettati:</p>
+            <i class="fa fa-cc-mastercard" style="font-size:36px"></i>
+            <i class="fa fa-cc-paypal" style="font-size:36px"></i>
+            <i class="fa fa-cc-visa" style="font-size:36px"></i>
             <p>Intestatario:</p>
             <input type="text" name="intestatatio" required>
             <p>Numero carta:</p>
@@ -140,9 +156,11 @@ session_start();
               <option value="2029">2029</option>
               <option value="2030">2030</option>
             </select>
-
           </div>
-          <button type="submit"class="btn btn-primary" name="paga" id="paga">Ordina e paga</button>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary mr-auto submit">Inserisci</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
+          </div>
         </div>
       </div>
     </div>
