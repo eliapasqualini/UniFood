@@ -103,6 +103,9 @@ footer {
   padding-top: 35px;
 }
 
+@media (max-width: 576px) {
+  .col-footer{padding-top: 10px;}
+}
 
 @media (max-width: 767px){
 

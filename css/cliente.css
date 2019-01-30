@@ -98,7 +98,7 @@ footer {
 }
 
 @media (max-width: 576px){
-
+  .col-footer{padding-top: 10px;}
 }
 
 .clearfix:after {
