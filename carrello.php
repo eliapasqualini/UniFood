@@ -158,10 +158,8 @@ session_start();
                 <option value="14:30">14:30</option>
                 <option value="15:00">15:00</option>
               </select>
-
-          </div>
-          <div class="carta">
-            <span class="error"><?php echo $carta;?></span><br/>
+              <hr>
+            <span class="error"><?php echo $carta;?></span>
             <button type="insert" class="btn btn-primary"name="inserisciCarta" data-toggle="modal" data-target="#cardForm" id="ins"><?php if($carta != ""){ echo "cambia carta"; } else {echo "Inserisci la carta di credito";} ?></button>
           </div>
           <?php

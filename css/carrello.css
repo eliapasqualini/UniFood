@@ -63,7 +63,6 @@ body {
 }
 
 #luogo {
-  border-bottom: solid 1px grey;
   margin-bottom: 5%;
   padding-bottom: 5%;
 }
@@ -121,9 +120,10 @@ footer {
 	.header__menu__item{display: block;}
 	.is-open{height:126px; overflow:visible;}
 
-
+hr {
+  display: none;
+}
   #luogo {
-    border-bottom: none;
     margin-bottom: 5%;
     padding-bottom: 0%;
   }
