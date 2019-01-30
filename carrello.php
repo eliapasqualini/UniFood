@@ -18,6 +18,26 @@ session_start();
     include("php/config.php");
     $conn =new mysqli($servername, $username, $password, $db);
 
+    $carta = $idOrdine = "";
+    $cartaErr = "";
+
+    if(!empty($_POST['intestatario'])){
+      if (!preg_match("/^[a-zA-Z ]*$/",$_POST['intestatario'])) {
+        $cartaErr = "Nel nome dell'intestatario sono ammessi solo lettere o spazi";
+      }
+      if ((strlen($_POST['creditCardNumber']) !== 12)) {
+        $cartaErr = "La carta deve contenere 12 numeri";
+      }
+      if(!empty($_POST['cvv'])){
+        if (strlen($_POST['cvv']) != 3){
+          $cartaErr = "Il cvv deve essere composto da 3 numeri";
+        }
+      }
+      if ($cartaErr == ""){
+        $carta = "Carta inserita correttamente";
+      }
+    }
+
     function test_input($data) {
       $data = trim($data);
       $data = stripslashes($data);
@@ -55,112 +75,179 @@ session_start();
 
     <div class="container-fluid">
       <h1>Carrello</h1>
-      <p>Ci sono fattorini disponibili alla consegna</p>
+      <?php
+      if ($conn->connect_errno) {
+      ?>
+        <p class="error">Connessione fallita: <?php echo $conn->connect_errno; ?> <?php echo $conn->connect_error; ?></p>
+      <?php
+      }
+      else{
+        $sql = "SELECT * FROM account WHERE email = '".$_SESSION['email']."'";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        $id = $row['idAccount'];
+        $sql = "SELECT * FROM account WHERE tipo = 'fattorino' AND disponibilita = '1'";
+        $result = $conn->query($sql);
+        if ($result->num_rows == 0){
+          ?>
+          <p>Non sono fattorini disponibili alla consegna</p>
+          <?php
+        } else {
+          ?>
       <div class="row">
         <div class="col-sm-12 col-lg-8">
+
           <div class="table-responsive">
             <table class="table">
               <tr>
-                <th scope="col">Prodotto</th>
+                <th scope="col">Piatto</th>
                 <th scope="col">Prezzo</th>
                 <th scope="col">quntità</th>
               </tr>
               <tbody>
                 <tr>
-                  <td>prod1</td>
-                  <td>1€</td>
-                  <td>1</td>
+                  <?php
+                    $sql = "SELECT * FROM ordine WHERE idAccount = '".$id."' AND stato = '0'";
+                    $result = $conn->query($sql);
+                    $count = mysqli_num_rows($result);
+                    $somma = 0;
+                    while ($row = $result->fetch_assoc()){
+                      $idOrdine = $row['idOrdine'];
+                      $query_sql = "SELECT * FROM menu WHERE idPiatto = '".$row['idPiatto']."' AND idRistorante = '".$row['idRistorante']."'";
+                      $res = $conn->query($query_sql);
+                      while ($ris = $res->fetch_assoc()){
+                        $somma = $somma + ($ris['prezzo']*$row['quantita']);
+                   ?>
+                  <td><?php echo $ris['nome'] ?></td>
+                  <td><?php echo $ris['prezzo'] ?>€</td>
+                  <td><?php echo $row['quantita'] ?></td>
                 </tr>
+                <?php
+                  }
+                }
+                 ?>
               </tbody>
             </table>
           </div>
-          <p id="totale">Totale (1 articolo): <span id="sum">1€</span></p>
+          <p id="totale">Totale (<?php echo $count; if ($count == 1){ echo " articolo"; } else { echo " articoli"; }?>): <span id="sum"><?php echo $somma; ?>€</span></p>
         </div>
         <div class="col-sm-12 col-lg-3" id="right">
           <div name="luogo" id="luogo">
-            <p>In che aula vuoi ricevere il tuo ordine?</p>
-            <select name="aula">
-              <option value="1.1">1.1</option>
-              <option value="1.2">1.2</option>
-              <option value="1.3">1.3</option>
-              <option value="1.4">1.4</option>
-              <option value="1.5">1.5</option>
-              <option value="1.6">1.6</option>
-              <option value="1.7">1.7</option>
-              <option value="1.8">1.8</option>
-              <option value="1.9">1.9</option>
-            </select>
-            <p id="time">A che ora?</p>
-            <select name="ora">
-              <option value="12:00">12:00</option>
-              <option value="12:30">12:30</option>
-              <option value="13:00">13:00</option>
-              <option value="13:30">13:30</option>
-              <option value="14:00">14:00</option>
-              <option value="14:30">14:30</option>
-              <option value="15:00">15:00</option>
-            </select>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+              <p>Dove vuoi ricevere il tuo ordine?</p>
+              <select name="aula">
+                <option value="ingresso">Ingresso</option>
+                <option value="magna">Aula magna</option>
+                <option value="1.1">Aula 1.1</option>
+                <option value="1.2">Aula 1.2</option>
+                <option value="1.3">Aula 1.3</option>
+                <option value="1.4">Aula 1.4</option>
+                <option value="1.5">Aula 1.5</option>
+                <option value="1.6">Aula 1.6</option>
+                <option value="1.7">Aula 1.7</option>
+                <option value="1.8">Aula 1.8</option>
+                <option value="1.9">Aula 1.9</option>
+              </select>
+              <p id="time">A che ora?</p>
+              <select name="ora">
+                <option value="12:00">12:00</option>
+                <option value="12:30">12:30</option>
+                <option value="13:00">13:00</option>
+                <option value="13:30">13:30</option>
+                <option value="14:00">14:00</option>
+                <option value="14:30">14:30</option>
+                <option value="15:00">15:00</option>
+              </select>
+            </form>
           </div>
           <div class="carta">
-            <button type="insert" class="btn btn-primary"name="inserisciCarta" data-toggle="modal" data-target="#cardForm">Inserisci la carta di credito</button>
+            <span class="error"><?php echo $carta;?></span><br/>
+            <button type="insert" class="btn btn-primary"name="inserisciCarta" data-toggle="modal" data-target="#cardForm" id="ins"><?php if($carta != ""){ echo "cambia carta"; } else {echo "Inserisci la carta di credito";} ?></button>
           </div>
-          <button type="submit"class="btn btn-primary" name="paga" id="paga">Ordina e paga</button>
+          <?php
+            if ($carta != ""){
+           ?>
+           <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+            <button type="submit"class="btn btn-primary" name="paga" id="paga">Ordina e paga</button>
+           </form>
+          <?php
+            }
+           ?>
         </div>
       </div>
     </div>
+
+    <?php
+    if(isset($_POST['paga'])){
+      $sql = "SELECT * FROM account WHERE tipo = 'fattorino' AND disponibilita = '1' ORDER BY RAND()";
+      $result = $conn->query($sql);
+      $row = $result->fetch_assoc();
+      $fattorino = $row['idAccount'];
+      $data = date ("d/m/Y");
+      $sql = "INSERT INTO consegna (`idOrdine`, `idAccount`, `data`, `ora`, `aula`) VALUES ('".$idOrdine."', '".$fattorino."','".$data."', '".$_POST['ora']."', '".$_POST['aula']."')";
+      $result = $conn->query($sql);
+      $sql = "UPDATE ordine SET consegna = '1'";
+      $result = $conn->query($sql);
+    }
+      }
+     ?>
 
     <!--modal -->
     <div class="modal" id="cardForm">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Inserisci la tua carta</h4>
-          </div>
-          <div class="modal-body">
-            <p>Tipi di carta accettati:</p>
-            <i class="fa fa-cc-mastercard" style="font-size:36px"></i>
-            <i class="fa fa-cc-paypal" style="font-size:36px"></i>
-            <i class="fa fa-cc-visa" style="font-size:36px"></i>
-            <p>Intestatario:</p>
-            <input type="text" name="intestatatio" required>
-            <p>Numero carta:</p>
-            <input type="tel" name="creditCardNumber" required>
-            <p>Cvv:</p>
-            <input type="text" name="cvv" required>
-            <p>Data di scadenza:</p>
-            <select name="mese">
-              <option value="01">01</option>
-              <option value="02">02</option>
-              <option value="03">03</option>
-              <option value="04">04</option>
-              <option value="05">05</option>
-              <option value="06">06</option>
-              <option value="07">07</option>
-              <option value="08">08</option>
-              <option value="09">09</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-            </select>
-            <select name="anno">
-              <option value="2019">2019</option>
-              <option value="2020">2020</option>
-              <option value="2021">2021</option>
-              <option value="2022">2022</option>
-              <option value="2023">2023</option>
-              <option value="2024">2024</option>
-              <option value="2025">2025</option>
-              <option value="2026">2026</option>
-              <option value="2027">2027</option>
-              <option value="2028">2028</option>
-              <option value="2029">2029</option>
-              <option value="2030">2030</option>
-            </select>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary mr-auto submit">Inserisci</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
-          </div>
+          <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+            <div class="modal-header">
+              <h4 class="modal-title">Inserisci la tua carta</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p>Tipi di carta accettati:</p>
+              <i class="fa fa-cc-mastercard" style="font-size:36px"></i>
+              <i class="fa fa-cc-paypal" style="font-size:36px"></i>
+              <i class="fa fa-cc-visa" style="font-size:36px"></i>
+              <p>Intestatario:</p>
+              <input type="text" name="intestatario" required>
+              <p>Numero carta:</p>
+              <input type="tel" name="creditCardNumber" required>
+              <p>Cvv:</p>
+              <input type="text" name="cvv" required>
+              <p>Data di scadenza:</p>
+              <select name="mese">
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+              <select name="anno">
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+              </select>
+            </div>
+              <span class="error"><?php echo $cartaErr;?></span>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary mr-auto submit">Inserisci</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -182,11 +269,22 @@ session_start();
     <?php
       //Chiusura connessione con db
       $conn->close();
+    }
     ?>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/navbar.js" type="text/javascript"></script>
+    <script>
 
+    <?php
+    if($cartaErr != ""){
+    ?>
+      $('#cardForm').modal('show');
+    <?php
+    }
+    ?>
+
+    </script>
   </body>
 </html>
