@@ -44,7 +44,27 @@ session_start();
       $data = htmlspecialchars($data);
       return $data;
     }
+
+    if ($conn->connect_errno) {
     ?>
+      <p class="error">Connessione fallita: <?php echo $conn->connect_errno; ?> <?php echo $conn->connect_error; ?></p>
+    <?php
+    }
+    else{
+      $sql = "SELECT * FROM account WHERE email = '".$_SESSION['email']."'";
+      $result = $conn->query($sql);
+      $row = $result->fetch_assoc();
+      $nome = $row['nome'];
+      $cognome = $row['cognome'];
+      $id = $row['idAccount'];
+      $sql = "SELECT * FROM account WHERE tipo = 'fattorino' AND disponibilita = '1'";
+      $result = $conn->query($sql);
+      if ($result->num_rows == 0){
+        ?>
+        <p>Non sono fattorini disponibili alla consegna</p>
+        <?php
+      } else {
+        ?>
     <!--Header-->
     <header class="header clearfix">
       <a href="#" class="header__logo">
@@ -58,7 +78,7 @@ session_start();
       <ul class="header__menu animate">
         <li class="header__menu__item">
           <div class="dropdown">
-            <button class="dropbtn">Account
+            <button class="dropbtn"><?php echo $nome; ?>  <?php echo $cognome; ?>
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-content">
@@ -76,27 +96,14 @@ session_start();
     <div class="container-fluid">
       <h1>Carrello</h1>
       <?php
-      if ($conn->connect_errno) {
+      $sql = "SELECT * FROM ordine WHERE idAccount = '".$id."' AND stato = '0'";
+      $result = $conn->query($sql);
+      $count = mysqli_num_rows($result);
+      $somma = 0;
+      if($count > 0){
       ?>
-        <p class="error">Connessione fallita: <?php echo $conn->connect_errno; ?> <?php echo $conn->connect_error; ?></p>
-      <?php
-      }
-      else{
-        $sql = "SELECT * FROM account WHERE email = '".$_SESSION['email']."'";
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
-        $id = $row['idAccount'];
-        $sql = "SELECT * FROM account WHERE tipo = 'fattorino' AND disponibilita = '1'";
-        $result = $conn->query($sql);
-        if ($result->num_rows == 0){
-          ?>
-          <p>Non sono fattorini disponibili alla consegna</p>
-          <?php
-        } else {
-          ?>
       <div class="row">
         <div class="col-sm-12 col-lg-8">
-
           <div class="table-responsive">
             <table class="table">
               <tr>
@@ -107,10 +114,6 @@ session_start();
               <tbody>
                 <tr>
                   <?php
-                    $sql = "SELECT * FROM ordine WHERE idAccount = '".$id."' AND stato = '0'";
-                    $result = $conn->query($sql);
-                    $count = mysqli_num_rows($result);
-                    $somma = 0;
                     while ($row = $result->fetch_assoc()){
                       $idOrdine = $row['idOrdine'];
                       $query_sql = "SELECT * FROM menu WHERE idPiatto = '".$row['idPiatto']."' AND idRistorante = '".$row['idRistorante']."'";
@@ -133,7 +136,7 @@ session_start();
         </div>
         <div class="col-sm-12 col-lg-3" id="right">
           <div name="luogo" id="luogo">
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+            <form class="" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
               <p>Dove vuoi ricevere il tuo ordine?</p>
               <select name="aula">
                 <option value="ingresso">Ingresso</option>
@@ -159,21 +162,28 @@ session_start();
                 <option value="15:00">15:00</option>
               </select>
               <hr>
+              <?php
+                if ($carta != ""){
+               ?>
+
+                <button type="submit"class="btn btn-primary" name="paga" id="paga">Ordina e paga</button>
+              <?php
+                }
+               ?>
+            </form>
             <span class="error"><?php echo $carta;?></span>
-            <button type="insert" class="btn btn-primary"name="inserisciCarta" data-toggle="modal" data-target="#cardForm" id="ins"><?php if($carta != ""){ echo "cambia carta"; } else {echo "Inserisci la carta di credito";} ?></button>
-          </div>
-          <?php
-            if ($carta != ""){
-           ?>
-
-            <button type="submit"class="btn btn-primary" name="paga" id="paga">Ordina e paga</button>
-
-          <?php
-            }
-           ?>
-           </form>
+              <button type="insert" class="btn btn-primary"name="inserisciCarta" data-toggle="modal" data-target="#cardForm" id="ins"><?php if($carta != ""){ echo "cambia carta"; } else {echo "Inserisci la carta di credito";} ?></button>
+         </div>
         </div>
       </div>
+      <?php
+    } else {
+      ?>
+      <p>Non hai ancora aggiunto nessun piatto al tuo carrello, cosa aspetti?</p>
+      <?php
+
+    }
+       ?>
     </div>
 
     <?php
@@ -183,9 +193,9 @@ session_start();
       $row = $result->fetch_assoc();
       $fattorino = $row['idAccount'];
       $data = date ("d/m/Y");
-      $sql = "INSERT INTO consegna (`idOrdine`, `idAccount`, `data`, `ora`, `aula`) VALUES ('".$idOrdine."', '".$fattorino."','".$data."', '".$_POST['ora']."', '".$_POST['aula']."')";
+      $sql = "INSERT INTO consegna (`idOrdine`, `idAccount`, `data`, `orario`, `aula`) VALUES ('".$idOrdine."', '".$fattorino."','".$data."', '".$_POST['ora']."', '".$_POST['aula']."')";
       $result = $conn->query($sql);
-      $sql = "UPDATE ordine SET consegna = '1'";
+      $sql = "UPDATE ordine SET stato = '1' WHERE idOrdine = '".$idOrdine."'";
       $result = $conn->query($sql);
     }
       }
@@ -276,14 +286,15 @@ session_start();
     <script src="js/navbar.js" type="text/javascript"></script>
     <script>
 
-    <?php
-    if($cartaErr != ""){
-    ?>
-      $('#cardForm').modal('show');
-    <?php
-    }
-    ?>
+     <?php
+     if($cartaErr != ""){
+     ?>
+       $('#cardForm').modal('show');
+     <?php
+     }
+     ?>
 
-    </script>
+     </script>
+
   </body>
 </html>
