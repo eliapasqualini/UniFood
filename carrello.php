@@ -102,7 +102,7 @@ session_start();
               <tr>
                 <th scope="col">Piatto</th>
                 <th scope="col">Prezzo</th>
-                <th scope="col">quntità</th>
+                <th scope="col">Quantità</th>
               </tr>
               <tbody>
                 <tr>
@@ -158,7 +158,7 @@ session_start();
                 <option value="14:30">14:30</option>
                 <option value="15:00">15:00</option>
               </select>
-            </form>
+
           </div>
           <div class="carta">
             <span class="error"><?php echo $carta;?></span><br/>
@@ -167,12 +167,13 @@ session_start();
           <?php
             if ($carta != ""){
            ?>
-           <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+
             <button type="submit"class="btn btn-primary" name="paga" id="paga">Ordina e paga</button>
-           </form>
+
           <?php
             }
            ?>
+           </form>
         </div>
       </div>
     </div>
