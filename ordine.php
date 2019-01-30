@@ -18,6 +18,15 @@ session_start();
     include("php/config.php");
     $conn =new mysqli($servername, $username, $password, $db);
 
+    if ($conn->connect_errno) {
+    ?>
+      <p class="error">Connessione fallita: <?php echo $conn->connect_errno; ?> <?php echo $conn->connect_error; ?></p>
+    <?php
+    }
+    else{
+      $query_sql="SELECT * FROM `account` WHERE email = '" . $_SESSION['email'] . "'";
+      $result = $conn->query($query_sql);
+      $row = $result->fetch_assoc();
     ?>
     <!--Header-->
     <header class="header clearfix">
@@ -32,11 +41,11 @@ session_start();
       <ul class="header__menu animate">
         <li class="header__menu__item">
           <div class="dropdown">
-            <button class="dropbtn">Account
+            <button class="dropbtn"><?php echo $row['nome']; ?>  <?php echo $row['cognome']; ?>
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-content">
-              <a href="logout.php"><?php ?></a>
+              <a href="logout.php">Logout</a>
               <a href="" data-toggle="modal" data-target="#emailForm">Modifica email</a>
               <a href="" data-toggle="modal" data-target="#passwordForm">Modifica password</a>
               <a href="" data-toggle="modal" data-target="#deleteForm">Elimina Account</a>
@@ -52,12 +61,7 @@ session_start();
       <div class="row">
         <div class="col-4">
           <?php
-      		if ($conn->connect_errno) {
-      		?>
-      			<p class="error">Connessione fallita: <?php echo $conn->connect_errno; ?> <?php echo $conn->connect_error; ?></p>
-      		<?php
-      		}
-      		else{
+
             $query_sql="SELECT * FROM `ristorante` WHERE idRistorante = '" . $_GET['ristoranteID'] . "'";
             $result = $conn->query($query_sql);
             $row = $result->fetch_assoc();
