@@ -41,7 +41,7 @@ session_start();
         $result = $conn->query($sql);
         $sql = "DELETE FROM account WHERE idAccount = '".$id."'";
         $result = $conn->query($sql);
-        header("location: index.php");
+        header("location: logout.php");
       }
     ?>
     <!--Header-->

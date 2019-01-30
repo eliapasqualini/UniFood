@@ -18,6 +18,21 @@ session_start();
     include("php/config.php");
     $conn =new mysqli($servername, $username, $password, $db);
 
+    function test_input($data) {
+      $data = trim($data);
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+    }
+
+    if(isset($_POST['delete'])){
+      $sql = "DELETE FROM ordine WHERE idAccount = '".$id."'";
+      $result = $conn->query($sql);
+      $sql = "DELETE FROM account WHERE idAccount = '".$id."'";
+      $result = $conn->query($sql);
+      header("location: logout.php");
+    }
+
     if ($conn->connect_errno) {
     ?>
       <p class="error">Connessione fallita: <?php echo $conn->connect_errno; ?> <?php echo $conn->connect_error; ?></p>
@@ -238,6 +253,124 @@ session_start();
         </div>
       </div>
     </footer>
+
+    <?php
+      if (!empty($_POST["email1"]) && !empty($_POST["email2"])){
+          $email1 = test_input($_POST["email1"]);
+          $email2 = test_input($_POST["email2"]);
+          if (strcmp($email1,$email2) == 0){
+            $sql = "SELECT email FROM account WHERE email = '$email1'";
+            $result = $conn->query($sql);
+
+            $count = mysqli_num_rows($result);
+            if ($count == 0){
+              $sql = "UPDATE `account` SET `email`= '".$email1."' WHERE `idAccount` = '".$id."'";
+              $result = $conn->query($sql);
+              $_SESSION["email"] = $email1;
+            } else {
+              $dbErr1 = "L'email inserita è già presente";
+            }
+          } else {
+            $dbErr1 = "I due indirizzi email non corrispondono!";
+          }
+        }
+     ?>
+
+    <!-- Modal-->
+    <div class="modal" id="emailForm">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Cambia la tua mail</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+              <div class="form-group">
+                <label for="email">Nuova email:</label>
+                <input type="email" name="email1" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="pwd">Conferma email:</label>
+                <input type="email" name="email2" class="form-control" required>
+              </div>
+              <span class="error"><?php echo $dbErr1;?></span>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary mr-auto submit">Conferma</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <?php
+    if (!empty($_POST["password1"]) && !empty($_POST["password2"])){
+      $password1 = test_input($_POST["password1"]);
+      $password2 = test_input($_POST["password2"]);
+      if (strcmp($password1,$password2) == 0){
+        $sql = "UPDATE `account` SET `password`= '".$password1."' WHERE `idAccount` = '".$id."'";
+        $result = $conn->query($sql);
+      } else {
+        $dbErr2 = "Le due password non corrispondono!";
+      }
+    }
+     ?>
+
+
+    <!-- Modal-->
+    <div class="modal" id="passwordForm">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Cambia la tua password</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+              <div class="form-group">
+                <label for="email">Nuova password:</label>
+                <input type="password" name="password1" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="pwd">Conferma password:</label>
+                <input type="password" name="password2" class="form-control" required>
+              </div>
+              <span class="error"><?php echo $dbErr2;?></span>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary mr-auto submit">Conferma</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Modal-->
+    <div class="modal" id="deleteForm">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Elimina account</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+              <div class="form-group">
+                <label>Sei sicuro di voler eliminare l'account?</label>
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" name="delete" class="btn btn-primary mr-auto submit">Conferma</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <?php
       //Chiusura connessione con db
