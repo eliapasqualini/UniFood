@@ -67,7 +67,7 @@ session_start();
             </div>
           </div>
         </li>
-        <li class="header__menu__item"><a href="logout.php"><i class="fas fa-cart-arrow-down"></i></a></li>
+        <li class="header__menu__item"><a href="carrello.php"><i class="fas fa-cart-arrow-down"></i></a></li>
       </ul>
     </header>
 
@@ -116,129 +116,161 @@ session_start();
 
        ?>
       <table class="table shopping-cart-wrap">
-        <thead class="text-muted">
-          <tr>
-            <th scope="col">Piatto</th>
-            <th scope="col" width="10%">Quantità</th>
-            <th scope="col" >Prezzo</th>
-            <th scope="col">Aggiungi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-            while($row = $result->fetch_assoc()) {
-          ?>
-          <tr>
-    	       <td>
-
-    		              <h5 class="title text-truncate"><?php echo $row["nome"]; ?> </h5>
-    		                <dl class="param param-inline small">
-    		                    <dt>Categoria: </dt>
-                            <dd><?php echo $row["categoria"]; ?></dd>
-    		                </dl>
-    		                <dl class="param param-inline small">
-                          <?php
-                          $sql = "SELECT nomeIngrediente FROM `ingrediente` WHERE idPiatto = '" . $row['idPiatto'] . "'";
-                          $result2 = $conn->query($sql);
-                          ?>
-    		                  <dt>Ingredienti: </dt>
-                          <dd>
-                            <?php  while ($righe = $result2->fetch_assoc()){
-
-                                echo $righe['nomeIngrediente'];
-                                echo "  ";
-                              }
-                            ?></dd>
-    		                </dl>
-
-    	           </td>
-    	        <td>
-                <input type="number" value="0" class="form-control">
-    	        </td>
-    	        <td>
-            		<div class="price-wrap">
-            			<var class="price"><?php echo $row["prezzo"]; ?>&euro;</var><br>
-            			<small class="text-muted">(&euro; per ogni pz.)</small>
-            		</div> <!-- price-wrap .// -->
-    	        </td>
-    	        <td>
-    	        <button class="btn btn-outline-success text-center"> <i class="fas fa-plus-circle"></i></button>
-    	        </td>
+        <form class="" name="piatti" method="post">
+          <thead class="text-muted">
+            <tr>
+              <th scope="col">Piatto</th>
+              <th scope="col" width="10%">Quantità</th>
+              <th scope="col" >Prezzo</th>
+              <th scope="col">Aggiungi</th>
             </tr>
+          </thead>
+          <tbody>
             <?php
-            }
+              $i = 0;
+              $idPiatti = array();
+              while($row = $result->fetch_assoc()) {
+                array_push($idPiatti, $row['idPiatto']);
 
-
-          }
-          else {
-          ?>
-            <p>Nessun piatto a disposizione nel menù</p>
-          <?php
-          }
-          ?>
-          <!--prova
+            ?>
             <tr>
       	       <td>
 
-      		              <h5 class="title text-truncate">Margherita</h5>
+      		              <h5 class="title text-truncate"><?php echo $row["nome"]; ?> </h5>
       		                <dl class="param param-inline small">
       		                    <dt>Categoria: </dt>
-      		                      <dd>Pizza</dd>
+                              <dd><?php echo $row["categoria"]; ?></dd>
       		                </dl>
       		                <dl class="param param-inline small">
-      		                    <dt>Ingredienti: </dt>
-      		                    <dd>Pomodoro, Mozzarella</dd>
+                            <?php
+                            $sql = "SELECT nomeIngrediente FROM `ingrediente` WHERE idPiatto = '" . $row['idPiatto'] . "'";
+                            $result2 = $conn->query($sql);
+                            ?>
+      		                  <dt>Ingredienti: </dt>
+                            <dd>
+                              <?php  while ($righe = $result2->fetch_assoc()){
+
+                                  echo $righe['nomeIngrediente'];
+                                  echo "  ";
+                                }
+                              ?></dd>
       		                </dl>
 
-      	        </td>
+      	           </td>
       	        <td>
-                    <input type="number" value="0" class="form-control">
+                  <?php
+                  echo "<input type='number' value='0' name='quantita".$i."'class='form-control'>";
+                  ?>
       	        </td>
       	        <td>
               		<div class="price-wrap">
-              			<var class="price">5.5&euro;</var><br>
+              			<var class="price"><?php echo $row["prezzo"]; ?>&euro;</var><br>
               			<small class="text-muted">(&euro; per ogni pz.)</small>
-              		</div>
+              		</div> <!-- price-wrap .// -->
       	        </td>
       	        <td>
-      	        <button class="btn btn-outline-success text-center"> <i class="fas fa-plus-circle"></i></button>
+                  <?php
+                    echo "<button type='submit' class='btn btn-outline-success text-center' name='aggiungi".$i."'> <i class='fas fa-plus-circle'></i></button>";
+                   ?>
       	        </td>
               </tr>
+              <?php
+                $i++;
+              }
+
+
+            }
+            else {
+            ?>
+              <p>Nessun piatto a disposizione nel menù</p>
+            <?php
+            }
+            ?>
+            <!--prova
               <tr>
-                 <td>
+        	       <td>
 
-                          <h5 class="title text-truncate">Margherita</h5>
-                            <dl class="param param-inline small">
-                                <dt>Categoria: </dt>
-                                  <dd>Pizza</dd>
-                            </dl>
-                            <dl class="param param-inline small">
-                                <dt>Ingredienti: </dt>
-                                <dd>Pomodoro, Mozzarella</dd>
-                            </dl>
+        		              <h5 class="title text-truncate">Margherita</h5>
+        		                <dl class="param param-inline small">
+        		                    <dt>Categoria: </dt>
+        		                      <dd>Pizza</dd>
+        		                </dl>
+        		                <dl class="param param-inline small">
+        		                    <dt>Ingredienti: </dt>
+        		                    <dd>Pomodoro, Mozzarella</dd>
+        		                </dl>
 
-                  </td>
-                  <td>
+        	        </td>
+        	        <td>
                       <input type="number" value="0" class="form-control">
-                  </td>
-                  <td>
-                    <div class="price-wrap">
-                      <var class="price">5.5&euro;</var><br>
-                      <small class="text-muted">(&euro; per ogni pz.)</small>
-                    </div>
-                  </td>
-                  <td>
-                  <button class="btn btn-outline-success text-center"> <i class="fas fa-plus-circle"></i></button>
-
-                  </td>
+        	        </td>
+        	        <td>
+                		<div class="price-wrap">
+                			<var class="price">5.5&euro;</var><br>
+                			<small class="text-muted">(&euro; per ogni pz.)</small>
+                		</div>
+        	        </td>
+        	        <td>
+        	        <button class="btn btn-outline-success text-center"> <i class="fas fa-plus-circle"></i></button>
+        	        </td>
                 </tr>
-                 -->
-              </tbody>
+                <tr>
+                   <td>
+
+                            <h5 class="title text-truncate">Margherita</h5>
+                              <dl class="param param-inline small">
+                                  <dt>Categoria: </dt>
+                                    <dd>Pizza</dd>
+                              </dl>
+                              <dl class="param param-inline small">
+                                  <dt>Ingredienti: </dt>
+                                  <dd>Pomodoro, Mozzarella</dd>
+                              </dl>
+
+                    </td>
+                    <td>
+                        <input type="number" value="0" class="form-control">
+                    </td>
+                    <td>
+                      <div class="price-wrap">
+                        <var class="price">5.5&euro;</var><br>
+                        <small class="text-muted">(&euro; per ogni pz.)</small>
+                      </div>
+                    </td>
+                    <td>
+                    <button class="btn btn-outline-success text-center"> <i class="fas fa-plus-circle"></i></button>
+
+                    </td>
+                  </tr>
+                   -->
+                </tbody>
+              </form>
             </table>
           </div> <!-- card.// -->
 
         </div>
         <!--container end.//-->
+
+        <?php
+        $sql = "SELECT * FROM ordine ORDER BY idOrdine DESC";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+          $row = $result->fetch_assoc();
+          $idOrdine = $row['idOrdine'];
+          if ($row['stato'] == 1){
+            $idOrdine = $row['idOrdine']+1;
+          } else {}
+        } else {
+          $idOrdine = 1;
+        }
+        for ($j = 0; $j < $i; $j++){
+          if (isset($_POST["aggiungi".$j])){
+            $quantita = $_POST["quantita".$j];
+            $sql = "INSERT INTO ordine (`idPiatto`, `idAccount`, `quantita`, `idRistorante`, `stato`, `idOrdine`) VALUES ('".$idPiatti[$j]."', '".$id."', '".$quantita."', '".$_GET['ristoranteID']."', '0', '".$idOrdine."')";
+            $result = $conn->query($sql);
+          }
+        }
+         ?>
 
 
     <footer>
@@ -382,6 +414,5 @@ session_start();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/navbar.js" type="text/javascript"></script>
-
   </body>
 </html>

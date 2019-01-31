@@ -96,7 +96,7 @@ session_start();
     <div class="container-fluid">
       <h1>Carrello</h1>
       <?php
-      $sql = "SELECT * FROM ordine WHERE idAccount = '".$id."' AND stato = '0'";
+      $sql = "SELECT * FROM ordine WHERE stato = '0'";
       $result = $conn->query($sql);
       $count = mysqli_num_rows($result);
       $somma = 0;
@@ -127,6 +127,19 @@ session_start();
                 </tr>
                 <?php
                   }
+                }
+
+                if(isset($_POST['paga'])){
+                  $sql = "SELECT * FROM account WHERE tipo = 'fattorino' AND disponibilita = '1' ORDER BY RAND()";
+                  $result = $conn->query($sql);
+                  $row = $result->fetch_assoc();
+                  $fattorino = $row['idAccount'];
+                  $data = date ("d/m/Y");
+                  $sql = "INSERT INTO consegna (`idOrdine`, `idAccount`, `data`, `orario`, `aula`) VALUES ('".$idOrdine."', '".$fattorino."','".$data."', '".$_POST['ora']."', '".$_POST['aula']."')";
+                  $result = $conn->query($sql);
+                  $sql = "UPDATE ordine SET stato = '1' WHERE idOrdine = '".$idOrdine."'";
+                  $result = $conn->query($sql);
+                  header("Location: cliente.php");
                 }
                  ?>
               </tbody>
@@ -187,17 +200,7 @@ session_start();
     </div>
 
     <?php
-    if(isset($_POST['paga'])){
-      $sql = "SELECT * FROM account WHERE tipo = 'fattorino' AND disponibilita = '1' ORDER BY RAND()";
-      $result = $conn->query($sql);
-      $row = $result->fetch_assoc();
-      $fattorino = $row['idAccount'];
-      $data = date ("d/m/Y");
-      $sql = "INSERT INTO consegna (`idOrdine`, `idAccount`, `data`, `orario`, `aula`) VALUES ('".$idOrdine."', '".$fattorino."','".$data."', '".$_POST['ora']."', '".$_POST['aula']."')";
-      $result = $conn->query($sql);
-      $sql = "UPDATE ordine SET stato = '1' WHERE idOrdine = '".$idOrdine."'";
-      $result = $conn->query($sql);
-    }
+
       }
      ?>
 
