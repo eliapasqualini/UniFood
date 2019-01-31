@@ -96,7 +96,7 @@ session_start();
     <div class="container-fluid">
       <h1>Carrello</h1>
       <?php
-      $sql = "SELECT * FROM ordine WHERE stato = '0'";
+      $sql = "SELECT * FROM ordine WHERE idAccount = '".$id."' AND stato = '0'";
       $result = $conn->query($sql);
       $count = mysqli_num_rows($result);
       $somma = 0;

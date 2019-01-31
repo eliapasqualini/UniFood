@@ -80,7 +80,10 @@ session_start();
             $query_sql="SELECT * FROM `ristorante` WHERE idRistorante = '" . $_GET['ristoranteID'] . "'";
             $result = $conn->query($query_sql);
             $row = $result->fetch_assoc();
-            $id = $row["idAccount"];
+            $sql = "SELECT idAccount FROM account WHERE email = '".$_SESSION['email']."'";
+            $ris = $conn->query($sql);
+            $res = $ris->fetch_assoc();
+            $id = $res["idAccount"];
             if ($row['logo'] == null){
             ?>
             <img src='image/food.png' class='mr-5 image-risto' width='70%' height='auto' alt='ristorante'>
