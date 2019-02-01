@@ -57,13 +57,7 @@ session_start();
       $nome = $row['nome'];
       $cognome = $row['cognome'];
       $id = $row['idAccount'];
-      $sql = "SELECT * FROM account WHERE tipo = 'fattorino' AND disponibilita = '1'";
-      $result = $conn->query($sql);
-      if ($result->num_rows == 0){
-        ?>
-        <p>Non sono fattorini disponibili alla consegna</p>
-        <?php
-      } else {
+
         ?>
     <!--Header-->
     <header class="header clearfix">
@@ -92,6 +86,18 @@ session_start();
         <li class="header__menu__item"><a href="logout.php"><i class="fas fa-cart-arrow-down"></i></a></li>
       </ul>
     </header>
+<?php
+    $sql = "SELECT * FROM account WHERE tipo = 'fattorino' AND disponibilita = '1'";
+    $result = $conn->query($sql);
+    if ($result->num_rows == 0){
+      ?>
+      <div class="container">
+        <h3>Non sono disponibili fattorini</h3>  
+      </div>
+
+      <?php
+    } else {
+      ?>
 
     <div class="container-fluid">
       <h1>Carrello</h1>

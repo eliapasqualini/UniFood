@@ -82,19 +82,20 @@ if (empty($_POST["text"])) {
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'tua email';
-    $mail->Password = 'tua password';
+    $mail->Username = 'unifoodsm@gmail.com';
+    $mail->Password = 'unifoodunifood';
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
 
     $mail->setFrom($email);
-    $mail->addAddress('tua mail');
+    $mail->addAddress('mar.pazz14@gmail.com');
 
     $mail->isHTML(true);
     $mail->Subject = $oggetto;
-    $mail->Body = $mail_corpo;
+    $mail->Body = $mail_corpo." nome =".$nome." email di invio = ".$email;
 
     $mail->send();
+    header("location: index.php");
 
   } catch (Exception $e) {
     echo "Il messaggio non può essere inviato:", $mail->ErrorInfo;
@@ -171,6 +172,5 @@ if (empty($_POST["text"])) {
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script src="js/navbar.js" type="text/javascript"></script>
-
 </body>
 </html>
