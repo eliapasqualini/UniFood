@@ -21,6 +21,17 @@ session_start();
     $carta = $idOrdine = "";
     $cartaErr = "";
 
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+
+    require 'PHPMailer/src/Exception.php';
+    require 'PHPMailer/src/PHPMailer.php';
+    require 'PHPMailer/src/SMTP.php';
+
+    $mail = new PHPMailer(true);
+    $mail1 = new PHPMailer(true);
+    $mail2 = new PHPMailer(true);
+
     if(!empty($_POST['intestatario'])){
       if (!preg_match("/^[a-zA-Z ]*$/",$_POST['intestatario'])) {
         $cartaErr = "Nel nome dell'intestatario sono ammessi solo lettere o spazi";
@@ -61,7 +72,7 @@ session_start();
         ?>
     <!--Header-->
     <header class="header clearfix">
-      <a href="#" class="header__logo">
+      <a href="cliente.php" class="header__logo">
       <img src="image/logo-header.png" alt="logo" width="50px" height="50px">
       </a>
       <a href="" class="header__icon-bar">
@@ -92,7 +103,7 @@ session_start();
     if ($result->num_rows == 0){
       ?>
       <div class="container">
-        <h3>Non sono disponibili fattorini</h3>  
+        <h3>Non sono disponibili fattorini</h3>
       </div>
 
       <?php
@@ -140,12 +151,97 @@ session_start();
                   $result = $conn->query($sql);
                   $row = $result->fetch_assoc();
                   $fattorino = $row['idAccount'];
+                  $emailF = $row['email'];
                   $data = date ("d/m/Y");
                   $sql = "INSERT INTO consegna (`idOrdine`, `idAccount`, `data`, `orario`, `aula`) VALUES ('".$idOrdine."', '".$fattorino."','".$data."', '".$_POST['ora']."', '".$_POST['aula']."')";
                   $result = $conn->query($sql);
                   $sql = "UPDATE ordine SET stato = '1' WHERE idOrdine = '".$idOrdine."'";
                   $result = $conn->query($sql);
-                  header("Location: cliente.php");
+                  $sql = "SELECT idRistorante FROM ordine WHERE idOrdine = '".$idOrdine."'";
+                  $result = $conn->query($sql);
+                  $row = $result->fetch_assoc();
+                  $idRist = $row['idRistorante'];
+                  $query_sql = "SELECT * FROM account WHERE idRistorante = '".$idRist."'";
+                  $result = $conn->query($query_sql);
+                  $row = $result->fetch_assoc();
+                  $emailR = $row['email'];
+                  $sql = "SELECT * FROM ristorante WHERE idRistorante = '".$idRist."'";
+                  $result = $conn->query($sql);
+                  $row = $result->fetch_assoc();
+                  $nomeR = $row['nome'];
+                  $sql = "SELECT * FROM ordine WHERE idOrdine = '".$idOrdine."'";
+                  $result = $conn->query($sql);
+                  $piatti = array();
+                  while ($row = $result->fetch_assoc()){
+                    array_push($piatti, $row['idPiatto']);
+
+                  }
+
+                  try {
+                    $mail->SMTPDebug = 2;
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'unifoodsm@gmail.com';
+                    $mail->Password = 'unifoodunifood';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+
+                    $mail->setFrom('unifoodsm@gmail.com');
+
+                    $mail1->SMTPDebug = 2;
+                    $mail1->isSMTP();
+                    $mail1->Host = 'smtp.gmail.com';
+                    $mail1->SMTPAuth = true;
+                    $mail1->Username = 'unifoodsm@gmail.com';
+                    $mail1->Password = 'unifoodunifood';
+                    $mail1->SMTPSecure = 'tls';
+                    $mail1->Port = 587;
+
+                    $mail1->setFrom('unifoodsm@gmail.com');
+
+                    $mail2->SMTPDebug = 2;
+                    $mail2->isSMTP();
+                    $mail2->Host = 'smtp.gmail.com';
+                    $mail2->SMTPAuth = true;
+                    $mail2->Username = 'unifoodsm@gmail.com';
+                    $mail2->Password = 'unifoodunifood';
+                    $mail2->SMTPSecure = 'tls';
+                    $mail2->Port = 587;
+
+                    $mail2->setFrom('unifoodsm@gmail.com');
+                    $mail->addAddress($emailF);
+
+                    $mail->isHTML(true);
+                    $mail->Subject = "nuova consegna";
+                    $mail->Body = "Devi consegnare un ordine alle ".$_POST['ora']." nell'".$_POST['aula']." dal ristorante ".$nomeR;
+                    header("location: cliente.php");
+                    $mail->send();
+
+                    $mail1->addAddress($emailR);
+
+                    $mail1->isHTML(true);
+                    $mail1->Subject = "nuovo ordine";
+                    $intro = "Devi preparare un ordine per le ".$_POST['ora']." contenente:" ;
+                    $mail1->Body = $intro;
+                    foreach($piatti as $piatto){
+                      $mail1->Body .= " ".$piatto;
+                    }
+                    $mail1->send();
+
+                    $mail2->addAddress($_SESSION['email']);
+
+                    $mail2->isHTML(true);
+                    $mail2->Subject = "nuovo ordine";
+                    $mail2->Body = "Ordine effettuato correttamente, recati alle ore: ".$_POST['ora']." nell'".$_POST['aula']." per ricevere il tuo pranzo";
+
+                    $mail2->send();
+
+
+
+                  } catch (Exception $e) {
+                    echo "Il messaggio non può essere inviato:", $mail->ErrorInfo;
+                  }
                 }
                  ?>
               </tbody>
