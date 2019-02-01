@@ -122,130 +122,157 @@ session_start();
       <div class="row">
         <div class="col-sm-12 col-lg-8">
           <div class="table-responsive">
-            <table class="table">
-              <tr>
-                <th scope="col">Piatto</th>
-                <th scope="col">Prezzo</th>
-                <th scope="col">Quantità</th>
-              </tr>
-              <tbody>
+            <form class="" name="piatti" method="post">
+              <table class="table">
                 <tr>
-                  <?php
-                    while ($row = $result->fetch_assoc()){
-                      $idOrdine = $row['idOrdine'];
-                      $query_sql = "SELECT * FROM menu WHERE idPiatto = '".$row['idPiatto']."' AND idRistorante = '".$row['idRistorante']."'";
-                      $res = $conn->query($query_sql);
-                      while ($ris = $res->fetch_assoc()){
-                        $somma = $somma + ($ris['prezzo']*$row['quantita']);
-                   ?>
-                  <td><?php echo $ris['nome'] ?></td>
-                  <td><?php echo $ris['prezzo'] ?>€</td>
-                  <td><?php echo $row['quantita'] ?></td>
+                  <th scope="col">Piatto</th>
+                  <th scope="col">Prezzo</th>
+                  <th scope="col">Quantità</th>
+                  <th scope="col">Rimuovi</th>
                 </tr>
-                <?php
-                  }
-                }
-
-                if(isset($_POST['paga'])){
-                  $sql = "SELECT * FROM account WHERE tipo = 'fattorino' AND disponibilita = '1' ORDER BY RAND()";
-                  $result = $conn->query($sql);
-                  $row = $result->fetch_assoc();
-                  $fattorino = $row['idAccount'];
-                  $emailF = $row['email'];
-                  $data = date ("d/m/Y");
-                  $sql = "INSERT INTO consegna (`idOrdine`, `idAccount`, `data`, `orario`, `aula`) VALUES ('".$idOrdine."', '".$fattorino."','".$data."', '".$_POST['ora']."', '".$_POST['aula']."')";
-                  $result = $conn->query($sql);
-                  $sql = "UPDATE ordine SET stato = '1' WHERE idOrdine = '".$idOrdine."'";
-                  $result = $conn->query($sql);
-                  $sql = "SELECT idRistorante FROM ordine WHERE idOrdine = '".$idOrdine."'";
-                  $result = $conn->query($sql);
-                  $row = $result->fetch_assoc();
-                  $idRist = $row['idRistorante'];
-                  $query_sql = "SELECT * FROM account WHERE idRistorante = '".$idRist."'";
-                  $result = $conn->query($query_sql);
-                  $row = $result->fetch_assoc();
-                  $emailR = $row['email'];
-                  $sql = "SELECT * FROM ristorante WHERE idRistorante = '".$idRist."'";
-                  $result = $conn->query($sql);
-                  $row = $result->fetch_assoc();
-                  $nomeR = $row['nome'];
-                  $sql = "SELECT * FROM ordine WHERE idOrdine = '".$idOrdine."'";
-                  $result = $conn->query($sql);
-                  $piatti = array();
-                  while ($row = $result->fetch_assoc()){
-                    array_push($piatti, $row['idPiatto']);
-
-                  }
-
-                  try {
-                    $mail->SMTPDebug = 2;
-                    $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com';
-                    $mail->SMTPAuth = true;
-                    $mail->Username = 'unifoodsm@gmail.com';
-                    $mail->Password = 'unifoodunifood';
-                    $mail->SMTPSecure = 'tls';
-                    $mail->Port = 587;
-
-                    $mail->setFrom('unifoodsm@gmail.com');
-
-                    $mail1->SMTPDebug = 2;
-                    $mail1->isSMTP();
-                    $mail1->Host = 'smtp.gmail.com';
-                    $mail1->SMTPAuth = true;
-                    $mail1->Username = 'unifoodsm@gmail.com';
-                    $mail1->Password = 'unifoodunifood';
-                    $mail1->SMTPSecure = 'tls';
-                    $mail1->Port = 587;
-
-                    $mail1->setFrom('unifoodsm@gmail.com');
-
-                    $mail2->SMTPDebug = 2;
-                    $mail2->isSMTP();
-                    $mail2->Host = 'smtp.gmail.com';
-                    $mail2->SMTPAuth = true;
-                    $mail2->Username = 'unifoodsm@gmail.com';
-                    $mail2->Password = 'unifoodunifood';
-                    $mail2->SMTPSecure = 'tls';
-                    $mail2->Port = 587;
-
-                    $mail2->setFrom('unifoodsm@gmail.com');
-                    $mail->addAddress($emailF);
-
-                    $mail->isHTML(true);
-                    $mail->Subject = "nuova consegna";
-                    $mail->Body = "Devi consegnare un ordine alle ".$_POST['ora']." nell'".$_POST['aula']." dal ristorante ".$nomeR;
-                    header("location: cliente.php");
-                    $mail->send();
-
-                    $mail1->addAddress($emailR);
-
-                    $mail1->isHTML(true);
-                    $mail1->Subject = "nuovo ordine";
-                    $intro = "Devi preparare un ordine per le ".$_POST['ora']." contenente:" ;
-                    $mail1->Body = $intro;
-                    foreach($piatti as $piatto){
-                      $mail1->Body .= " ".$piatto;
+                <tbody>
+                  <tr>
+                    <?php
+                    $i = 0;
+                    $idPiatti = array();
+                      while ($row = $result->fetch_assoc()){
+                        $idOrdine = $row['idOrdine'];
+                        $query_sql = "SELECT * FROM menu WHERE idPiatto = '".$row['idPiatto']."' AND idRistorante = '".$row['idRistorante']."'";
+                        $res = $conn->query($query_sql);
+                        while ($ris = $res->fetch_assoc()){
+                          $somma = $somma + ($ris['prezzo']*$row['quantita']);
+                          array_push($idPiatti, $ris["idPiatto"]);
+                     ?>
+                    <td><?php echo $ris['nome'] ?></td>
+                    <td><?php echo $ris['prezzo'] ?>€</td>
+                    <td><?php echo $row['quantita'] ?></td>
+                    <?php
+                      echo "<td><button type='submit' class='btn btn-outline-danger text-center' name='elimina".$i."'> <i class='fas fa-times-circle'></i></button></td>";
+                     ?>
+                  </tr>
+                  <?php
                     }
-                    $mail1->send();
-
-                    $mail2->addAddress($_SESSION['email']);
-
-                    $mail2->isHTML(true);
-                    $mail2->Subject = "nuovo ordine";
-                    $mail2->Body = "Ordine effettuato correttamente, recati alle ore: ".$_POST['ora']." nell'".$_POST['aula']." per ricevere il tuo pranzo";
-
-                    $mail2->send();
-
-
-
-                  } catch (Exception $e) {
-                    echo "Il messaggio non può essere inviato:", $mail->ErrorInfo;
+                    $i++;
                   }
-                }
-                 ?>
-              </tbody>
-            </table>
+
+                  for ($j = 0; $j < $i; $j++){
+                    if(isset($_POST["elimina".$j])){
+                      $sql = "DELETE FROM ordine WHERE idPiatto = '".$idPiatti[$j]."'";
+                      $result = $conn->query($sql);
+                      header("location: carrello.php");
+                    }
+
+                  }
+
+                  if(isset($_POST['paga'])){
+                    $sql = "SELECT * FROM account WHERE tipo = 'fattorino' AND disponibilita = '1' ORDER BY RAND()";
+                    $result = $conn->query($sql);
+                    $row = $result->fetch_assoc();
+                    $fattorino = $row['idAccount'];
+                    $emailF = $row['email'];
+                    $data = date ("d/m/Y");
+                    $sql = "INSERT INTO consegna (`idOrdine`, `idAccount`, `data`, `orario`, `aula`) VALUES ('".$idOrdine."', '".$fattorino."','".$data."', '".$_POST['ora']."', '".$_POST['aula']."')";
+                    $result = $conn->query($sql);
+                    $sql = "UPDATE ordine SET stato = '1' WHERE idOrdine = '".$idOrdine."'";
+                    $result = $conn->query($sql);
+                    $sql = "SELECT idRistorante FROM ordine WHERE idOrdine = '".$idOrdine."'";
+                    $result = $conn->query($sql);
+                    $row = $result->fetch_assoc();
+                    $idRist = $row['idRistorante'];
+                    $query_sql = "SELECT * FROM account WHERE idRistorante = '".$idRist."'";
+                    $result = $conn->query($query_sql);
+                    $row = $result->fetch_assoc();
+                    $emailR = $row['email'];
+                    $sql = "SELECT * FROM ristorante WHERE idRistorante = '".$idRist."'";
+                    $result = $conn->query($sql);
+                    $row = $result->fetch_assoc();
+                    $nomeR = $row['nome'];
+                    $sql = "SELECT * FROM ordine WHERE idOrdine = '".$idOrdine."'";
+                    $result = $conn->query($sql);
+                    $piatti = array();
+                    while ($row = $result->fetch_assoc()){
+                      array_push($piatti, $row['idPiatto']);
+
+                    }
+
+                    try {
+                      $mail->SMTPDebug = 2;
+                      $mail->isSMTP();
+                      $mail->Host = 'smtp.gmail.com';
+                      $mail->SMTPAuth = true;
+                      $mail->Username = 'unifoodsm@gmail.com';
+                      $mail->Password = 'unifoodunifood';
+                      $mail->SMTPSecure = 'tls';
+                      $mail->Port = 587;
+
+                      $mail->setFrom('unifoodsm@gmail.com');
+
+                      $mail1->SMTPDebug = 2;
+                      $mail1->isSMTP();
+                      $mail1->Host = 'smtp.gmail.com';
+                      $mail1->SMTPAuth = true;
+                      $mail1->Username = 'unifoodsm@gmail.com';
+                      $mail1->Password = 'unifoodunifood';
+                      $mail1->SMTPSecure = 'tls';
+                      $mail1->Port = 587;
+
+                      $mail1->setFrom('unifoodsm@gmail.com');
+
+                      $mail2->SMTPDebug = 2;
+                      $mail2->isSMTP();
+                      $mail2->Host = 'smtp.gmail.com';
+                      $mail2->SMTPAuth = true;
+                      $mail2->Username = 'unifoodsm@gmail.com';
+                      $mail2->Password = 'unifoodunifood';
+                      $mail2->SMTPSecure = 'tls';
+                      $mail2->Port = 587;
+
+                      $mail2->setFrom('unifoodsm@gmail.com');
+                      $mail->addAddress($emailF);
+
+                      $mail->isHTML(true);
+                      $mail->Subject = "nuova consegna";
+                      $mail->Body = "Devi consegnare un ordine alle ".$_POST['ora']." nell'".$_POST['aula']." dal ristorante ".$nomeR;
+                      header("location: cliente.php");
+                      $mail->send();
+
+                      $mail1->addAddress($emailR);
+
+                      $mail1->isHTML(true);
+                      $mail1->Subject = "nuovo ordine";
+                      $intro = "Devi preparare un ordine per le ".$_POST['ora']." contenente:" ;
+                      $mail1->Body = $intro;
+                      foreach($piatti as $piatto){
+                        $sql = "SELECT nome FROM menu WHERE idRistorante = '".$idRist."' AND idPiatto = '".$piatto."'";
+                        $result = $conn->query($sql);
+                        $row = $result->fetch_assoc();
+                        $name = $row["nome"];
+                        $sql = "SELECT quantita FROM ordine WHERE idOrdine = '".$idOrdine."' AND idPiatto = '".$piatto."'";
+                        $result = $conn->query($sql);
+                        $row = $result->fetch_assoc();
+                        $quant = $row["quantita"];
+                        $mail1->Body .= " ".$quant." ".$name;
+                      }
+                      $mail1->send();
+
+                      $mail2->addAddress($_SESSION['email']);
+
+                      $mail2->isHTML(true);
+                      $mail2->Subject = "nuovo ordine";
+                      $mail2->Body = "Ordine effettuato correttamente, recati alle ore: ".$_POST['ora']." nell'".$_POST['aula']." per ricevere il tuo pranzo";
+
+                      $mail2->send();
+
+
+
+                    } catch (Exception $e) {
+                      echo "Il messaggio non può essere inviato:", $mail->ErrorInfo;
+                    }
+                  }
+                   ?>
+                </tbody>
+              </table>
+            </form>
           </div>
           <p id="totale">Totale (<?php echo $count; if ($count == 1){ echo " articolo"; } else { echo " articoli"; }?>): <span id="sum"><?php echo $somma; ?>€</span></p>
         </div>
