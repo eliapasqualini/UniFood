@@ -45,7 +45,7 @@ session_start();
     ?>
     <!--Header-->
     <header class="header clearfix">
-      <a href="#" class="header__logo">
+      <a href="cliente.php" class="header__logo">
       <img src="image/logo-header.png" alt="logo" width="50px" height="50px">
       </a>
       <a href="" class="header__icon-bar">

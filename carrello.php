@@ -252,30 +252,34 @@ session_start();
         <div class="col-sm-12 col-lg-3" id="right">
           <div name="luogo" id="luogo">
             <form class="" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-              <p>Dove vuoi ricevere il tuo ordine?</p>
-              <select name="aula">
-                <option value="ingresso">Ingresso</option>
-                <option value="magna">Aula magna</option>
-                <option value="1.1">Aula 1.1</option>
-                <option value="1.2">Aula 1.2</option>
-                <option value="1.3">Aula 1.3</option>
-                <option value="1.4">Aula 1.4</option>
-                <option value="1.5">Aula 1.5</option>
-                <option value="1.6">Aula 1.6</option>
-                <option value="1.7">Aula 1.7</option>
-                <option value="1.8">Aula 1.8</option>
-                <option value="1.9">Aula 1.9</option>
-              </select>
-              <p id="time">A che ora?</p>
-              <select name="ora">
-                <option value="12:00">12:00</option>
-                <option value="12:30">12:30</option>
-                <option value="13:00">13:00</option>
-                <option value="13:30">13:30</option>
-                <option value="14:00">14:00</option>
-                <option value="14:30">14:30</option>
-                <option value="15:00">15:00</option>
-              </select>
+              <div class="form-group">
+                <p>Dove vuoi ricevere il tuo ordine?</p>
+                <select name="aula" class="form-control">
+                  <option value="ingresso">Ingresso</option>
+                  <option value="magna">Aula magna</option>
+                  <option value="1.1">Aula 1.1</option>
+                  <option value="1.2">Aula 1.2</option>
+                  <option value="1.3">Aula 1.3</option>
+                  <option value="1.4">Aula 1.4</option>
+                  <option value="1.5">Aula 1.5</option>
+                  <option value="1.6">Aula 1.6</option>
+                  <option value="1.7">Aula 1.7</option>
+                  <option value="1.8">Aula 1.8</option>
+                  <option value="1.9">Aula 1.9</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <p id="time">A che ora?</p>
+                <select name="ora" class="form-control">
+                  <option value="12:00">12:00</option>
+                  <option value="12:30">12:30</option>
+                  <option value="13:00">13:00</option>
+                  <option value="13:30">13:30</option>
+                  <option value="14:00">14:00</option>
+                  <option value="14:30">14:30</option>
+                  <option value="15:00">15:00</option>
+                </select>
+              </div>
               <hr>
               <?php
                 if ($carta != ""){
@@ -320,12 +324,18 @@ session_start();
               <i class="fa fa-cc-mastercard" style="font-size:36px"></i>
               <i class="fa fa-cc-paypal" style="font-size:36px"></i>
               <i class="fa fa-cc-visa" style="font-size:36px"></i>
-              <p>Intestatario:</p>
-              <input type="text" name="intestatario" required>
-              <p>Numero carta:</p>
-              <input type="tel" name="creditCardNumber" required>
-              <p>Cvv:</p>
-              <input type="text" name="cvv" required>
+              <div class="form-group">
+                <p>Intestatario:</p>
+                <input type="text" class="form-control" name="intestatario" required>
+              </div>
+              <div class="form-group">
+                <p>Numero carta:</p>
+                <input type="tel" class="form-control"name="creditCardNumber" required>
+              </div>
+              <div class="form-group">
+                <p>Cvv:</p>
+                <input type="text" class="form-control"name="cvv" required>
+              </div>
               <p>Data di scadenza:</p>
               <select name="mese">
                 <option value="01">01</option>
