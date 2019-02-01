@@ -119,7 +119,7 @@ session_start();
 
        ?>
       <table class="table shopping-cart-wrap">
-        <form class="" name="piatti" method="post">
+        <form class="" name="piatti" method="post" onsubmit="return alert()">
           <thead class="text-muted">
             <tr>
               <th scope="col">Piatto</th>
@@ -173,7 +173,7 @@ session_start();
       	        </td>
       	        <td>
                   <?php
-                    echo "<button type='submit' class='btn btn-outline-success text-center' name='aggiungi".$i."'> <i class='fas fa-plus-circle'></i></button>";
+                    echo "<button type='submit' onclick='alert()'class='btn btn-outline-success text-center' name='aggiungi".$i."'> <i class='fas fa-plus-circle'></i></button>";
                    ?>
       	        </td>
               </tr>
@@ -255,22 +255,37 @@ session_start();
         <!--container end.//-->
 
         <?php
-        $sql = "SELECT * FROM ordine ORDER BY idOrdine DESC";
+        $sql = "SELECT * FROM ordine WHERE idAccount = '".$id."'ORDER BY idOrdine DESC";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
           $row = $result->fetch_assoc();
           $idOrdine = $row['idOrdine'];
           if ($row['stato'] == 1){
             $idOrdine = $row['idOrdine']+1;
-          } else {}
+          }
         } else {
           $idOrdine = 1;
         }
         for ($j = 0; $j < $i; $j++){
           if (isset($_POST["aggiungi".$j])){
-            $quantita = $_POST["quantita".$j];
-            $sql = "INSERT INTO ordine (`idPiatto`, `idAccount`, `quantita`, `idRistorante`, `stato`, `idOrdine`) VALUES ('".$idPiatti[$j]."', '".$id."', '".$quantita."', '".$_GET['ristoranteID']."', '0', '".$idOrdine."')";
-            $result = $conn->query($sql);
+            $query_sql = "SELECT idRistorante FROM ordine WHERE idOrdine = '".$idOrdine."'";
+            $result = $conn->query($query_sql);
+            $row = $result->fetch_assoc();
+            if ($row['idRistorante'] == $_GET['ristoranteID']){
+              $quantita = $_POST["quantita".$j];
+              $sql = "INSERT INTO ordine (`idPiatto`, `idAccount`, `quantita`, `idRistorante`, `stato`, `idOrdine`) VALUES ('".$idPiatti[$j]."', '".$id."', '".$quantita."', '".$_GET['ristoranteID']."', '0', '".$idOrdine."')";
+              $result = $conn->query($sql);
+              echo "alert('Piatto inserito nel carrello')";
+            } else {
+              $quantita = $_POST["quantita".$j];
+              $sql = "DELETE FROM ordine WHERE idOrdine = '".$idOrdine."'";
+              $result = $conn->query($sql);
+              $sql = "INSERT INTO ordine (`idPiatto`, `idAccount`, `quantita`, `idRistorante`, `stato`, `idOrdine`) VALUES ('".$idPiatti[$j]."', '".$id."', '".$quantita."', '".$_GET['ristoranteID']."', '0', '".$idOrdine."')";
+              $result = $conn->query($sql);
+              echo '<script>';
+              echo 'alert("Piatto inserito nel carrello")';
+              echo '</script>';
+            }
           }
         }
          ?>
@@ -417,5 +432,6 @@ session_start();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/navbar.js" type="text/javascript"></script>
+
   </body>
 </html>
