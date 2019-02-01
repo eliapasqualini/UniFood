@@ -90,7 +90,7 @@ session_start();
         <div class="col-md-6">
           <div class="form-group">
             <label for="sort" class="control-label"> Filtra per categorie:</label>
-            <select name="categoria" onchange="showRisto(this.value)">
+            <select  class="form-control" name="categoria" onchange="showRisto(this.value)">
               <option value="tutte">Seleziona categoria</option>
               <?php
                 $sql = "SELECT * FROM categoria";
