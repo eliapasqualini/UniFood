@@ -94,7 +94,7 @@ session_start();
             </div>
           </div>
         </li>
-        <li class="header__menu__item"><a href="logout.php"><i class="fas fa-cart-arrow-down"></i></a></li>
+        <li class="header__menu__item"><a href="carrello.php"><i class="fas fa-cart-arrow-down"></i></a></li>
       </ul>
     </header>
 <?php

@@ -48,7 +48,7 @@ session_start();
       <a href="cliente.php" class="header__logo">
       <img src="image/logo-header.png" alt="logo" width="50px" height="50px">
       </a>
-      <a href="" class="header__icon-bar">
+      <a href="cliente.php" class="header__icon-bar">
         <span></span>
         <span></span>
         <span></span>
@@ -119,7 +119,7 @@ session_start();
 
        ?>
       <table class="table shopping-cart-wrap">
-        <form class="" name="piatti" method="post" onsubmit="return alert()">
+        <form class="" name="piatti" method="post">
           <thead class="text-muted">
             <tr>
               <th scope="col">Piatto</th>
@@ -173,7 +173,7 @@ session_start();
       	        </td>
       	        <td>
                   <?php
-                    echo "<button type='submit' onclick='alert()'class='btn btn-outline-success text-center' name='aggiungi".$i."'> <i class='fas fa-plus-circle'></i></button>";
+                    echo "<button type='submit' class='btn btn-outline-success text-center' name='aggiungi".$i."'> <i class='fas fa-plus-circle'></i></button>";
                    ?>
       	        </td>
               </tr>
@@ -275,7 +275,9 @@ session_start();
               $quantita = $_POST["quantita".$j];
               $sql = "INSERT INTO ordine (`idPiatto`, `idAccount`, `quantita`, `idRistorante`, `stato`, `idOrdine`) VALUES ('".$idPiatti[$j]."', '".$id."', '".$quantita."', '".$_GET['ristoranteID']."', '0', '".$idOrdine."')";
               $result = $conn->query($sql);
-              echo "alert('Piatto inserito nel carrello')";
+              echo '<script>';
+              echo 'alert("Piatto inserito nel carrello")';
+              echo '</script>';
             } else {
               $quantita = $_POST["quantita".$j];
               $sql = "DELETE FROM ordine WHERE idOrdine = '".$idOrdine."'";

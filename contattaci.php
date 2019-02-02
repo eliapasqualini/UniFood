@@ -116,7 +116,7 @@ if (empty($_POST["text"])) {
     <a href="index.php" class="header__logo">
     <img src="image/logo-header.png" alt="logo" width="50px" height="50px">
     </a>
-    <a href="" class="header__icon-bar">
+    <a href="index.php" class="header__icon-bar">
       <span></span>
       <span></span>
       <span></span>
