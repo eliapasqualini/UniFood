@@ -131,19 +131,21 @@ session_start();
           $sql = "SELECT * FROM `consegna` WHERE idAccount = ".$id;
           $result = $conn->query($sql);
           if ($result->num_rows > 0){
-            while($row = $result->fetch_assoc()) {
-              ?>
-          <table class="table table-hover table-bordered">
-            <thead class="thead-dark">
-            <tr>
-              <th scope="col">Data</th>
-              <th scope="col">Ora</th>
-              <th scope="col">Ristorante</th>
-              <th scope="col">Aula</th>
-            </tr>
-            </thead>
-            <tbody>
+            ?>
+            <table class="table table-hover table-bordered">
+              <thead class="thead-dark">
+              <tr>
+                <th scope="col">Data</th>
+                <th scope="col">Ora</th>
+                <th scope="col">Ristorante</th>
+                <th scope="col">Aula</th>
+              </tr>
+              </thead>
+              <tbody>
             <?php
+            while($row = $result->fetch_assoc()) {
+
+
                 $query_sql = "SELECT idRistorante FROM `ordine` WHERE idRistorante = ".$row["idOrdine"];
                 $res = $conn->query($query_sql);
                 if ($res->num_rows > 0) {
