@@ -144,13 +144,11 @@ session_start();
               <tbody>
             <?php
             while($row = $result->fetch_assoc()) {
-
-
-                $query_sql = "SELECT idRistorante FROM `ordine` WHERE idRistorante = ".$row["idOrdine"];
+                $query_sql = "SELECT idRistorante FROM `ordine` WHERE idOrdine = '".$row['idOrdine']."'";
                 $res = $conn->query($query_sql);
                 if ($res->num_rows > 0) {
                   $idRist = $res->fetch_assoc();
-                  $query_sql = "SELECT nome FROM `ristorante` WHERE idRistorante = ".$idRist["idRistorante"];
+                  $query_sql = "SELECT nome FROM `ristorante` WHERE idRistorante = '".$idRist['idRistorante']."'";
                   $ris = $conn->query($query_sql);
                   if ($ris->num_rows > 0) {
                     $nome = $ris->fetch_assoc();
@@ -278,7 +276,7 @@ session_start();
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6 col-footer">
-          <p>email: unifood@gmail.com</p>
+          <p>email: unifoodsm@gmail.com</p>
         </div>
         <div class="col-sm-6 col-footer">
           <p>&copy; Elia Pasqualini & Marco Pazzaglia</p>

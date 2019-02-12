@@ -178,7 +178,7 @@ if ($conn->connect_errno) {
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6 col-footer">
-          <p>email: unifood@gmail.com</p>
+          <p>email: unifoodsm@gmail.com</p>
         </div>
         <div class="col-sm-6 col-footer">
           <p>&copy; Elia Pasqualini & Marco Pazzaglia</p>

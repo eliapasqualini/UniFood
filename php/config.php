@@ -6,4 +6,5 @@ $password ="";
 $db = "unifood";
 
 $conn =new mysqli($servername, $username, $password, $db);
+
 ?>
