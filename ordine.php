@@ -2,7 +2,7 @@
 session_start();
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,7 +46,7 @@ session_start();
     <!--Header-->
     <header class="header clearfix">
       <a href="cliente.php" class="header__logo">
-      <img src="image/logo-header.png" alt="logo" width="50px" height="50px">
+      <img src="image/logo-header.png" alt="logo" width="50" height="50">
       </a>
       <a href="cliente.php" class="header__icon-bar">
         <span></span>

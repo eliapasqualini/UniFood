@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -114,7 +114,7 @@ if (empty($_POST["text"])) {
   <!--Header-->
   <header class="header clearfix">
     <a href="index.php" class="header__logo">
-    <img src="image/logo-header.png" alt="logo" width="50px" height="50px">
+    <img src="image/logo-header.png" alt="logo" width="50" height="50">
     </a>
     <a href="index.php" class="header__icon-bar">
       <span></span>
