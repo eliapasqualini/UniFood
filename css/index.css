@@ -25,7 +25,7 @@ body {
   padding: 0;
   overflow: hidden;
 }
-.row-image{ max-height: 375px;}
+.row-image, .col-image{ max-height: 375px;}
 
 /*Title and more*/
 .col-btn{
