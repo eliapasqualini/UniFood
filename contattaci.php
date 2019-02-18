@@ -76,7 +76,7 @@ if (empty($_POST["text"])) {
       echo "Errore. Nessun messaggio inviato.";
     }
   }*/
-  if (isset($_POST['submit'])){
+  if (isset($_POST['submit']) && $nomeErr == "" && $emailErr == "" && $textErr == ""){
   try {
     $mail->SMTPDebug = 2;
     $mail->isSMTP();
