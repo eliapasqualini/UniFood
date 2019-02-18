@@ -97,8 +97,15 @@ if ($conn->connect_errno) {
       $sql = "SELECT idAccount FROM account WHERE email = '$email'";
       $result = $conn->query($sql);
       $row =mysqli_fetch_array($result,MYSQLI_ASSOC);
-      $id = $row["idAccount"];
-      $sql = "INSERT INTO `adminristorante`(`nome`, `logo`, `idAccount`) VALUES ('$nameRist','".$file."','".$id."')";
+      $account = $row["idAccount"];
+      $query = "SELECT MAX(idRistorante) FROM ristorante";
+      $ris = $conn->query($query);
+      $righe = $ris->fetch_assoc();
+      $sql = "SELECT COUNT(idRistorante) FROM adminristorante";
+      $r = $conn->query($sql);
+      $i = $r->fetch_assoc();
+      $id = $righe["MAX(idRistorante)"] + $i["COUNT(idRistorante)"]+1;
+      $sql = "INSERT INTO `adminristorante`(`nome`, `logo`, `idAccount`, `idRistorante`) VALUES ('$nameRist','".$file."','".$account."','".$id."')";
       $result = $conn->query($sql);
       header("location: index.php");
     } else if ($count == 1){

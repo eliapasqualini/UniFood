@@ -20,6 +20,8 @@ session_start();
   $dbErr1 = "";
   $dbErr2 = "";
   $dbErr3 = "";
+  $dbErr4 = "";
+  $dbErr5 = "";
   ?>
 
   <!--header-->
@@ -68,7 +70,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
         $result = $conn->query($sql);
         $_SESSION["email"] = $email1;
       } else {
-        $dbErr1 = "I due indirizzi email non corrispondono!";
+        $dbErr4 = "I due indirizzi email non corrispondono!";
       }
     }
 
@@ -79,7 +81,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
         $sql = "UPDATE `account` SET `password`= '".$password1."' WHERE `idAccount` = '".$id."'";
         $result = $conn->query($sql);
       } else {
-        $dbErr2 = "Le due password non corrispondono!";
+        $dbErr3 = "Le due password non corrispondono!";
       }
     }
     if(isset($_POST['delete'])){
@@ -416,7 +418,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
               <label for="pwd">Conferma email:</label>
               <input type="email" name="email2" class="form-control" required>
             </div>
-            <span class="error"><?php echo $dbErr1;?></span>
+            <span class="error"><?php echo $dbErr4;?></span>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary mr-auto submit">Conferma</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
@@ -445,7 +447,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
               <label for="pwd">Conferma password:</label>
               <input type="password" name="password2" class="form-control" required>
             </div>
-            <span class="error"><?php echo $dbErr2;?></span>
+            <span class="error"><?php echo $dbErr5;?></span>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary mr-auto submit">Conferma</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Chiudi</button>
@@ -506,7 +508,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
     $(document).ready(function(){
 
       <?php
-      if($dbErr1 != ""){
+      if($dbErr4 != ""){
       ?>
         $('#emailForm').modal('show');
       <?php
@@ -517,7 +519,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
       ?>
 
       <?php
-      if($dbErr2 != ""){
+      if($dbErr5 != ""){
       ?>
         $('#passwordForm').modal('show');
       <?php

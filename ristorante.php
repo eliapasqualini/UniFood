@@ -58,7 +58,14 @@ session_start();
                 if(!empty($_POST['prezzo'])){
                   if(!empty($_POST['categoria'])){
                     //inserisco il piatto
-                    $sql = "INSERT INTO adminmenu (`idRistorante`,`nome`,`prezzo`,`categoria`) VALUES ('" . $idRistorante . "', '" . $_POST['nome'] . "', '" . $_POST['prezzo'] . "', '" . $_POST['categoria'] . "')";
+                    $query = "SELECT MAX(idPiatto) FROM menu";
+                    $ris = $conn->query($query);
+                    $righe = $ris->fetch_assoc();
+                    $sql = "SELECT COUNT(idPiatto) FROM adminmenu";
+                    $r = $conn->query($sql);
+                    $i = $r->fetch_assoc();
+                    $id = $righe["MAX(idPiatto)"] + $i["COUNT(idPiatto)"]+1;
+                    $sql = "INSERT INTO adminmenu (`idRistorante`,`nome`,`prezzo`,`categoria`, `idPiatto`) VALUES ('" . $idRistorante . "', '" . $_POST['nome'] . "', '" . $_POST['prezzo'] . "', '" . $_POST['categoria'] . "', '".$id."')";
                     $result = $conn->query($sql);
                     $sql = "SELECT idPiatto FROM `adminmenu` WHERE nome= '" . $_POST['nome'] . "' AND idRistorante = '" . $idRistorante . "'";
                     $result = $conn->query($sql);
@@ -68,7 +75,14 @@ session_start();
                       {
                         //inserisco gli ingredienti
                         if($_POST['ingredienti'][$i] != ""){
-                          $sql = "INSERT INTO adminingrediente (`idPiatto`,`idRistorante`,`nomeIngrediente`) VALUES ('" . $row['idPiatto'] . "','" . $idRistorante . "', '" . $_POST['ingredienti'][$i] . "')";
+                          $query = "SELECT MAX(idIngrediente) FROM ingrediente";
+                          $ris = $conn->query($query);
+                          $righe = $ris->fetch_assoc();
+                          $sql = "SELECT COUNT(idIngrediente) FROM adminingrediente";
+                          $r = $conn->query($sql);
+                          $s = $r->fetch_assoc();
+                          $id = $righe["MAX(idIngrediente)"] + $s["COUNT(idIngrediente)"]+1;
+                          $sql = "INSERT INTO adminingrediente (`idPiatto`,`idRistorante`,`nomeIngrediente`,`idIngrediente`) VALUES ('" . $row['idPiatto'] . "','" . $idRistorante . "', '" . $_POST['ingredienti'][$i] . "','".$id."')";
                           $result = $conn->query($sql);
                         }
 
