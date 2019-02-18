@@ -67,9 +67,11 @@ session_start();
                       for ($i = 0; $i < count($_POST['ingredienti']); $i++)
                       {
                         //inserisco gli ingredienti
+                        if($_POST['ingredienti'][$i] != ""){
+                          $sql = "INSERT INTO adminingrediente (`idPiatto`,`idRistorante`,`nomeIngrediente`) VALUES ('" . $row['idPiatto'] . "','" . $idRistorante . "', '" . $_POST['ingredienti'][$i] . "')";
+                          $result = $conn->query($sql);
+                        }
 
-                        $sql = "INSERT INTO adminingrediente (`idPiatto`,`idRistorante`,`nomeIngrediente`) VALUES ('" . $row['idPiatto'] . "','" . $idRistorante . "', '" . $_POST['ingredienti'][$i] . "')";
-                        $result = $conn->query($sql);
                       }
                     }
                   }  else{

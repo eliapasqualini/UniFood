@@ -217,7 +217,7 @@ ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); m
                 $result = $conn->query($query_sql);
                 if($result !== false){
                   if ($result->num_rows > 0) {
-                    $sql = "INSERT INTO ingrediente VALUES ( '" . $row['idIngrediente'] . "', '" . $row['idPiatto'] . "', '" . $row['nomeIngrediente'] . "', '" . $row['idRistorante'] . "')";
+                    $sql = "INSERT INTO ingrediente (`idPiatto`,`nomeIngrediente`,`idRistorante`) VALUES  ( '" . $row['idPiatto'] . "', '" . $row['nomeIngrediente'] . "', '" . $row['idRistorante'] . "')";
                     $result = $conn->query($sql);
                     $sql = "DELETE FROM adminingrediente WHERE idIngrediente = '" . $_POST['idIngrediente'] . "'";
                     $result = $conn->query($sql);
