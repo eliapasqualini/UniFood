@@ -23,9 +23,8 @@ body {
 /*Image*/
 .col-image{
   padding: 0;
-  overflow: hidden;
 }
-.row-image, .col-image{ max-height: 375px;}
+.row-image, .col-image{ max-height: 375px; overflow: hidden;}
 
 /*Title and more*/
 .col-btn{

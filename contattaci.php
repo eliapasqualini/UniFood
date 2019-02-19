@@ -88,7 +88,7 @@ if (empty($_POST["text"])) {
     $mail->Port = 587;
 
     $mail->setFrom($email);
-    $mail->addAddress('mar.pazz14@gmail.com');
+    $mail->addAddress('unifoodsm@gmail.com');
 
     $mail->isHTML(true);
     $mail->Subject = $oggetto;

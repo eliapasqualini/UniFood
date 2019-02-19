@@ -162,7 +162,7 @@ session_start();
       	           </td>
       	        <td>
                   <?php
-                  echo "<input type='number' value='0' name='quantita".$i."'class='form-control'>";
+                  echo "<input type='number' value='0' min='0' name='quantita".$i."'class='form-control'>";
                   ?>
       	        </td>
       	        <td>
@@ -189,63 +189,7 @@ session_start();
             <?php
             }
             ?>
-            <!--prova
-              <tr>
-        	       <td>
 
-        		              <h5 class="title text-truncate">Margherita</h5>
-        		                <dl class="param param-inline small">
-        		                    <dt>Categoria: </dt>
-        		                      <dd>Pizza</dd>
-        		                </dl>
-        		                <dl class="param param-inline small">
-        		                    <dt>Ingredienti: </dt>
-        		                    <dd>Pomodoro, Mozzarella</dd>
-        		                </dl>
-
-        	        </td>
-        	        <td>
-                      <input type="number" value="0" class="form-control">
-        	        </td>
-        	        <td>
-                		<div class="price-wrap">
-                			<var class="price">5.5&euro;</var><br>
-                			<small class="text-muted">(&euro; per ogni pz.)</small>
-                		</div>
-        	        </td>
-        	        <td>
-        	        <button class="btn btn-outline-success text-center"> <i class="fas fa-plus-circle"></i></button>
-        	        </td>
-                </tr>
-                <tr>
-                   <td>
-
-                            <h5 class="title text-truncate">Margherita</h5>
-                              <dl class="param param-inline small">
-                                  <dt>Categoria: </dt>
-                                    <dd>Pizza</dd>
-                              </dl>
-                              <dl class="param param-inline small">
-                                  <dt>Ingredienti: </dt>
-                                  <dd>Pomodoro, Mozzarella</dd>
-                              </dl>
-
-                    </td>
-                    <td>
-                        <input type="number" value="0" class="form-control">
-                    </td>
-                    <td>
-                      <div class="price-wrap">
-                        <var class="price">5.5&euro;</var><br>
-                        <small class="text-muted">(&euro; per ogni pz.)</small>
-                      </div>
-                    </td>
-                    <td>
-                    <button class="btn btn-outline-success text-center"> <i class="fas fa-plus-circle"></i></button>
-
-                    </td>
-                  </tr>
-                   -->
                 </tbody>
               </form>
             </table>
@@ -434,6 +378,29 @@ session_start();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/navbar.js" type="text/javascript"></script>
+    <script>
+      $(document).ready(function(){
+
+        <?php
+        if($dbErr1 != ""){
+        ?>
+          $('#emailForm').modal('show');
+        <?php
+      } else {
+        $email1 = "";
+        $email2 = "";
+      }
+        if($dbErr2 != ""){
+        ?>
+          $('#passwordForm').modal('show');
+        <?php
+      } else {
+        $password1 = "";
+        $password2 = "";
+      }
+        ?>
+      });
+    </script>
 
   </body>
 </html>

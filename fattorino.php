@@ -51,6 +51,7 @@ session_start();
         if ($count == 0){
           $sql = "UPDATE `account` SET `email`= '".$email1."' WHERE `idAccount` = '".$id."'";
           $result = $conn->query($sql);
+          $_SESSION["email"] = $email1;
         } else {
           $dbErr1 = "L'email inserita è già presente";
         }

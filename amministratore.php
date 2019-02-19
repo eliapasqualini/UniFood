@@ -22,6 +22,13 @@ session_start();
   $dbErr3 = "";
   $dbErr4 = "";
   $dbErr5 = "";
+
+  function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+  }
   ?>
 
   <!--header-->
@@ -50,7 +57,7 @@ session_start();
         <?php
         }
         else{
-ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+          ini_set('display_errors', 1); ini_set('log_errors',1); error_reporting(E_ALL); mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
           $query_sql="SELECT * FROM `account` WHERE email = '" . $_SESSION['email'] . "'";
           $result = $conn->query($query_sql);
           $row = $result->fetch_assoc();

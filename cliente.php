@@ -128,7 +128,7 @@ session_start();
             echo "<h3 class='mt-2 mb-1'> '" . $row2['nome'] . "' </h3>";
             echo "</a>";
 
-            $sql = "SELECT DISTINCT categoria FROM menu WHERE idRistorante = '".$row['idRistorante']."'";
+            $sql = "SELECT DISTINCT categoria FROM menu WHERE idRistorante = '".$row['idRistorante']."' ORDER BY categoria ASC";
             $ris = $conn->query($sql);
             echo "<p> Categorie: <br>";
               while ($righe = $ris->fetch_assoc()){
@@ -142,36 +142,6 @@ session_start();
           }
             echo "</ul>";
          ?>
-<!--       <ul class="list-unstyled">
-          <li class="media my-4">
-            <img src="image/food.png" class="mr-5 image-risto" width="200px" height="auto" alt="ristorante">
-            <div class="media-body">
-              <a href="ordine.php">
-                <h3 class="mt-5 mb-1">Nome ristorante</h3>
-              </a>
-              <p>Categoria : pizza, bevande ecc.</p>
-            </div>
-
-          </li>
-          <li class="media my-4">
-            <img src="image/food.png" class="mr-5 image-risto" width="200px" height="auto" alt="ristorante">
-            <div class="media-body">
-              <a href="ordine.php">
-                <h3 class="mt-5 mb-1">Nome ristorante</h3>
-              </a>
-              <p>Categoria : pizza, bevande ecc.</p>
-            </div>
-          </li>
-          <li class="media my-4">
-            <img src="image/food.png" class="mr-5 image-risto" width="200px" height="auto" alt="ristorante">
-            <div class="media-body">
-              <a href="ordine.php">
-                <h3 class="mt-5 mb-1">Nome ristorante</h3>
-              </a>
-              <p>Categoria : pizza, bevande ecc.</p>
-            </div>
-          </li>
-        </ul>-->
       </div>
 
 
